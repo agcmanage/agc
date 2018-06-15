@@ -1,25 +1,25 @@
 /*
- * Copyright (c) [2016] [ <ether.camp> ]
- * This file is part of the ethereumJ library.
+ * Copyright (c) [2016] [ <one2one.camp> ]
+ * This file is part of the one2oneeumJ library.
  *
- * The ethereumJ library is free software: you can redistribute it and/or modify
+ * The one2oneeumJ library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The ethereumJ library is distributed in the hope that it will be useful,
+ * The one2oneeumJ library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
+ * along with the one2oneeumJ library. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ethereum.jsontestsuite;
+package org.one2oneeum.jsontestsuite;
 
-import org.ethereum.config.SystemProperties;
-import org.ethereum.config.net.MainNetConfig;
-import org.ethereum.jsontestsuite.suite.VMTestSuite;
+import org.one2oneeum.config.SystemProperties;
+import org.one2oneeum.config.net.MainNetConfig;
+import org.one2oneeum.jsontestsuite.suite.VMTestSuite;
 import org.json.simple.parser.ParseException;
 import org.junit.*;
 import org.junit.runners.MethodSorters;
@@ -30,7 +30,7 @@ import java.io.IOException;
 public class GitHubVMTest {
 
     static String commitSHA = "7f638829311dfc1d341c1db85d8a891f57fa4da7";
-    static String treeSHA = "7429078cc0ae66034bbede7c9666c234dc76bc67";  // https://github.com/ethereum/tests/tree/develop/VMTests/
+    static String treeSHA = "7429078cc0ae66034bbede7c9666c234dc76bc67";  // https://github.com/one2oneeum/tests/tree/develop/VMTests/
 
     static VMTestSuite suite;
 

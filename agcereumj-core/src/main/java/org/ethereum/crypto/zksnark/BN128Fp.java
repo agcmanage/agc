@@ -1,23 +1,23 @@
 /*
- * Copyright (c) [2016] [ <ether.camp> ]
- * This file is part of the ethereumJ library.
+ * Copyright (c) [2016] [ <one2one.camp> ]
+ * This file is part of the one2oneeumJ library.
  *
- * The ethereumJ library is free software: you can redistribute it and/or modify
+ * The one2oneeumJ library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The ethereumJ library is distributed in the hope that it will be useful,
+ * The one2oneeumJ library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
+ * along with the one2oneeumJ library. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ethereum.crypto.zksnark;
+package org.one2oneeum.crypto.zksnark;
 
-import static org.ethereum.crypto.zksnark.Params.B_Fp;
+import static org.one2oneeum.crypto.zksnark.Params.B_Fp;
 
 /**
  * Definition of {@link BN128} over F_p, where "p" equals {@link Params#P} <br/>
@@ -58,8 +58,8 @@ public class BN128Fp extends BN128<Fp> {
     }
 
     /**
-     * Checks whether x and y belong to Fp,
-     * then checks whether point with (x; y) coordinates lays on the curve.
+     * Checks whone2one x and y belong to Fp,
+     * then checks whone2one point with (x; y) coordinates lays on the curve.
      *
      * Returns new point if all checks have been passed,
      * otherwise returns null
@@ -76,7 +76,7 @@ public class BN128Fp extends BN128<Fp> {
 
         BN128<Fp> p = new BN128Fp(x, y, Fp._1);
 
-        // check whether point is a valid one
+        // check whone2one point is a valid one
         if (p.isValid()) {
             return p;
         } else {

@@ -1,45 +1,45 @@
 /*
- * Copyright (c) [2016] [ <ether.camp> ]
- * This file is part of the ethereumJ library.
+ * Copyright (c) [2016] [ <one2one.camp> ]
+ * This file is part of the one2oneeumJ library.
  *
- * The ethereumJ library is free software: you can redistribute it and/or modify
+ * The one2oneeumJ library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The ethereumJ library is distributed in the hope that it will be useful,
+ * The one2oneeumJ library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
+ * along with the one2oneeumJ library. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ethereum.vm.program;
+package org.one2oneeum.vm.program;
 
 import org.apache.commons.lang3.tuple.Pair;
-import org.ethereum.config.BlockchainConfig;
-import org.ethereum.config.CommonConfig;
-import org.ethereum.config.SystemProperties;
-import org.ethereum.core.AccountState;
-import org.ethereum.core.Repository;
-import org.ethereum.core.Transaction;
-import org.ethereum.crypto.HashUtil;
-import org.ethereum.db.ContractDetails;
-import org.ethereum.util.ByteArraySet;
-import org.ethereum.util.ByteUtil;
-import org.ethereum.util.FastByteComparisons;
-import org.ethereum.util.Utils;
-import org.ethereum.vm.*;
-import org.ethereum.vm.PrecompiledContracts.PrecompiledContract;
-import org.ethereum.vm.program.invoke.ProgramInvoke;
-import org.ethereum.vm.program.invoke.ProgramInvokeFactory;
-import org.ethereum.vm.program.invoke.ProgramInvokeFactoryImpl;
-import org.ethereum.vm.program.listener.CompositeProgramListener;
-import org.ethereum.vm.program.listener.ProgramListenerAware;
-import org.ethereum.vm.program.listener.ProgramStorageChangeListener;
-import org.ethereum.vm.trace.ProgramTraceListener;
-import org.ethereum.vm.trace.ProgramTrace;
+import org.one2oneeum.config.BlockchainConfig;
+import org.one2oneeum.config.CommonConfig;
+import org.one2oneeum.config.SystemProperties;
+import org.one2oneeum.core.AccountState;
+import org.one2oneeum.core.Repository;
+import org.one2oneeum.core.Transaction;
+import org.one2oneeum.crypto.HashUtil;
+import org.one2oneeum.db.ContractDetails;
+import org.one2oneeum.util.ByteArraySet;
+import org.one2oneeum.util.ByteUtil;
+import org.one2oneeum.util.FastByteComparisons;
+import org.one2oneeum.util.Utils;
+import org.one2oneeum.vm.*;
+import org.one2oneeum.vm.PrecompiledContracts.PrecompiledContract;
+import org.one2oneeum.vm.program.invoke.ProgramInvoke;
+import org.one2oneeum.vm.program.invoke.ProgramInvokeFactory;
+import org.one2oneeum.vm.program.invoke.ProgramInvokeFactoryImpl;
+import org.one2oneeum.vm.program.listener.CompositeProgramListener;
+import org.one2oneeum.vm.program.listener.ProgramListenerAware;
+import org.one2oneeum.vm.program.listener.ProgramStorageChangeListener;
+import org.one2oneeum.vm.trace.ProgramTraceListener;
+import org.one2oneeum.vm.trace.ProgramTrace;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.spongycastle.util.encoders.Hex;
@@ -52,9 +52,9 @@ import static java.lang.StrictMath.min;
 import static java.lang.String.format;
 import static java.math.BigInteger.ZERO;
 import static org.apache.commons.lang3.ArrayUtils.*;
-import static org.ethereum.util.BIUtil.*;
-import static org.ethereum.util.ByteUtil.EMPTY_BYTE_ARRAY;
-import static org.ethereum.util.ByteUtil.toHexString;
+import static org.one2oneeum.util.BIUtil.*;
+import static org.one2oneeum.util.ByteUtil.EMPTY_BYTE_ARRAY;
+import static org.one2oneeum.util.ByteUtil.toHexString;
 
 /**
  * @author Roman Mandeleil
@@ -67,7 +67,7 @@ public class Program {
     /**
      * This attribute defines the number of recursive calls allowed in the EVM
      * Note: For the JVM to reach this level without a StackOverflow exception,
-     * ethereumj may need to be started with a JVM argument to increase
+     * one2oneeumj may need to be started with a JVM argument to increase
      * the stack size. For example: -Xss10m
      */
     private static final int MAX_DEPTH = 1024;
@@ -1213,7 +1213,7 @@ public class Program {
     }
 
     /**
-     * Denotes problem when executing Ethereum bytecode.
+     * Denotes problem when executing one2oneeum bytecode.
      * From blockchain and peer perspective this is quite normal situation
      * and doesn't mean exceptional situation in terms of the program execution
      */

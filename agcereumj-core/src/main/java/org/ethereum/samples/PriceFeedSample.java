@@ -1,27 +1,27 @@
 /*
- * Copyright (c) [2016] [ <ether.camp> ]
- * This file is part of the ethereumJ library.
+ * Copyright (c) [2016] [ <one2one.camp> ]
+ * This file is part of the one2oneeumJ library.
  *
- * The ethereumJ library is free software: you can redistribute it and/or modify
+ * The one2oneeumJ library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The ethereumJ library is distributed in the hope that it will be useful,
+ * The one2oneeumJ library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
+ * along with the one2oneeumJ library. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ethereum.samples;
+package org.one2oneeum.samples;
 
-import org.ethereum.core.CallTransaction;
-import org.ethereum.facade.EthereumFactory;
-import org.ethereum.util.ByteUtil;
-import org.ethereum.util.Utils;
-import org.ethereum.vm.program.ProgramResult;
+import org.one2oneeum.core.CallTransaction;
+import org.one2oneeum.facade.one2oneeumFactory;
+import org.one2oneeum.util.ByteUtil;
+import org.one2oneeum.util.Utils;
+import org.one2oneeum.vm.program.ProgramResult;
 import org.spongycastle.util.encoders.Hex;
 import org.springframework.context.annotation.Bean;
 
@@ -36,7 +36,7 @@ import java.util.Date;
  * i.e. which change the contract storage state, but after such calls the contract
  * storage will remain unmodified.
  *
- * As a side effect this sample shows how Java wrappers for Ethereum contracts can be
+ * As a side effect this sample shows how Java wrappers for one2oneeum contracts can be
  * created and then manipulated as regular Java objects
  *
  * Created by Anton Nashatyrev on 05.02.2016.
@@ -44,12 +44,12 @@ import java.util.Date;
 public class PriceFeedSample extends BasicSample {
 
     /**
-     * Base class for a Ethereum Contract wrapper
+     * Base class for a one2oneeum Contract wrapper
      * It can be used by two ways:
      * 1. for each function specify its name and input/output formal parameters
      * 2. Pass the contract JSON ABI to the constructor and then refer the function by name only
      */
-    abstract class EthereumContract {
+    abstract class one2oneeumContract {
         private final static String zeroAddr = "0000000000000000000000000000000000000000";
         private final String contractAddr;
 
@@ -58,7 +58,7 @@ public class PriceFeedSample extends BasicSample {
         /**
          * @param contractAddr address of the target contract as a hex String
          */
-        protected EthereumContract(String contractAddr) {
+        protected one2oneeumContract(String contractAddr) {
             this.contractAddr = contractAddr;
         }
 
@@ -66,7 +66,7 @@ public class PriceFeedSample extends BasicSample {
          *  Use this variant if you have the contract ABI then you call the functions
          *  by their names only
          */
-        public EthereumContract(String contractAddr, String contractABI) {
+        public one2oneeumContract(String contractAddr, String contractABI) {
             this.contractAddr = contractAddr;
             this.contractFromABI = new CallTransaction.Contract(contractABI);
         }
@@ -92,7 +92,7 @@ public class PriceFeedSample extends BasicSample {
          */
         protected Object[] callFunction(String name, String[] inParamTypes, String[] outParamTypes, Object ... args) {
             CallTransaction.Function function = CallTransaction.Function.fromSignature(name, inParamTypes, outParamTypes);
-            ProgramResult result = ethereum.callConstantFunction(contractAddr, function, args);
+            ProgramResult result = one2oneeum.callConstantFunction(contractAddr, function, args);
             return function.decodeResult(result.getHReturn());
         }
 
@@ -104,7 +104,7 @@ public class PriceFeedSample extends BasicSample {
                 throw new RuntimeException("The contract JSON ABI should be passed to constructor to use this method");
             }
             CallTransaction.Function function = contractFromABI.getByName(functionName);
-            ProgramResult result = ethereum.callConstantFunction(contractAddr, function, args);
+            ProgramResult result = one2oneeum.callConstantFunction(contractAddr, function, args);
             return function.decodeResult(result.getHReturn());
         }
 
@@ -112,7 +112,7 @@ public class PriceFeedSample extends BasicSample {
          * Checks if the contract exist in the repository
          */
         public boolean isExist() {
-            return !contractAddr.equals(zeroAddr) && ethereum.getRepository().isExist(Hex.decode(contractAddr));
+            return !contractAddr.equals(zeroAddr) && one2oneeum.getRepository().isExist(Hex.decode(contractAddr));
         }
     }
 
@@ -122,9 +122,9 @@ public class PriceFeedSample extends BasicSample {
      * Here we resolve contract functions by specifying their name and input/output types
      *
      * Contract sources, live state and many more here:
-     * https://live.ether.camp/account/985509582b2c38010bfaa3c8d2be60022d3d00da
+     * https://live.one2one.camp/account/985509582b2c38010bfaa3c8d2be60022d3d00da
      */
-    class NameRegContract extends EthereumContract {
+    class NameRegContract extends one2oneeumContract {
 
         public NameRegContract() {
             super("985509582b2c38010bfaa3c8d2be60022d3d00da");
@@ -146,9 +146,9 @@ public class PriceFeedSample extends BasicSample {
      * This contract is created using its JSON ABI representation
      *
      * Contract sources, live state and many more here:
-     * https://live.ether.camp/account/1194e966965418c7d73a42cceeb254d875860356
+     * https://live.one2one.camp/account/1194e966965418c7d73a42cceeb254d875860356
      */
-    class PriceFeedContract extends EthereumContract {
+    class PriceFeedContract extends one2oneeumContract {
 
         private static final String contractABI =
                 "[{" +
@@ -195,13 +195,13 @@ public class PriceFeedSample extends BasicSample {
 
         public Date updateTime() {
             BigInteger ret = (BigInteger) callFunction("updateTime")[0];
-            // All times in Ethereum are Unix times
+            // All times in one2oneeum are Unix times
             return new Date(Utils.fromUnixTime(ret.longValue()));
         }
 
         public double getPrice(String ticker) {
             BigInteger ret = (BigInteger) callFunction("getPrice", ticker)[0];
-            // since Ethereum has no decimal numbers we are storing prices with
+            // since one2oneeum has no decimal numbers we are storing prices with
             // virtual fixed point
             return ret.longValue() / 1_000_000d;
         }
@@ -238,7 +238,7 @@ public class PriceFeedSample extends BasicSample {
         if (!nameRegContract.isExist()) {
             throw new RuntimeException("Namereg contract not exist on the blockchain");
         }
-        String priceFeedAddress = Hex.toHexString(nameRegContract.addressOf("ether-camp/price-feed"));
+        String priceFeedAddress = Hex.toHexString(nameRegContract.addressOf("one2one-camp/price-feed"));
         logger.info("Got PriceFeed address from name registry: " + priceFeedAddress);
         PriceFeedContract priceFeedContract = new PriceFeedContract(priceFeedAddress);
 
@@ -267,10 +267,10 @@ public class PriceFeedSample extends BasicSample {
 
 
     public static void main(String[] args) throws Exception {
-        sLogger.info("Starting EthereumJ!");
+        sLogger.info("Starting one2oneeumJ!");
 
         // Based on Config class the sample would be created by Spring
         // and its springInit() method would be called as an entry point
-        EthereumFactory.createEthereum(Config.class);
+        one2oneeumFactory.createone2oneeum(Config.class);
     }
 }

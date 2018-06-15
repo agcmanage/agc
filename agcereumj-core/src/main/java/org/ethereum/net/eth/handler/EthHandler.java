@@ -1,35 +1,35 @@
 /*
- * Copyright (c) [2016] [ <ether.camp> ]
- * This file is part of the ethereumJ library.
+ * Copyright (c) [2016] [ <one2one.camp> ]
+ * This file is part of the one2oneeumJ library.
  *
- * The ethereumJ library is free software: you can redistribute it and/or modify
+ * The one2oneeumJ library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The ethereumJ library is distributed in the hope that it will be useful,
+ * The one2oneeumJ library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
+ * along with the one2oneeumJ library. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ethereum.net.eth.handler;
+package org.one2oneeum.net.eth.handler;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
-import org.ethereum.db.BlockStore;
-import org.ethereum.listener.EthereumListener;
-import org.ethereum.config.SystemProperties;
-import org.ethereum.core.*;
-import org.ethereum.listener.CompositeEthereumListener;
-import org.ethereum.listener.EthereumListenerAdapter;
-import org.ethereum.net.MessageQueue;
-import org.ethereum.net.eth.EthVersion;
-import org.ethereum.net.eth.message.*;
-import org.ethereum.net.message.ReasonCode;
-import org.ethereum.net.server.Channel;
+import org.one2oneeum.db.BlockStore;
+import org.one2oneeum.listener.one2oneeumListener;
+import org.one2oneeum.config.SystemProperties;
+import org.one2oneeum.core.*;
+import org.one2oneeum.listener.Compositeone2oneeumListener;
+import org.one2oneeum.listener.one2oneeumListenerAdapter;
+import org.one2oneeum.net.MessageQueue;
+import org.one2oneeum.net.eth.EthVersion;
+import org.one2oneeum.net.eth.message.*;
+import org.one2oneeum.net.message.ReasonCode;
+import org.one2oneeum.net.server.Channel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -49,7 +49,7 @@ public abstract class EthHandler extends SimpleChannelInboundHandler<EthMessage>
 
     protected SystemProperties config;
 
-    protected CompositeEthereumListener ethereumListener;
+    protected Compositeone2oneeumListener one2oneeumListener;
 
     protected Channel channel;
 
@@ -60,7 +60,7 @@ public abstract class EthHandler extends SimpleChannelInboundHandler<EthMessage>
     protected boolean peerDiscoveryMode = false;
 
     protected Block bestBlock;
-    protected EthereumListener listener = new EthereumListenerAdapter() {
+    protected one2oneeumListener listener = new one2oneeumListenerAdapter() {
         @Override
         public void onBlock(Block block, List<TransactionReceipt> receipts) {
             bestBlock = block;
@@ -75,13 +75,13 @@ public abstract class EthHandler extends SimpleChannelInboundHandler<EthMessage>
 
     protected EthHandler(final EthVersion version, final SystemProperties config,
                          final Blockchain blockchain, final BlockStore blockStore,
-                         final CompositeEthereumListener ethereumListener) {
+                         final Compositeone2oneeumListener one2oneeumListener) {
         this.version = version;
         this.config = config;
-        this.ethereumListener = ethereumListener;
+        this.one2oneeumListener = one2oneeumListener;
         this.blockchain = blockchain;
         bestBlock = blockStore.getBestBlock();
-        this.ethereumListener.addListener(listener);
+        this.one2oneeumListener.addListener(listener);
         // when sync enabled we delay transactions processing until sync is complete
         processTransactions = !config.isSyncEnabled();
     }
@@ -92,7 +92,7 @@ public abstract class EthHandler extends SimpleChannelInboundHandler<EthMessage>
         if (EthMessageCodes.inRange(msg.getCommand().asByte(), version))
             logger.trace("EthHandler invoke: [{}]", msg.getCommand());
 
-        ethereumListener.trace(String.format("EthHandler invoke: [%s]", msg.getCommand()));
+        one2oneeumListener.trace(String.format("EthHandler invoke: [%s]", msg.getCommand()));
 
         channel.getNodeStatistics().ethInbound.add();
 
@@ -108,13 +108,13 @@ public abstract class EthHandler extends SimpleChannelInboundHandler<EthMessage>
     @Override
     public void handlerRemoved(ChannelHandlerContext ctx) throws Exception {
         logger.debug("handlerRemoved: kill timers in EthHandler");
-        ethereumListener.removeListener(listener);
+        one2oneeumListener.removeListener(listener);
         onShutdown();
     }
 
     public void activate() {
         logger.debug("ETH protocol activated");
-        ethereumListener.trace("ETH protocol activated");
+        one2oneeumListener.trace("ETH protocol activated");
         sendStatus();
     }
 

@@ -1,47 +1,47 @@
 /*
- * Copyright (c) [2016] [ <ether.camp> ]
- * This file is part of the ethereumJ library.
+ * Copyright (c) [2016] [ <one2one.camp> ]
+ * This file is part of the one2oneeumJ library.
  *
- * The ethereumJ library is free software: you can redistribute it and/or modify
+ * The one2oneeumJ library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The ethereumJ library is distributed in the hope that it will be useful,
+ * The one2oneeumJ library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
+ * along with the one2oneeumJ library. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ethereum.jsontestsuite.suite;
+package org.one2oneeum.jsontestsuite.suite;
 
-import org.ethereum.config.CommonConfig;
-import org.ethereum.config.SystemProperties;
-import org.ethereum.core.Block;
-import org.ethereum.core.BlockchainImpl;
-import org.ethereum.core.ImportResult;
-import org.ethereum.core.PendingStateImpl;
-import org.ethereum.core.Repository;
-import org.ethereum.datasource.inmem.HashMapDB;
-import org.ethereum.db.*;
-import org.ethereum.jsontestsuite.suite.builder.BlockBuilder;
-import org.ethereum.jsontestsuite.suite.builder.RepositoryBuilder;
-import org.ethereum.jsontestsuite.suite.model.BlockTck;
-import org.ethereum.jsontestsuite.suite.validators.BlockHeaderValidator;
-import org.ethereum.jsontestsuite.suite.validators.RepositoryValidator;
-import org.ethereum.listener.EthereumListenerAdapter;
-import org.ethereum.util.ByteUtil;
-import org.ethereum.validator.DependentBlockHeaderRuleAdapter;
-import org.ethereum.vm.DataWord;
-import org.ethereum.vm.LogInfo;
-import org.ethereum.vm.VM;
-import org.ethereum.vm.program.Program;
-import org.ethereum.vm.program.invoke.ProgramInvoke;
-import org.ethereum.vm.program.invoke.ProgramInvokeFactoryImpl;
-import org.ethereum.vm.program.invoke.ProgramInvokeImpl;
-import org.ethereum.vm.trace.ProgramTrace;
+import org.one2oneeum.config.CommonConfig;
+import org.one2oneeum.config.SystemProperties;
+import org.one2oneeum.core.Block;
+import org.one2oneeum.core.BlockchainImpl;
+import org.one2oneeum.core.ImportResult;
+import org.one2oneeum.core.PendingStateImpl;
+import org.one2oneeum.core.Repository;
+import org.one2oneeum.datasource.inmem.HashMapDB;
+import org.one2oneeum.db.*;
+import org.one2oneeum.jsontestsuite.suite.builder.BlockBuilder;
+import org.one2oneeum.jsontestsuite.suite.builder.RepositoryBuilder;
+import org.one2oneeum.jsontestsuite.suite.model.BlockTck;
+import org.one2oneeum.jsontestsuite.suite.validators.BlockHeaderValidator;
+import org.one2oneeum.jsontestsuite.suite.validators.RepositoryValidator;
+import org.one2oneeum.listener.one2oneeumListenerAdapter;
+import org.one2oneeum.util.ByteUtil;
+import org.one2oneeum.validator.DependentBlockHeaderRuleAdapter;
+import org.one2oneeum.vm.DataWord;
+import org.one2oneeum.vm.LogInfo;
+import org.one2oneeum.vm.VM;
+import org.one2oneeum.vm.program.Program;
+import org.one2oneeum.vm.program.invoke.ProgramInvoke;
+import org.one2oneeum.vm.program.invoke.ProgramInvokeFactoryImpl;
+import org.one2oneeum.vm.program.invoke.ProgramInvokeImpl;
+import org.one2oneeum.vm.trace.ProgramTrace;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.spongycastle.util.encoders.Hex;
@@ -53,9 +53,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import static org.ethereum.crypto.HashUtil.shortHash;
-import static org.ethereum.util.ByteUtil.EMPTY_BYTE_ARRAY;
-import static org.ethereum.vm.VMUtils.saveProgramTraceFile;
+import static org.one2oneeum.crypto.HashUtil.shortHash;
+import static org.one2oneeum.util.ByteUtil.EMPTY_BYTE_ARRAY;
+import static org.one2oneeum.vm.VMUtils.saveProgramTraceFile;
 
 /**
  * @author Roman Mandeleil
@@ -103,7 +103,7 @@ public class TestRunner {
                 .withParentBlockHeaderValidator(CommonConfig.getDefault().parentHeaderValidator());
         blockchain.byTest = true;
 
-        PendingStateImpl pendingState = new PendingStateImpl(new EthereumListenerAdapter());
+        PendingStateImpl pendingState = new PendingStateImpl(new one2oneeumListenerAdapter());
 
         blockchain.setBestBlock(genesis);
         blockchain.setTotalDifficulty(genesis.getDifficultyBI());
@@ -362,13 +362,13 @@ public class TestRunner {
                 // TODO:  -> basically the deleted by suicide should be deleted
                 // TODO:  -> and no unexpected created
 
-                List<org.ethereum.vm.CallCreate> resultCallCreates =
+                List<org.one2oneeum.vm.CallCreate> resultCallCreates =
                         program.getResult().getCallCreateList();
 
                 // assert call creates
                 for (int i = 0; i < testCase.getCallCreateList().size(); ++i) {
 
-                    org.ethereum.vm.CallCreate resultCallCreate = null;
+                    org.one2oneeum.vm.CallCreate resultCallCreate = null;
                     if (resultCallCreates != null && resultCallCreates.size() > i) {
                         resultCallCreate = resultCallCreates.get(i);
                     }
@@ -481,7 +481,7 @@ public class TestRunner {
         }
     }
 
-    public org.ethereum.core.Transaction createTransaction(Transaction tx) {
+    public org.one2oneeum.core.Transaction createTransaction(Transaction tx) {
 
         byte[] nonceBytes = ByteUtil.longToBytes(tx.nonce);
         byte[] gasPriceBytes = ByteUtil.longToBytes(tx.gasPrice);
@@ -490,7 +490,7 @@ public class TestRunner {
         byte[] toAddr = tx.getTo();
         byte[] data = tx.getData();
 
-        org.ethereum.core.Transaction transaction = new org.ethereum.core.Transaction(
+        org.one2oneeum.core.Transaction transaction = new org.one2oneeum.core.Transaction(
                 nonceBytes, gasPriceBytes, gasBytes,
                 toAddr, valueBytes, data);
 

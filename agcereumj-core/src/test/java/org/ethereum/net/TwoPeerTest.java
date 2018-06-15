@@ -1,35 +1,35 @@
 /*
- * Copyright (c) [2016] [ <ether.camp> ]
- * This file is part of the ethereumJ library.
+ * Copyright (c) [2016] [ <one2one.camp> ]
+ * This file is part of the one2oneeumJ library.
  *
- * The ethereumJ library is free software: you can redistribute it and/or modify
+ * The one2oneeumJ library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The ethereumJ library is distributed in the hope that it will be useful,
+ * The one2oneeumJ library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
+ * along with the one2oneeumJ library. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ethereum.net;
+package org.one2oneeum.net;
 
 import com.typesafe.config.ConfigFactory;
-import org.ethereum.config.NoAutoscan;
-import org.ethereum.config.SystemProperties;
-import org.ethereum.core.*;
-import org.ethereum.crypto.ECKey;
-import org.ethereum.facade.Ethereum;
-import org.ethereum.facade.EthereumFactory;
-import org.ethereum.listener.EthereumListenerAdapter;
-import org.ethereum.mine.Ethash;
-import org.ethereum.net.eth.handler.Eth62;
-import org.ethereum.net.eth.message.*;
-import org.ethereum.net.server.Channel;
-import org.ethereum.util.RLP;
+import org.one2oneeum.config.NoAutoscan;
+import org.one2oneeum.config.SystemProperties;
+import org.one2oneeum.core.*;
+import org.one2oneeum.crypto.ECKey;
+import org.one2oneeum.facade.one2oneeum;
+import org.one2oneeum.facade.one2oneeumFactory;
+import org.one2oneeum.listener.one2oneeumListenerAdapter;
+import org.one2oneeum.mine.Ethash;
+import org.one2oneeum.net.eth.handler.Eth62;
+import org.one2oneeum.net.eth.message.*;
+import org.one2oneeum.net.server.Channel;
+import org.one2oneeum.util.RLP;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.spongycastle.util.encoders.Hex;
@@ -47,7 +47,7 @@ import java.util.concurrent.TimeUnit;
 
 import static java.lang.Math.max;
 import static java.lang.Math.min;
-import static org.ethereum.crypto.HashUtil.sha3;
+import static org.one2oneeum.crypto.HashUtil.sha3;
 
 /**
  * Created by Anton Nashatyrev on 13.10.2015.
@@ -189,8 +189,8 @@ public class TwoPeerTest {
             }
         };
 
-        Ethereum ethereum1 = EthereumFactory.createEthereum(SysPropConfig1.props, SysPropConfig1.class);
-        BlockchainImpl blockchain = (BlockchainImpl) ethereum1.getBlockchain();
+        one2oneeum one2oneeum1 = one2oneeumFactory.createone2oneeum(SysPropConfig1.props, SysPropConfig1.class);
+        BlockchainImpl blockchain = (BlockchainImpl) one2oneeum1.getBlockchain();
         Block bGen = blockchain.getBestBlock();
         Block b1 = addNextBlock(blockchain, bGen, "chain A");
         Block b2 = addNextBlock(blockchain, b1, null);
@@ -209,26 +209,26 @@ public class TwoPeerTest {
         alternativeFork.add(b1b);
         alternativeFork.add(b2b);
 
-//        byte[] root = ((RepositoryImpl) ethereum.getRepository()).getRoot();
-//        ((RepositoryImpl) ethereum.getRepository()).syncToRoot(root);
-//        byte[] root1 = ((RepositoryImpl) ethereum.getRepository()).getRoot();
+//        byte[] root = ((RepositoryImpl) one2oneeum.getRepository()).getRoot();
+//        ((RepositoryImpl) one2oneeum.getRepository()).syncToRoot(root);
+//        byte[] root1 = ((RepositoryImpl) one2oneeum.getRepository()).getRoot();
 //        Block b2b = addNextBlock(blockchain, b1, "chain B");
 
         System.out.println("Blocks added");
 
-        Ethereum ethereum2 = EthereumFactory.createEthereum(SysPropConfig2.props, SysPropConfig2.class);
+        one2oneeum one2oneeum2 = one2oneeumFactory.createone2oneeum(SysPropConfig2.props, SysPropConfig2.class);
 
         final CountDownLatch semaphore = new CountDownLatch(1);
 
         final Channel[] channel1 = new Channel[1];
-        ethereum1.addListener(new EthereumListenerAdapter() {
+        one2oneeum1.addListener(new one2oneeumListenerAdapter() {
             @Override
             public void onEthStatusUpdated(Channel channel, StatusMessage statusMessage) {
                 channel1[0] = channel;
                 System.out.println("==== Got the Channel: " + channel);
             }
         });
-        ethereum2.addListener(new EthereumListenerAdapter() {
+        one2oneeum2.addListener(new one2oneeumListenerAdapter() {
             @Override
             public void onBlock(Block block, List<TransactionReceipt> receipts) {
                 if (block.getNumber() == 4) {
@@ -257,8 +257,8 @@ public class TwoPeerTest {
         Thread.sleep(10000000);
 
 
-        ethereum1.close();
-        ethereum2.close();
+        one2oneeum1.close();
+        one2oneeum2.close();
 
         System.out.println("Passed.");
 

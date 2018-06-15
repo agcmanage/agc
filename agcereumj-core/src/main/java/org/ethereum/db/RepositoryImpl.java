@@ -1,31 +1,31 @@
 /*
- * Copyright (c) [2016] [ <ether.camp> ]
- * This file is part of the ethereumJ library.
+ * Copyright (c) [2016] [ <one2one.camp> ]
+ * This file is part of the one2oneeumJ library.
  *
- * The ethereumJ library is free software: you can redistribute it and/or modify
+ * The one2oneeumJ library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The ethereumJ library is distributed in the hope that it will be useful,
+ * The one2oneeumJ library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
+ * along with the one2oneeumJ library. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ethereum.db;
+package org.one2oneeum.db;
 
-import org.ethereum.config.SystemProperties;
-import org.ethereum.core.AccountState;
-import org.ethereum.core.Block;
-import org.ethereum.core.Repository;
-import org.ethereum.crypto.HashUtil;
-import org.ethereum.datasource.*;
-import org.ethereum.util.ByteUtil;
-import org.ethereum.util.FastByteComparisons;
-import org.ethereum.vm.DataWord;
+import org.one2oneeum.config.SystemProperties;
+import org.one2oneeum.core.AccountState;
+import org.one2oneeum.core.Block;
+import org.one2oneeum.core.Repository;
+import org.one2oneeum.crypto.HashUtil;
+import org.one2oneeum.datasource.*;
+import org.one2oneeum.util.ByteUtil;
+import org.one2oneeum.util.FastByteComparisons;
+import org.one2oneeum.vm.DataWord;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.Nullable;
@@ -35,7 +35,7 @@ import java.util.*;
 /**
  * Created by Anton Nashatyrev on 07.10.2016.
  */
-public class RepositoryImpl implements Repository, org.ethereum.facade.Repository {
+public class RepositoryImpl implements Repository, org.one2oneeum.facade.Repository {
 
     protected RepositoryImpl parent;
 

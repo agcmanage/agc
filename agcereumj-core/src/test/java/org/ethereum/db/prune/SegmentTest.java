@@ -1,8 +1,8 @@
-package org.ethereum.db.prune;
+package org.one2oneeum.db.prune;
 
 import org.junit.Test;
 
-import static org.ethereum.util.ByteUtil.intToBytes;
+import static org.one2oneeum.util.ByteUtil.intToBytes;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;

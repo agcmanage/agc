@@ -1,29 +1,29 @@
 /*
- * Copyright (c) [2016] [ <ether.camp> ]
- * This file is part of the ethereumJ library.
+ * Copyright (c) [2016] [ <one2one.camp> ]
+ * This file is part of the one2oneeumJ library.
  *
- * The ethereumJ library is free software: you can redistribute it and/or modify
+ * The one2oneeumJ library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The ethereumJ library is distributed in the hope that it will be useful,
+ * The one2oneeumJ library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
+ * along with the one2oneeumJ library. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ethereum.db;
+package org.one2oneeum.db;
 
-import org.ethereum.config.SystemProperties;
-import org.ethereum.core.Block;
-import org.ethereum.core.BlockHeader;
-import org.ethereum.datasource.JournalSource;
-import org.ethereum.datasource.Source;
-import org.ethereum.db.prune.Segment;
-import org.ethereum.db.prune.Pruner;
+import org.one2oneeum.config.SystemProperties;
+import org.one2oneeum.core.Block;
+import org.one2oneeum.core.BlockHeader;
+import org.one2oneeum.datasource.JournalSource;
+import org.one2oneeum.datasource.Source;
+import org.one2oneeum.db.prune.Segment;
+import org.one2oneeum.db.prune.Pruner;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;

@@ -1,44 +1,44 @@
 /*
- * Copyright (c) [2016] [ <ether.camp> ]
- * This file is part of the ethereumJ library.
+ * Copyright (c) [2016] [ <one2one.camp> ]
+ * This file is part of the one2oneeumJ library.
  *
- * The ethereumJ library is free software: you can redistribute it and/or modify
+ * The one2oneeumJ library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The ethereumJ library is distributed in the hope that it will be useful,
+ * The one2oneeumJ library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
+ * along with the one2oneeumJ library. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ethereum.core;
+package org.one2oneeum.core;
 
-import org.ethereum.config.SystemProperties;
-import org.ethereum.crypto.ECKey;
-import org.ethereum.crypto.HashUtil;
-import org.ethereum.datasource.*;
-import org.ethereum.datasource.inmem.HashMapDB;
-import org.ethereum.db.ByteArrayWrapper;
-import org.ethereum.db.prune.Pruner;
-import org.ethereum.db.prune.Segment;
-import org.ethereum.trie.SecureTrie;
-import org.ethereum.trie.TrieImpl;
-import org.ethereum.util.FastByteComparisons;
-import org.ethereum.util.blockchain.SolidityContract;
-import org.ethereum.util.blockchain.StandaloneBlockchain;
+import org.one2oneeum.config.SystemProperties;
+import org.one2oneeum.crypto.ECKey;
+import org.one2oneeum.crypto.HashUtil;
+import org.one2oneeum.datasource.*;
+import org.one2oneeum.datasource.inmem.HashMapDB;
+import org.one2oneeum.db.ByteArrayWrapper;
+import org.one2oneeum.db.prune.Pruner;
+import org.one2oneeum.db.prune.Segment;
+import org.one2oneeum.trie.SecureTrie;
+import org.one2oneeum.trie.TrieImpl;
+import org.one2oneeum.util.FastByteComparisons;
+import org.one2oneeum.util.blockchain.SolidityContract;
+import org.one2oneeum.util.blockchain.StandaloneBlockchain;
 import org.junit.*;
 import org.spongycastle.util.encoders.Hex;
 
 import java.math.BigInteger;
 import java.util.*;
 
-import static org.ethereum.util.ByteUtil.intToBytes;
-import static org.ethereum.util.blockchain.EtherUtil.Unit.ETHER;
-import static org.ethereum.util.blockchain.EtherUtil.convert;
+import static org.one2oneeum.util.ByteUtil.intToBytes;
+import static org.one2oneeum.util.blockchain.one2oneUtil.Unit.one2one;
+import static org.one2oneeum.util.blockchain.one2oneUtil.convert;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -144,27 +144,27 @@ public class PruneTest {
 //        System.out.println("Gen root: " + Hex.toHexString(bc.getBlockchain().getBestBlock().getStateRoot()));
         bc.createBlock();
         Block b0 = bc.getBlockchain().getBestBlock();
-        bc.sendEther(alice.getAddress(), convert(3, ETHER));
+        bc.sendone2one(alice.getAddress(), convert(3, one2one));
         Block b1_1 = bc.createBlock();
 
-        bc.sendEther(alice.getAddress(), convert(3, ETHER));
+        bc.sendone2one(alice.getAddress(), convert(3, one2one));
         Block b1_2 = bc.createForkBlock(b0);
 
-        bc.sendEther(alice.getAddress(), convert(3, ETHER));
+        bc.sendone2one(alice.getAddress(), convert(3, one2one));
         Block b1_3 = bc.createForkBlock(b0);
 
-        bc.sendEther(alice.getAddress(), convert(3, ETHER));
+        bc.sendone2one(alice.getAddress(), convert(3, one2one));
         Block b1_4 = bc.createForkBlock(b0);
 
-        bc.sendEther(bob.getAddress(), convert(5, ETHER));
+        bc.sendone2one(bob.getAddress(), convert(5, one2one));
         bc.createBlock();
 
-        bc.sendEther(alice.getAddress(), convert(3, ETHER));
+        bc.sendone2one(alice.getAddress(), convert(3, one2one));
         bc.createForkBlock(b1_2);
 
         for (int i = 0; i < 9; i++) {
-            bc.sendEther(alice.getAddress(), convert(3, ETHER));
-            bc.sendEther(bob.getAddress(), convert(5, ETHER));
+            bc.sendone2one(alice.getAddress(), convert(3, one2one));
+            bc.sendone2one(bob.getAddress(), convert(5, one2one));
             bc.createBlock();
         }
 
@@ -179,28 +179,28 @@ public class PruneTest {
 
         long bestBlockNum = bc.getBlockchain().getBestBlock().getNumber();
 
-        Assert.assertEquals(convert(30, ETHER), bc.getBlockchain().getRepository().getBalance(alice.getAddress()));
-        Assert.assertEquals(convert(50, ETHER), bc.getBlockchain().getRepository().getBalance(bob.getAddress()));
+        Assert.assertEquals(convert(30, one2one), bc.getBlockchain().getRepository().getBalance(alice.getAddress()));
+        Assert.assertEquals(convert(50, one2one), bc.getBlockchain().getRepository().getBalance(bob.getAddress()));
 
         {
             Block b1 = bc.getBlockchain().getBlockByNumber(bestBlockNum - 1);
             Repository r1 = bc.getBlockchain().getRepository().getSnapshotTo(b1.getStateRoot());
-            Assert.assertEquals(convert(3 * 9, ETHER), r1.getBalance(alice.getAddress()));
-            Assert.assertEquals(convert(5 * 9, ETHER), r1.getBalance(bob.getAddress()));
+            Assert.assertEquals(convert(3 * 9, one2one), r1.getBalance(alice.getAddress()));
+            Assert.assertEquals(convert(5 * 9, one2one), r1.getBalance(bob.getAddress()));
         }
 
         {
             Block b1 = bc.getBlockchain().getBlockByNumber(bestBlockNum - 2);
             Repository r1 = bc.getBlockchain().getRepository().getSnapshotTo(b1.getStateRoot());
-            Assert.assertEquals(convert(3 * 8, ETHER), r1.getBalance(alice.getAddress()));
-            Assert.assertEquals(convert(5 * 8, ETHER), r1.getBalance(bob.getAddress()));
+            Assert.assertEquals(convert(3 * 8, one2one), r1.getBalance(alice.getAddress()));
+            Assert.assertEquals(convert(5 * 8, one2one), r1.getBalance(bob.getAddress()));
         }
 
         {
             Block b1 = bc.getBlockchain().getBlockByNumber(bestBlockNum - 3);
             Repository r1 = bc.getBlockchain().getRepository().getSnapshotTo(b1.getStateRoot());
-            Assert.assertEquals(convert(3 * 7, ETHER), r1.getBalance(alice.getAddress()));
-            Assert.assertEquals(convert(5 * 7, ETHER), r1.getBalance(bob.getAddress()));
+            Assert.assertEquals(convert(3 * 7, one2one), r1.getBalance(alice.getAddress()));
+            Assert.assertEquals(convert(5 * 7, one2one), r1.getBalance(bob.getAddress()));
         }
 
         {
@@ -470,11 +470,11 @@ public class PruneTest {
 
         StandaloneBlockchain bc = new StandaloneBlockchain();
         byte[] receiver = Hex.decode("0000000000000000000000000000000000000000");
-        bc.sendEther(receiver, BigInteger.valueOf(0x77777777));
+        bc.sendone2one(receiver, BigInteger.valueOf(0x77777777));
         bc.createBlock();
 
         for (int i = 0; i < 100; i++) {
-            bc.sendEther(new ECKey().getAddress(), BigInteger.valueOf(i));
+            bc.sendone2one(new ECKey().getAddress(), BigInteger.valueOf(i));
         }
 
         SolidityContract contr = bc.submitNewContract(

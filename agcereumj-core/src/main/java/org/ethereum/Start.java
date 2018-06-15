@@ -1,28 +1,28 @@
 /*
- * Copyright (c) [2016] [ <ether.camp> ]
- * This file is part of the ethereumJ library.
+ * Copyright (c) [2016] [ <one2one.camp> ]
+ * This file is part of the one2oneeumJ library.
  *
- * The ethereumJ library is free software: you can redistribute it and/or modify
+ * The one2oneeumJ library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The ethereumJ library is distributed in the hope that it will be useful,
+ * The one2oneeumJ library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
+ * along with the one2oneeumJ library. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ethereum;
+package org.one2oneeum;
 
 import org.apache.commons.lang3.StringUtils;
-import org.ethereum.cli.CLIInterface;
-import org.ethereum.config.SystemProperties;
-import org.ethereum.facade.Ethereum;
-import org.ethereum.facade.EthereumFactory;
-import org.ethereum.mine.Ethash;
+import org.one2oneeum.cli.CLIInterface;
+import org.one2oneeum.config.SystemProperties;
+import org.one2oneeum.facade.one2oneeum;
+import org.one2oneeum.facade.one2oneeumFactory;
+import org.one2oneeum.mine.Ethash;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -50,10 +50,10 @@ public class Start {
             // DAG file has been created, lets exit
             System.exit(0);
         } else {
-            Ethereum ethereum = EthereumFactory.createEthereum();
+            one2oneeum one2oneeum = one2oneeumFactory.createone2oneeum();
 
             if (actionBlocksLoader) {
-                ethereum.getBlockLoader().loadBlocks();
+                one2oneeum.getBlockLoader().loadBlocks();
             }
         }
     }

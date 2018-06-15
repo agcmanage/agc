@@ -1,46 +1,46 @@
 /*
- * Copyright (c) [2016] [ <ether.camp> ]
- * This file is part of the ethereumJ library.
+ * Copyright (c) [2016] [ <one2one.camp> ]
+ * This file is part of the one2oneeumJ library.
  *
- * The ethereumJ library is free software: you can redistribute it and/or modify
+ * The one2oneeumJ library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The ethereumJ library is distributed in the hope that it will be useful,
+ * The one2oneeumJ library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
+ * along with the one2oneeumJ library. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ethereum.samples;
+package org.one2oneeum.samples;
 
-import org.ethereum.core.Block;
-import org.ethereum.core.TransactionReceipt;
-import org.ethereum.facade.Ethereum;
-import org.ethereum.facade.EthereumFactory;
-import org.ethereum.facade.Repository;
-import org.ethereum.listener.EthereumListenerAdapter;
+import org.one2oneeum.core.Block;
+import org.one2oneeum.core.TransactionReceipt;
+import org.one2oneeum.facade.one2oneeum;
+import org.one2oneeum.facade.one2oneeumFactory;
+import org.one2oneeum.facade.Repository;
+import org.one2oneeum.listener.one2oneeumListenerAdapter;
 import org.spongycastle.util.encoders.Hex;
 
 import java.math.BigInteger;
 import java.util.List;
 
-public class FollowAccount extends EthereumListenerAdapter {
+public class FollowAccount extends one2oneeumListenerAdapter {
 
 
-    Ethereum ethereum = null;
+    one2oneeum one2oneeum = null;
 
-    public FollowAccount(Ethereum ethereum) {
-        this.ethereum = ethereum;
+    public FollowAccount(one2oneeum one2oneeum) {
+        this.one2oneeum = one2oneeum;
     }
 
     public static void main(String[] args) {
 
-        Ethereum ethereum = EthereumFactory.createEthereum();
-        ethereum.addListener(new FollowAccount(ethereum));
+        one2oneeum one2oneeum = one2oneeumFactory.createone2oneeum();
+        one2oneeum.addListener(new FollowAccount(one2oneeum));
     }
 
     @Override
@@ -49,13 +49,13 @@ public class FollowAccount extends EthereumListenerAdapter {
         byte[] cow = Hex.decode("cd2a3d9f938e13cd947ec05abc7fe734df8dd826");
 
         // Get snapshot some time ago - 10% blocks ago
-        long bestNumber = ethereum.getBlockchain().getBestBlock().getNumber();
+        long bestNumber = one2oneeum.getBlockchain().getBestBlock().getNumber();
         long oldNumber = (long) (bestNumber * 0.9);
 
-        Block oldBlock = ethereum.getBlockchain().getBlockByNumber(oldNumber);
+        Block oldBlock = one2oneeum.getBlockchain().getBlockByNumber(oldNumber);
 
-        Repository repository = ethereum.getRepository();
-        Repository snapshot = ethereum.getSnapshotTo(oldBlock.getStateRoot());
+        Repository repository = one2oneeum.getRepository();
+        Repository snapshot = one2oneeum.getSnapshotTo(oldBlock.getStateRoot());
 
         BigInteger nonce_ = snapshot.getNonce(cow);
         BigInteger nonce = repository.getNonce(cow);

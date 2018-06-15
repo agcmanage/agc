@@ -1,27 +1,27 @@
 /*
- * Copyright (c) [2016] [ <ether.camp> ]
- * This file is part of the ethereumJ library.
+ * Copyright (c) [2016] [ <one2one.camp> ]
+ * This file is part of the one2oneeumJ library.
  *
- * The ethereumJ library is free software: you can redistribute it and/or modify
+ * The one2oneeumJ library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The ethereumJ library is distributed in the hope that it will be useful,
+ * The one2oneeumJ library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
+ * along with the one2oneeumJ library. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ethereum.datasource.rocksdb;
+package org.one2oneeum.datasource.rocksdb;
 
-import org.ethereum.config.SystemProperties;
-import org.ethereum.datasource.DbSettings;
-import org.ethereum.datasource.DbSource;
-import org.ethereum.datasource.NodeKeyCompositor;
-import org.ethereum.util.FileUtil;
+import org.one2oneeum.config.SystemProperties;
+import org.one2oneeum.datasource.DbSettings;
+import org.one2oneeum.datasource.DbSource;
+import org.one2oneeum.datasource.NodeKeyCompositor;
+import org.one2oneeum.util.FileUtil;
 import org.rocksdb.*;
 import org.rocksdb.CompressionType;
 import org.rocksdb.Options;
@@ -39,7 +39,7 @@ import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import static java.lang.System.arraycopy;
-import static org.ethereum.util.ByteUtil.toHexString;
+import static org.one2oneeum.util.ByteUtil.toHexString;
 
 /**
  * @author Mikhail Kalinin
@@ -384,7 +384,7 @@ public class RocksDbDataSource implements DbSource<byte[]> {
         if (e.getMessage() != null && e.getMessage().toLowerCase().contains("too many open files")) {
             logger.info("");
             logger.info("       Mitigating 'Too many open files':");
-            logger.info("       either decrease value of database.maxOpenFiles parameter in ethereumj.conf");
+            logger.info("       either decrease value of database.maxOpenFiles parameter in one2oneeumj.conf");
             logger.info("       or set higher limit by using 'ulimit -n' command in command line");
             logger.info("");
         }

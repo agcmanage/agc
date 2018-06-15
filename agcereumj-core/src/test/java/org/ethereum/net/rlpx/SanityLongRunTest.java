@@ -1,36 +1,36 @@
 /*
- * Copyright (c) [2016] [ <ether.camp> ]
- * This file is part of the ethereumJ library.
+ * Copyright (c) [2016] [ <one2one.camp> ]
+ * This file is part of the one2oneeumJ library.
  *
- * The ethereumJ library is free software: you can redistribute it and/or modify
+ * The one2oneeumJ library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The ethereumJ library is distributed in the hope that it will be useful,
+ * The one2oneeumJ library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
+ * along with the one2oneeumJ library. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ethereum.net.rlpx;
+package org.one2oneeum.net.rlpx;
 
 import com.typesafe.config.ConfigFactory;
-import org.ethereum.config.NoAutoscan;
-import org.ethereum.config.SystemProperties;
-import org.ethereum.core.Block;
-import org.ethereum.core.TransactionReceipt;
-import org.ethereum.crypto.ECKey;
-import org.ethereum.facade.Ethereum;
-import org.ethereum.facade.EthereumFactory;
-import org.ethereum.listener.EthereumListenerAdapter;
-import org.ethereum.net.eth.message.StatusMessage;
-import org.ethereum.net.message.Message;
-import org.ethereum.net.server.Channel;
-import org.ethereum.net.shh.MessageWatcher;
-import org.ethereum.net.shh.WhisperMessage;
+import org.one2oneeum.config.NoAutoscan;
+import org.one2oneeum.config.SystemProperties;
+import org.one2oneeum.core.Block;
+import org.one2oneeum.core.TransactionReceipt;
+import org.one2oneeum.crypto.ECKey;
+import org.one2oneeum.facade.one2oneeum;
+import org.one2oneeum.facade.one2oneeumFactory;
+import org.one2oneeum.listener.one2oneeumListenerAdapter;
+import org.one2oneeum.net.eth.message.StatusMessage;
+import org.one2oneeum.net.message.Message;
+import org.one2oneeum.net.server.Channel;
+import org.one2oneeum.net.shh.MessageWatcher;
+import org.one2oneeum.net.shh.WhisperMessage;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.spongycastle.util.encoders.Hex;
@@ -103,16 +103,16 @@ public class SanityLongRunTest {
         SysPropConfig1.props = new SystemProperties(ConfigFactory.parseString(config1));
         SysPropConfig2.props = new SystemProperties(ConfigFactory.parseString(config2));
 
-//        Ethereum ethereum1 = EthereumFactory.createEthereum(SysPropConfig1.props, SysPropConfig1.class);
-        Ethereum ethereum1 = null;
+//        one2oneeum one2oneeum1 = one2oneeumFactory.createone2oneeum(SysPropConfig1.props, SysPropConfig1.class);
+        one2oneeum one2oneeum1 = null;
 
 //        Thread.sleep(1000000000);
 
-        Ethereum ethereum2 = EthereumFactory.createEthereum(SysPropConfig2.props, SysPropConfig2.class);
+        one2oneeum one2oneeum2 = one2oneeumFactory.createone2oneeum(SysPropConfig2.props, SysPropConfig2.class);
 
         final CountDownLatch semaphore = new CountDownLatch(1);
 
-        ethereum2.addListener(new EthereumListenerAdapter() {
+        one2oneeum2.addListener(new one2oneeumListenerAdapter() {
             @Override
             public void onRecvMessage(Channel channel, Message message) {
                 if (message instanceof StatusMessage) {
@@ -131,7 +131,7 @@ public class SanityLongRunTest {
         final CountDownLatch semaphoreBlocks = new CountDownLatch(1);
         final CountDownLatch semaphoreFirstBlock = new CountDownLatch(1);
 
-        ethereum2.addListener(new EthereumListenerAdapter() {
+        one2oneeum2.addListener(new one2oneeumListenerAdapter() {
             int blocksCnt = 0;
 
             @Override
@@ -156,20 +156,20 @@ public class SanityLongRunTest {
         }
 
         // SHH messages exchange
-        String identity1 = ethereum1.getWhisper().newIdentity();
-        String identity2 = ethereum2.getWhisper().newIdentity();
+        String identity1 = one2oneeum1.getWhisper().newIdentity();
+        String identity2 = one2oneeum2.getWhisper().newIdentity();
 
         final int[] counter1 = new int[1];
         final int[] counter2 = new int[1];
 
-        ethereum1.getWhisper().watch(new MessageWatcher(identity1, null, null) {
+        one2oneeum1.getWhisper().watch(new MessageWatcher(identity1, null, null) {
             @Override
             protected void newMessage(WhisperMessage msg) {
                 System.out.println("=== You have a new message to 1: " + msg);
                 counter1[0]++;
             }
         });
-        ethereum2.getWhisper().watch(new MessageWatcher(identity2, null, null) {
+        one2oneeum2.getWhisper().watch(new MessageWatcher(identity2, null, null) {
             @Override
             protected void newMessage(WhisperMessage msg) {
                 System.out.println("=== You have a new message to 2: " + msg);
@@ -181,8 +181,8 @@ public class SanityLongRunTest {
         int cnt = 0;
         long end = System.currentTimeMillis() + 60 * 60 * 1000;
         while (semaphoreBlocks.getCount() > 0) {
-            ethereum1.getWhisper().send(identity2, "Hello Eth2!".getBytes(), null);
-            ethereum2.getWhisper().send(identity1, "Hello Eth1!".getBytes(), null);
+            one2oneeum1.getWhisper().send(identity2, "Hello Eth2!".getBytes(), null);
+            one2oneeum2.getWhisper().send(identity1, "Hello Eth1!".getBytes(), null);
             cnt++;
             Thread.sleep(10 * 1000);
             if (counter1[0] != cnt || counter2[0] != cnt) {
@@ -193,8 +193,8 @@ public class SanityLongRunTest {
             }
         }
 
-        ethereum1.close();
-        ethereum2.close();
+        one2oneeum1.close();
+        one2oneeum2.close();
 
         System.out.println("Passed.");
     }

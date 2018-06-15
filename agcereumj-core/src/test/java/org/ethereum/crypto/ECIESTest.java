@@ -1,23 +1,23 @@
 /*
- * Copyright (c) [2016] [ <ether.camp> ]
- * This file is part of the ethereumJ library.
+ * Copyright (c) [2016] [ <one2one.camp> ]
+ * This file is part of the one2oneeumJ library.
  *
- * The ethereumJ library is free software: you can redistribute it and/or modify
+ * The one2oneeumJ library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The ethereumJ library is distributed in the hope that it will be useful,
+ * The one2oneeumJ library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
+ * along with the one2oneeumJ library. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ethereum.crypto;
+package org.one2oneeum.crypto;
 
-import org.ethereum.ConcatKDFBytesGenerator;
+import org.one2oneeum.ConcatKDFBytesGenerator;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -97,7 +97,7 @@ public class ECIESTest {
         byte[] cipherBody = new byte[is.available()];
         is.read(cipherBody);
 
-        EthereumIESEngine iesEngine = makeIESEngine(false, ephem, prv, IV);
+        one2oneeumIESEngine iesEngine = makeIESEngine(false, ephem, prv, IV);
 
         byte[] message = iesEngine.processBlock(cipherBody, 0, cipherBody.length);
         return message;
@@ -117,7 +117,7 @@ public class ECIESTest {
         AsymmetricCipherKeyPair ephemPair = eGen.generateKeyPair();
         BigInteger prv = ((ECPrivateKeyParameters)ephemPair.getPrivate()).getD();
         ECPoint pub = ((ECPublicKeyParameters)ephemPair.getPublic()).getQ();
-        EthereumIESEngine iesEngine = makeIESEngine(true, toPub, prv, IV);
+        one2oneeumIESEngine iesEngine = makeIESEngine(true, toPub, prv, IV);
 
 
         ECKeyGenerationParameters keygenParams = new ECKeyGenerationParameters(curve, random);
@@ -135,10 +135,10 @@ public class ECIESTest {
         return bos.toByteArray();
     }
 
-    private static EthereumIESEngine makeIESEngine(boolean isEncrypt, ECPoint pub, BigInteger prv, byte[] IV) {
+    private static one2oneeumIESEngine makeIESEngine(boolean isEncrypt, ECPoint pub, BigInteger prv, byte[] IV) {
         AESEngine aesFastEngine = new AESEngine();
 
-        EthereumIESEngine iesEngine = new EthereumIESEngine(
+        one2oneeumIESEngine iesEngine = new one2oneeumIESEngine(
                 new ECDHBasicAgreement(),
                 new ConcatKDFBytesGenerator(new SHA256Digest()),
                 new HMac(new SHA256Digest()),

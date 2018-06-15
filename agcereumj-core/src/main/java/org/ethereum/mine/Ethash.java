@@ -1,32 +1,32 @@
 /*
- * Copyright (c) [2016] [ <ether.camp> ]
- * This file is part of the ethereumJ library.
+ * Copyright (c) [2016] [ <one2one.camp> ]
+ * This file is part of the one2oneeumJ library.
  *
- * The ethereumJ library is free software: you can redistribute it and/or modify
+ * The one2oneeumJ library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The ethereumJ library is distributed in the hope that it will be useful,
+ * The one2oneeumJ library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
+ * along with the one2oneeumJ library. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ethereum.mine;
+package org.one2oneeum.mine;
 
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import org.apache.commons.lang3.tuple.Pair;
-import org.ethereum.config.SystemProperties;
-import org.ethereum.core.Block;
-import org.ethereum.core.BlockHeader;
-import org.ethereum.util.ByteUtil;
-import org.ethereum.util.FastByteComparisons;
+import org.one2oneeum.config.SystemProperties;
+import org.one2oneeum.core.Block;
+import org.one2oneeum.core.BlockHeader;
+import org.one2oneeum.util.ByteUtil;
+import org.one2oneeum.util.FastByteComparisons;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,19 +37,19 @@ import java.util.Set;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicLong;
 
-import static org.ethereum.crypto.HashUtil.sha3;
-import static org.ethereum.mine.EthashListener.DatasetStatus.DATASET_READY;
-import static org.ethereum.mine.EthashListener.DatasetStatus.DATASET_PREPARE;
-import static org.ethereum.mine.EthashListener.DatasetStatus.FULL_DATASET_GENERATED;
-import static org.ethereum.mine.EthashListener.DatasetStatus.FULL_DATASET_GENERATE_START;
-import static org.ethereum.mine.EthashListener.DatasetStatus.FULL_DATASET_LOADED;
-import static org.ethereum.mine.EthashListener.DatasetStatus.FULL_DATASET_LOAD_START;
-import static org.ethereum.mine.EthashListener.DatasetStatus.LIGHT_DATASET_GENERATED;
-import static org.ethereum.mine.EthashListener.DatasetStatus.LIGHT_DATASET_GENERATE_START;
-import static org.ethereum.mine.EthashListener.DatasetStatus.LIGHT_DATASET_LOADED;
-import static org.ethereum.mine.EthashListener.DatasetStatus.LIGHT_DATASET_LOAD_START;
-import static org.ethereum.util.ByteUtil.longToBytes;
-import static org.ethereum.mine.MinerIfc.MiningResult;
+import static org.one2oneeum.crypto.HashUtil.sha3;
+import static org.one2oneeum.mine.EthashListener.DatasetStatus.DATASET_READY;
+import static org.one2oneeum.mine.EthashListener.DatasetStatus.DATASET_PREPARE;
+import static org.one2oneeum.mine.EthashListener.DatasetStatus.FULL_DATASET_GENERATED;
+import static org.one2oneeum.mine.EthashListener.DatasetStatus.FULL_DATASET_GENERATE_START;
+import static org.one2oneeum.mine.EthashListener.DatasetStatus.FULL_DATASET_LOADED;
+import static org.one2oneeum.mine.EthashListener.DatasetStatus.FULL_DATASET_LOAD_START;
+import static org.one2oneeum.mine.EthashListener.DatasetStatus.LIGHT_DATASET_GENERATED;
+import static org.one2oneeum.mine.EthashListener.DatasetStatus.LIGHT_DATASET_GENERATE_START;
+import static org.one2oneeum.mine.EthashListener.DatasetStatus.LIGHT_DATASET_LOADED;
+import static org.one2oneeum.mine.EthashListener.DatasetStatus.LIGHT_DATASET_LOAD_START;
+import static org.one2oneeum.util.ByteUtil.longToBytes;
+import static org.one2oneeum.mine.MinerIfc.MiningResult;
 
 /**
  * More high level validator/miner class which keeps a cache for the last requested block epoch
@@ -123,7 +123,7 @@ public class Ethash {
     }
 
     /**
-     * Checks whether light DAG is already generated and loads it
+     * Checks whone2one light DAG is already generated and loads it
      * from cache, otherwise generates it
      * @return  Light DAG
      */
@@ -252,7 +252,7 @@ public class Ethash {
      *  Mines the nonce for the specified Block with difficulty BlockHeader.getDifficulty()
      *  When mined the Block 'nonce' and 'mixHash' fields are updated
      *  Uses the full dataset i.e. it faster but takes > 1Gb of memory and may
-     *  take up to 10 mins for starting up (depending on whether the dataset was cached)
+     *  take up to 10 mins for starting up (depending on whone2one the dataset was cached)
      *
      *  @param block The block to mine. The difficulty is taken from the block header
      *               This block is updated when mined

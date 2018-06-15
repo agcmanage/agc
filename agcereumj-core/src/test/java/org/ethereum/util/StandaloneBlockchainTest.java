@@ -1,26 +1,26 @@
 /*
- * Copyright (c) [2016] [ <ether.camp> ]
- * This file is part of the ethereumJ library.
+ * Copyright (c) [2016] [ <one2one.camp> ]
+ * This file is part of the one2oneeumJ library.
  *
- * The ethereumJ library is free software: you can redistribute it and/or modify
+ * The one2oneeumJ library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The ethereumJ library is distributed in the hope that it will be useful,
+ * The one2oneeumJ library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
+ * along with the one2oneeumJ library. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ethereum.util;
+package org.one2oneeum.util;
 
-import org.ethereum.config.SystemProperties;
-import org.ethereum.crypto.ECKey;
-import org.ethereum.util.blockchain.SolidityContract;
-import org.ethereum.util.blockchain.StandaloneBlockchain;
+import org.one2oneeum.config.SystemProperties;
+import org.one2oneeum.crypto.ECKey;
+import org.one2oneeum.util.blockchain.SolidityContract;
+import org.one2oneeum.util.blockchain.StandaloneBlockchain;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Test;
@@ -28,8 +28,8 @@ import org.spongycastle.util.encoders.Hex;
 
 import java.math.BigInteger;
 
-import static org.ethereum.util.blockchain.EtherUtil.Unit.ETHER;
-import static org.ethereum.util.blockchain.EtherUtil.convert;
+import static org.one2oneeum.util.blockchain.one2oneUtil.Unit.one2one;
+import static org.one2oneeum.util.blockchain.one2oneUtil.convert;
 
 /**
  * Created by Anton Nashatyrev on 06.07.2016.
@@ -130,11 +130,11 @@ public class StandaloneBlockchainTest {
         StandaloneBlockchain sb = new StandaloneBlockchain();
         ECKey alice = sb.getSender();
         ECKey bob = new ECKey();
-        sb.sendEther(bob.getAddress(), BigInteger.valueOf(1000));
+        sb.sendone2one(bob.getAddress(), BigInteger.valueOf(1000));
         sb.setSender(bob);
-        sb.sendEther(alice.getAddress(), BigInteger.ONE);
+        sb.sendone2one(alice.getAddress(), BigInteger.ONE);
         sb.setSender(alice);
-        sb.sendEther(bob.getAddress(), BigInteger.valueOf(2000));
+        sb.sendone2one(bob.getAddress(), BigInteger.valueOf(2000));
 
         sb.createBlock();
     }
@@ -145,18 +145,18 @@ public class StandaloneBlockchainTest {
         StandaloneBlockchain sb = new StandaloneBlockchain();
         ECKey alice = sb.getSender();
         ECKey bob = new ECKey();
-        sb.withAccountBalance(bob.getAddress(), convert(123, ETHER));
+        sb.withAccountBalance(bob.getAddress(), convert(123, one2one));
 
         BigInteger aliceInitBal = sb.getBlockchain().getRepository().getBalance(alice.getAddress());
         BigInteger bobInitBal = sb.getBlockchain().getRepository().getBalance(bob.getAddress());
-        assert convert(123, ETHER).equals(bobInitBal);
+        assert convert(123, one2one).equals(bobInitBal);
 
         sb.setSender(bob);
-        sb.sendEther(alice.getAddress(), BigInteger.ONE);
+        sb.sendone2one(alice.getAddress(), BigInteger.ONE);
 
         sb.createBlock();
 
-        assert convert(123, ETHER).compareTo(sb.getBlockchain().getRepository().getBalance(bob.getAddress())) > 0;
+        assert convert(123, one2one).compareTo(sb.getBlockchain().getRepository().getBalance(bob.getAddress())) > 0;
         assert aliceInitBal.add(BigInteger.ONE).equals(sb.getBlockchain().getRepository().getBalance(alice.getAddress()));
     }
 

@@ -1,46 +1,46 @@
 /*
- * Copyright (c) [2016] [ <ether.camp> ]
- * This file is part of the ethereumJ library.
+ * Copyright (c) [2016] [ <one2one.camp> ]
+ * This file is part of the one2oneeumJ library.
  *
- * The ethereumJ library is free software: you can redistribute it and/or modify
+ * The one2oneeumJ library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The ethereumJ library is distributed in the hope that it will be useful,
+ * The one2oneeumJ library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
+ * along with the one2oneeumJ library. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ethereum.sync;
+package org.one2oneeum.sync;
 
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import org.apache.commons.lang3.tuple.Pair;
-import org.ethereum.config.SystemProperties;
-import org.ethereum.core.*;
-import org.ethereum.crypto.HashUtil;
-import org.ethereum.datasource.DbSource;
-import org.ethereum.datasource.NodeKeyCompositor;
-import org.ethereum.datasource.rocksdb.RocksDbDataSource;
-import org.ethereum.db.DbFlushManager;
-import org.ethereum.db.HeaderStore;
-import org.ethereum.db.IndexedBlockStore;
-import org.ethereum.db.StateSource;
-import org.ethereum.facade.SyncStatus;
-import org.ethereum.listener.CompositeEthereumListener;
-import org.ethereum.listener.EthereumListener;
-import org.ethereum.listener.EthereumListenerAdapter;
-import org.ethereum.net.client.Capability;
-import org.ethereum.net.eth.handler.Eth63;
-import org.ethereum.net.message.ReasonCode;
-import org.ethereum.net.server.Channel;
-import org.ethereum.trie.TrieKey;
-import org.ethereum.util.*;
+import org.one2oneeum.config.SystemProperties;
+import org.one2oneeum.core.*;
+import org.one2oneeum.crypto.HashUtil;
+import org.one2oneeum.datasource.DbSource;
+import org.one2oneeum.datasource.NodeKeyCompositor;
+import org.one2oneeum.datasource.rocksdb.RocksDbDataSource;
+import org.one2oneeum.db.DbFlushManager;
+import org.one2oneeum.db.HeaderStore;
+import org.one2oneeum.db.IndexedBlockStore;
+import org.one2oneeum.db.StateSource;
+import org.one2oneeum.facade.SyncStatus;
+import org.one2oneeum.listener.Compositeone2oneeumListener;
+import org.one2oneeum.listener.one2oneeumListener;
+import org.one2oneeum.listener.one2oneeumListenerAdapter;
+import org.one2oneeum.net.client.Capability;
+import org.one2oneeum.net.eth.handler.Eth63;
+import org.one2oneeum.net.message.ReasonCode;
+import org.one2oneeum.net.server.Channel;
+import org.one2oneeum.trie.TrieKey;
+import org.one2oneeum.util.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,12 +56,12 @@ import java.util.*;
 import java.util.concurrent.*;
 import java.util.stream.Collectors;
 
-import static org.ethereum.listener.EthereumListener.SyncState.COMPLETE;
-import static org.ethereum.listener.EthereumListener.SyncState.SECURE;
-import static org.ethereum.listener.EthereumListener.SyncState.UNSECURE;
-import static org.ethereum.trie.TrieKey.fromPacked;
-import static org.ethereum.util.CompactEncoder.hasTerminator;
-import static org.ethereum.util.ByteUtil.toHexString;
+import static org.one2oneeum.listener.one2oneeumListener.SyncState.COMPLETE;
+import static org.one2oneeum.listener.one2oneeumListener.SyncState.SECURE;
+import static org.one2oneeum.listener.one2oneeumListener.SyncState.UNSECURE;
+import static org.one2oneeum.trie.TrieKey.fromPacked;
+import static org.one2oneeum.util.CompactEncoder.hasTerminator;
+import static org.one2oneeum.util.ByteUtil.toHexString;
 
 /**
  * Created by Anton Nashatyrev on 24.10.2016.
@@ -109,7 +109,7 @@ public class FastSyncManager {
     DbFlushManager dbFlushManager;
 
     @Autowired
-    CompositeEthereumListener listener;
+    Compositeone2oneeumListener listener;
 
     @Autowired
     ApplicationContext applicationContext;
@@ -186,7 +186,7 @@ public class FastSyncManager {
                     (FORCE_SYNC_TIMEOUT - forceSyncRemains) / 1000, FORCE_SYNC_TIMEOUT / 1000);
         }
 
-        EthereumListener.SyncState syncStage = getSyncStage();
+        one2oneeumListener.SyncState syncStage = getSyncStage();
         switch (syncStage) {
             case UNSECURE:
                 return new SyncStatus(SyncStatus.SyncStage.StateNodes, nodesInserted,
@@ -515,7 +515,7 @@ public class FastSyncManager {
         }
     }
 
-    private void setSyncStage(EthereumListener.SyncState stage) {
+    private void setSyncStage(one2oneeumListener.SyncState stage) {
         if (stage == null) {
             blockchainDB.delete(FASTSYNC_DB_KEY_SYNC_STAGE);
         } else {
@@ -523,10 +523,10 @@ public class FastSyncManager {
         }
     }
 
-    private EthereumListener.SyncState getSyncStage() {
+    private one2oneeumListener.SyncState getSyncStage() {
         byte[] bytes = blockchainDB.get(FASTSYNC_DB_KEY_SYNC_STAGE);
         if (bytes == null) return UNSECURE;
-        return EthereumListener.SyncState.values()[bytes[0]];
+        return one2oneeumListener.SyncState.values()[bytes[0]];
     }
 
 
@@ -556,7 +556,7 @@ public class FastSyncManager {
         logger.info("FastSync: proceeding to regular sync...");
 
         final CountDownLatch syncDoneLatch = new CountDownLatch(1);
-        listener.addListener(new EthereumListenerAdapter() {
+        listener.addListener(new one2oneeumListenerAdapter() {
             @Override
             public void onSyncDone(SyncState state) {
                 syncDoneLatch.countDown();
@@ -584,7 +584,7 @@ public class FastSyncManager {
         logger.info("FastSync: downloading headers from pivot down to genesis block for ensure pivot block (" + pivot.getShortDescr() + ") is secure...");
         headersDownloader = applicationContext.getBean(HeadersDownloader.class);
         headersDownloader.init(pivot.getHash());
-        setSyncStage(EthereumListener.SyncState.SECURE);
+        setSyncStage(one2oneeumListener.SyncState.SECURE);
 
         if (config.fastSyncBackupState()) {
             if (blockchainDB instanceof RocksDbDataSource) {
@@ -613,7 +613,7 @@ public class FastSyncManager {
             logger.info("FastSync: Downloading Block bodies up to pivot block (" + pivot.getShortDescr() + ")...");
 
             blockBodiesDownloader = applicationContext.getBean(BlockBodiesDownloader.class);
-            setSyncStage(EthereumListener.SyncState.COMPLETE);
+            setSyncStage(one2oneeumListener.SyncState.COMPLETE);
             blockBodiesDownloader.startImporting();
             blockBodiesDownloader.waitForStop();
             blockBodiesDownloader = null;
@@ -704,14 +704,14 @@ public class FastSyncManager {
             pool.setNodesSelector(handler -> handler.getNodeStatistics().capabilities.contains(ETH63_CAPABILITY));
 
             try {
-                EthereumListener.SyncState origSyncStage = getSyncStage();
+                one2oneeumListener.SyncState origSyncStage = getSyncStage();
 
                 switch (origSyncStage) {
                     case UNSECURE:
                         pivot = getPivotBlock();
                         if (pivot.getNumber() == 0) {
                             logger.info("FastSync: too short blockchain, proceeding with regular sync...");
-                            syncManager.initRegularSync(EthereumListener.SyncState.COMPLETE);
+                            syncManager.initRegularSync(one2oneeumListener.SyncState.COMPLETE);
                             return;
                         }
 
@@ -720,22 +720,22 @@ public class FastSyncManager {
                         if (origSyncStage == SECURE) {
                             logger.info("FastSync: UNSECURE sync was completed prior to this run, proceeding with next stage...");
                             logger.info("Initializing regular sync");
-                            syncManager.initRegularSync(EthereumListener.SyncState.UNSECURE);
+                            syncManager.initRegularSync(one2oneeumListener.SyncState.UNSECURE);
                         }
 
                         syncSecure();
 
-                        listener.onSyncDone(EthereumListener.SyncState.SECURE);
+                        listener.onSyncDone(one2oneeumListener.SyncState.SECURE);
                     case COMPLETE:
                         if (origSyncStage == COMPLETE) {
                             logger.info("FastSync: SECURE sync was completed prior to this run, proceeding with next stage...");
                             logger.info("Initializing regular sync");
-                            syncManager.initRegularSync(EthereumListener.SyncState.SECURE);
+                            syncManager.initRegularSync(one2oneeumListener.SyncState.SECURE);
                         }
 
                         syncBlocksReceipts();
 
-                        listener.onSyncDone(EthereumListener.SyncState.COMPLETE);
+                        listener.onSyncDone(one2oneeumListener.SyncState.COMPLETE);
                 }
                 logger.info("FastSync: Full sync done.");
             } catch (InterruptedException ex) {
@@ -747,7 +747,7 @@ public class FastSyncManager {
         } else {
             logger.info("FastSync: fast sync was completed, best block: (" + blockchain.getBestBlock().getShortDescr() + "). " +
                     "Continue with regular sync...");
-            syncManager.initRegularSync(EthereumListener.SyncState.COMPLETE);
+            syncManager.initRegularSync(one2oneeumListener.SyncState.COMPLETE);
         }
     }
 

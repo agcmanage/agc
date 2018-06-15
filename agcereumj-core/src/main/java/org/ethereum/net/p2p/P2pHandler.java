@@ -1,42 +1,42 @@
 /*
- * Copyright (c) [2016] [ <ether.camp> ]
- * This file is part of the ethereumJ library.
+ * Copyright (c) [2016] [ <one2one.camp> ]
+ * This file is part of the one2oneeumJ library.
  *
- * The ethereumJ library is free software: you can redistribute it and/or modify
+ * The one2oneeumJ library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The ethereumJ library is distributed in the hope that it will be useful,
+ * The one2oneeumJ library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
+ * along with the one2oneeumJ library. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ethereum.net.p2p;
+package org.one2oneeum.net.p2p;
 
-import org.ethereum.config.SystemProperties;
-import org.ethereum.core.Block;
-import org.ethereum.core.Transaction;
-import org.ethereum.listener.EthereumListener;
-import org.ethereum.manager.WorldManager;
-import org.ethereum.net.MessageQueue;
-import org.ethereum.net.client.Capability;
-import org.ethereum.net.client.ConfigCapabilities;
-import org.ethereum.net.eth.message.NewBlockMessage;
-import org.ethereum.net.eth.message.TransactionsMessage;
-import org.ethereum.net.message.ReasonCode;
-import org.ethereum.net.message.StaticMessages;
-import org.ethereum.net.server.Channel;
-import org.ethereum.net.shh.ShhHandler;
+import org.one2oneeum.config.SystemProperties;
+import org.one2oneeum.core.Block;
+import org.one2oneeum.core.Transaction;
+import org.one2oneeum.listener.one2oneeumListener;
+import org.one2oneeum.manager.WorldManager;
+import org.one2oneeum.net.MessageQueue;
+import org.one2oneeum.net.client.Capability;
+import org.one2oneeum.net.client.ConfigCapabilities;
+import org.one2oneeum.net.eth.message.NewBlockMessage;
+import org.one2oneeum.net.eth.message.TransactionsMessage;
+import org.one2oneeum.net.message.ReasonCode;
+import org.one2oneeum.net.message.StaticMessages;
+import org.one2oneeum.net.server.Channel;
+import org.one2oneeum.net.shh.ShhHandler;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
-import org.ethereum.net.swarm.Util;
-import org.ethereum.net.swarm.bzz.BzzHandler;
+import org.one2oneeum.net.swarm.Util;
+import org.one2oneeum.net.swarm.bzz.BzzHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -53,8 +53,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.*;
 
-import static org.ethereum.net.eth.EthVersion.*;
-import static org.ethereum.net.message.StaticMessages.*;
+import static org.one2oneeum.net.eth.EthVersion.*;
+import static org.one2oneeum.net.message.StaticMessages.*;
 
 /**
  * Process the basic protocol messages between every peer on the network.
@@ -90,7 +90,7 @@ public class P2pHandler extends SimpleChannelInboundHandler<P2pMessage> {
     private int ethOutbound;
 
     @Autowired
-    EthereumListener ethereumListener;
+    one2oneeumListener one2oneeumListener;
 
     @Autowired
     ConfigCapabilities configCapabilities;
@@ -122,7 +122,7 @@ public class P2pHandler extends SimpleChannelInboundHandler<P2pMessage> {
     public void handlerAdded(ChannelHandlerContext ctx) throws Exception {
         logger.debug("P2P protocol activated");
         msgQueue.activate(ctx);
-        ethereumListener.trace("P2P protocol activated");
+        one2oneeumListener.trace("P2P protocol activated");
         startTimers();
     }
 
@@ -133,7 +133,7 @@ public class P2pHandler extends SimpleChannelInboundHandler<P2pMessage> {
         if (P2pMessageCodes.inRange(msg.getCommand().asByte()))
             logger.trace("P2PHandler invoke: [{}]", msg.getCommand());
 
-        ethereumListener.trace(String.format("P2PHandler invoke: [%s]", msg.getCommand()));
+        one2oneeumListener.trace(String.format("P2PHandler invoke: [%s]", msg.getCommand()));
 
         switch (msg.getCommand()) {
             case HELLO:
@@ -245,7 +245,7 @@ public class P2pHandler extends SimpleChannelInboundHandler<P2pMessage> {
         }
 
         //todo calculate the Offsets
-        ethereumListener.onHandShakePeer(channel, msg);
+        one2oneeumListener.onHandShakePeer(channel, msg);
     }
 
     /**

@@ -1,28 +1,28 @@
 /*
- * Copyright (c) [2016] [ <ether.camp> ]
- * This file is part of the ethereumJ library.
+ * Copyright (c) [2016] [ <one2one.camp> ]
+ * This file is part of the one2oneeumJ library.
  *
- * The ethereumJ library is free software: you can redistribute it and/or modify
+ * The one2oneeumJ library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The ethereumJ library is distributed in the hope that it will be useful,
+ * The one2oneeumJ library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
+ * along with the one2oneeumJ library. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ethereum.net.rlpx;
+package org.one2oneeum.net.rlpx;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufInputStream;
 import io.netty.buffer.ByteBufOutputStream;
-import org.ethereum.net.swarm.Util;
-import org.ethereum.util.RLP;
-import org.ethereum.util.RLPList;
+import org.one2oneeum.net.swarm.Util;
+import org.one2oneeum.util.RLP;
+import org.one2oneeum.util.RLPList;
 import org.spongycastle.crypto.BlockCipher;
 import org.spongycastle.crypto.StreamCipher;
 import org.spongycastle.crypto.digests.KeccakDigest;
@@ -36,7 +36,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static org.ethereum.util.RLP.decode2OneItem;
+import static org.one2oneeum.util.RLP.decode2OneItem;
 
 /**
  * Created by devrandom on 2015-04-11.

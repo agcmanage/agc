@@ -1,24 +1,24 @@
 /*
- * Copyright (c) [2016] [ <ether.camp> ]
- * This file is part of the ethereumJ library.
+ * Copyright (c) [2016] [ <one2one.camp> ]
+ * This file is part of the one2oneeumJ library.
  *
- * The ethereumJ library is free software: you can redistribute it and/or modify
+ * The one2oneeumJ library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The ethereumJ library is distributed in the hope that it will be useful,
+ * The one2oneeumJ library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
+ * along with the one2oneeumJ library. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ethereum.facade;
+package org.one2oneeum.facade;
 
-import org.ethereum.config.DefaultConfig;
-import org.ethereum.config.SystemProperties;
+import org.one2oneeum.config.DefaultConfig;
+import org.one2oneeum.config.SystemProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,17 +32,17 @@ import org.springframework.stereotype.Component;
  * @since 13.11.2014
  */
 @Component
-public class EthereumFactory {
+public class one2oneeumFactory {
 
     private static final Logger logger = LoggerFactory.getLogger("general");
 
-    public static Ethereum createEthereum() {
-        return createEthereum((Class) null);
+    public static one2oneeum createone2oneeum() {
+        return createone2oneeum((Class) null);
     }
 
-    public static Ethereum createEthereum(Class userSpringConfig) {
-        return userSpringConfig == null ? createEthereum(new Class[] {DefaultConfig.class}) :
-                createEthereum(DefaultConfig.class, userSpringConfig);
+    public static one2oneeum createone2oneeum(Class userSpringConfig) {
+        return userSpringConfig == null ? createone2oneeum(new Class[] {DefaultConfig.class}) :
+                createone2oneeum(DefaultConfig.class, userSpringConfig);
     }
 
     /**
@@ -50,18 +50,18 @@ public class EthereumFactory {
      * via 'systemProperties' bean either from the DefaultConfig or from supplied userSpringConfig
      * @param config  Not used
      * @param userSpringConfig   User Spring configuration class
-     * @return  Fully initialized Ethereum instance
+     * @return  Fully initialized one2oneeum instance
      */
-    public static Ethereum createEthereum(SystemProperties config, Class userSpringConfig) {
+    public static one2oneeum createone2oneeum(SystemProperties config, Class userSpringConfig) {
 
-        return userSpringConfig == null ? createEthereum(new Class[] {DefaultConfig.class}) :
-                createEthereum(DefaultConfig.class, userSpringConfig);
+        return userSpringConfig == null ? createone2oneeum(new Class[] {DefaultConfig.class}) :
+                createone2oneeum(DefaultConfig.class, userSpringConfig);
     }
 
-    public static Ethereum createEthereum(Class ... springConfigs) {
-        logger.info("Starting EthereumJ...");
+    public static one2oneeum createone2oneeum(Class ... springConfigs) {
+        logger.info("Starting one2oneeumJ...");
         ApplicationContext context = new AnnotationConfigApplicationContext(springConfigs);
 
-        return context.getBean(Ethereum.class);
+        return context.getBean(one2oneeum.class);
     }
 }

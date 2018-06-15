@@ -1,28 +1,28 @@
 /*
- * Copyright (c) [2016] [ <ether.camp> ]
- * This file is part of the ethereumJ library.
+ * Copyright (c) [2016] [ <one2one.camp> ]
+ * This file is part of the one2oneeumJ library.
  *
- * The ethereumJ library is free software: you can redistribute it and/or modify
+ * The one2oneeumJ library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The ethereumJ library is distributed in the hope that it will be useful,
+ * The one2oneeumJ library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
+ * along with the one2oneeumJ library. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ethereum.net.swarm;
+package org.one2oneeum.net.swarm;
 
-import org.ethereum.net.rlpx.Node;
-import org.ethereum.net.rlpx.discover.table.NodeEntry;
-import org.ethereum.net.rlpx.discover.table.NodeTable;
-import org.ethereum.net.swarm.bzz.BzzPeersMessage;
-import org.ethereum.net.swarm.bzz.BzzProtocol;
-import org.ethereum.net.swarm.bzz.PeerAddress;
+import org.one2oneeum.net.rlpx.Node;
+import org.one2oneeum.net.rlpx.discover.table.NodeEntry;
+import org.one2oneeum.net.rlpx.discover.table.NodeTable;
+import org.one2oneeum.net.swarm.bzz.BzzPeersMessage;
+import org.one2oneeum.net.swarm.bzz.BzzProtocol;
+import org.one2oneeum.net.swarm.bzz.PeerAddress;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.spongycastle.util.encoders.Hex;
@@ -140,8 +140,8 @@ public class Hive {
 
     /**
      *  Adds a task with a search Key parameter. The task has a limited life time
-     *  ({@link org.ethereum.net.swarm.Hive.HiveTask#expireTime} and a limited number of
-     *  peers to process ({@link org.ethereum.net.swarm.Hive.HiveTask#maxPeers}).
+     *  ({@link org.one2oneeum.net.swarm.Hive.HiveTask#expireTime} and a limited number of
+     *  peers to process ({@link org.one2oneeum.net.swarm.Hive.HiveTask#maxPeers}).
      *  Until the task is alive and new Peer(s) is discovered by the Hive this task
      *  is invoked with another one closest Peer.
      *  This task may complete synchronously (i.e. before the method return) if the

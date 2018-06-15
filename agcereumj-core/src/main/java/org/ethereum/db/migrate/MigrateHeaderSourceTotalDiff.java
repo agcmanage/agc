@@ -1,36 +1,36 @@
 /*
- * Copyright (c) [2016] [ <ether.camp> ]
- * This file is part of the ethereumJ library.
+ * Copyright (c) [2016] [ <one2one.camp> ]
+ * This file is part of the one2oneeumJ library.
  *
- * The ethereumJ library is free software: you can redistribute it and/or modify
+ * The one2oneeumJ library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The ethereumJ library is distributed in the hope that it will be useful,
+ * The one2oneeumJ library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
+ * along with the one2oneeumJ library. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ethereum.db.migrate;
+package org.one2oneeum.db.migrate;
 
-import org.ethereum.config.SystemProperties;
-import org.ethereum.core.Block;
-import org.ethereum.core.BlockHeader;
-import org.ethereum.core.Blockchain;
-import org.ethereum.core.BlockchainImpl;
-import org.ethereum.datasource.DataSourceArray;
-import org.ethereum.datasource.DbSource;
-import org.ethereum.datasource.ObjectDataSource;
-import org.ethereum.datasource.Serializers;
-import org.ethereum.db.BlockStore;
-import org.ethereum.db.DbFlushManager;
-import org.ethereum.db.HeaderStore;
-import org.ethereum.sync.FastSyncManager;
-import org.ethereum.util.FileUtil;
+import org.one2oneeum.config.SystemProperties;
+import org.one2oneeum.core.Block;
+import org.one2oneeum.core.BlockHeader;
+import org.one2oneeum.core.Blockchain;
+import org.one2oneeum.core.BlockchainImpl;
+import org.one2oneeum.datasource.DataSourceArray;
+import org.one2oneeum.datasource.DbSource;
+import org.one2oneeum.datasource.ObjectDataSource;
+import org.one2oneeum.datasource.Serializers;
+import org.one2oneeum.db.BlockStore;
+import org.one2oneeum.db.DbFlushManager;
+import org.one2oneeum.db.HeaderStore;
+import org.one2oneeum.sync.FastSyncManager;
+import org.one2oneeum.util.FileUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
@@ -74,7 +74,7 @@ public class MigrateHeaderSourceTotalDiff implements Runnable {
 
     @Override
     public void run() {
-        // checking whether we should do any kind of migration:
+        // checking whone2one we should do any kind of migration:
         if (!systemProperties.isFastSyncEnabled()) {
             return;
         }

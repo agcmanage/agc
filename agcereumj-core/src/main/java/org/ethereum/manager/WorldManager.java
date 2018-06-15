@@ -1,38 +1,38 @@
 /*
- * Copyright (c) [2016] [ <ether.camp> ]
- * This file is part of the ethereumJ library.
+ * Copyright (c) [2016] [ <one2one.camp> ]
+ * This file is part of the one2oneeumJ library.
  *
- * The ethereumJ library is free software: you can redistribute it and/or modify
+ * The one2oneeumJ library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The ethereumJ library is distributed in the hope that it will be useful,
+ * The one2oneeumJ library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
+ * along with the one2oneeumJ library. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ethereum.manager;
+package org.one2oneeum.manager;
 
-import org.ethereum.config.SystemProperties;
-import org.ethereum.core.*;
-import org.ethereum.db.BlockStore;
-import org.ethereum.db.DbFlushManager;
-import org.ethereum.db.HeaderStore;
-import org.ethereum.db.migrate.MigrateHeaderSourceTotalDiff;
-import org.ethereum.listener.CompositeEthereumListener;
-import org.ethereum.listener.EthereumListener;
-import org.ethereum.net.client.PeerClient;
-import org.ethereum.net.rlpx.discover.UDPListener;
-import org.ethereum.sync.FastSyncManager;
-import org.ethereum.sync.SyncManager;
-import org.ethereum.net.rlpx.discover.NodeManager;
-import org.ethereum.net.server.ChannelManager;
-import org.ethereum.sync.SyncPool;
-import org.ethereum.util.Utils;
+import org.one2oneeum.config.SystemProperties;
+import org.one2oneeum.core.*;
+import org.one2oneeum.db.BlockStore;
+import org.one2oneeum.db.DbFlushManager;
+import org.one2oneeum.db.HeaderStore;
+import org.one2oneeum.db.migrate.MigrateHeaderSourceTotalDiff;
+import org.one2oneeum.listener.Compositeone2oneeumListener;
+import org.one2oneeum.listener.one2oneeumListener;
+import org.one2oneeum.net.client.PeerClient;
+import org.one2oneeum.net.rlpx.discover.UDPListener;
+import org.one2oneeum.sync.FastSyncManager;
+import org.one2oneeum.sync.SyncManager;
+import org.one2oneeum.net.rlpx.discover.NodeManager;
+import org.one2oneeum.net.server.ChannelManager;
+import org.one2oneeum.sync.SyncPool;
+import org.one2oneeum.util.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.spongycastle.util.encoders.Hex;
@@ -46,8 +46,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
-import static org.ethereum.crypto.HashUtil.EMPTY_TRIE_HASH;
-import static org.ethereum.util.ByteUtil.toHexString;
+import static org.one2oneeum.crypto.HashUtil.EMPTY_TRIE_HASH;
+import static org.one2oneeum.util.ByteUtil.toHexString;
 
 /**
  * WorldManager is a singleton containing references to different parts of the system.
@@ -95,7 +95,7 @@ public class WorldManager {
 
     private SystemProperties config;
 
-    private EthereumListener listener;
+    private one2oneeumListener listener;
 
     private Blockchain blockchain;
 
@@ -105,7 +105,7 @@ public class WorldManager {
 
     @Autowired
     public WorldManager(final SystemProperties config, final Repository repository,
-                        final EthereumListener listener, final Blockchain blockchain,
+                        final one2oneeumListener listener, final Blockchain blockchain,
                         final BlockStore blockStore) {
         this.listener = listener;
         this.blockchain = blockchain;
@@ -121,9 +121,9 @@ public class WorldManager {
         syncManager.init(channelManager, pool);
     }
 
-    public void addListener(EthereumListener listener) {
-        logger.info("Ethereum listener added");
-        ((CompositeEthereumListener) this.listener).addListener(listener);
+    public void addListener(one2oneeumListener listener) {
+        logger.info("one2oneeum listener added");
+        ((Compositeone2oneeumListener) this.listener).addListener(listener);
     }
 
     public void startPeerDiscovery() {
@@ -143,12 +143,12 @@ public class WorldManager {
         return channelManager;
     }
 
-    public EthereumListener getListener() {
+    public one2oneeumListener getListener() {
         return listener;
     }
 
-    public org.ethereum.facade.Repository getRepository() {
-        return (org.ethereum.facade.Repository)repository;
+    public org.one2oneeum.facade.Repository getRepository() {
+        return (org.one2oneeum.facade.Repository)repository;
     }
 
     public Blockchain getBlockchain() {

@@ -5,11 +5,11 @@ language: java
 jdk: oraclejdk8
 
 before_script:
-  - cd $HOME && mkdir tests  && cd tests && git clone https://github.com/ethereum/tests.git . && cd $TRAVIS_BUILD_DIR
+  - cd $HOME && mkdir tests  && cd tests && git clone https://github.com/one2oneeum/tests.git . && cd $TRAVIS_BUILD_DIR
 
-# publish snapshots to https://oss.jfrog.org/libs-snapshot/org/ethereum/ethereumj-core
-# publish releases to http://jcenter.bintray.com/org/ethereum/ethereumj-core
-# publish coverage to https://coveralls.io/r/ethereum/ethereumj
+# publish snapshots to https://oss.jfrog.org/libs-snapshot/org/one2oneeum/one2oneeumj-core
+# publish releases to http://jcenter.bintray.com/org/one2oneeum/one2oneeumj-core
+# publish coverage to https://coveralls.io/r/one2oneeum/one2oneeumj
 script:
   - ./gradlew clean build publish jacocoTestReport coveralls $TESTS_OPTS --stacktrace --info
 
@@ -20,7 +20,7 @@ cache:
 
 notifications:
   irc:
-    channels: chat.freenode.net#ethereumj
+    channels: chat.freenode.net#one2oneeumj
     template:
       - '%{message} (%{repository}#%{build_number}, %{duration})'
       - '%{repository}/%{branch} %{commit} %{author}: %{commit_message}'

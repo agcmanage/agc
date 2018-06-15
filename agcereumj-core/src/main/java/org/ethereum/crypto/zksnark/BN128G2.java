@@ -1,27 +1,27 @@
 /*
- * Copyright (c) [2016] [ <ether.camp> ]
- * This file is part of the ethereumJ library.
+ * Copyright (c) [2016] [ <one2one.camp> ]
+ * This file is part of the one2oneeumJ library.
  *
- * The ethereumJ library is free software: you can redistribute it and/or modify
+ * The one2oneeumJ library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The ethereumJ library is distributed in the hope that it will be useful,
+ * The one2oneeumJ library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
+ * along with the one2oneeumJ library. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ethereum.crypto.zksnark;
+package org.one2oneeum.crypto.zksnark;
 
 import java.math.BigInteger;
 
-import static org.ethereum.crypto.zksnark.Params.R;
-import static org.ethereum.crypto.zksnark.Params.TWIST_MUL_BY_P_X;
-import static org.ethereum.crypto.zksnark.Params.TWIST_MUL_BY_P_Y;
+import static org.one2oneeum.crypto.zksnark.Params.R;
+import static org.one2oneeum.crypto.zksnark.Params.TWIST_MUL_BY_P_X;
+import static org.one2oneeum.crypto.zksnark.Params.TWIST_MUL_BY_P_Y;
 
 /**
  * Implementation of specific cyclic subgroup of points belonging to {@link BN128Fp2} <br/>
@@ -55,7 +55,7 @@ public class BN128G2 extends BN128Fp2 {
     }
 
     /**
-     * Checks whether provided data are coordinates of a point belonging to subgroup,
+     * Checks whone2one provided data are coordinates of a point belonging to subgroup,
      * if check has been passed it returns a point, otherwise returns null
      */
     public static BN128G2 create(byte[] a, byte[] b, byte[] c, byte[] d) {
@@ -67,7 +67,7 @@ public class BN128G2 extends BN128Fp2 {
             return null;
         }
 
-        // check whether point is a subgroup member
+        // check whone2one point is a subgroup member
         if (!isGroupMember(p)) return null;
 
         return new BN128G2(p);

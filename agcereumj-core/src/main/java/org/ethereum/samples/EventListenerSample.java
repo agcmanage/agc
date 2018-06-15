@@ -1,41 +1,41 @@
 /*
- * Copyright (c) [2016] [ <ether.camp> ]
- * This file is part of the ethereumJ library.
+ * Copyright (c) [2016] [ <one2one.camp> ]
+ * This file is part of the one2oneeumJ library.
  *
- * The ethereumJ library is free software: you can redistribute it and/or modify
+ * The one2oneeumJ library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The ethereumJ library is distributed in the hope that it will be useful,
+ * The one2oneeumJ library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
+ * along with the one2oneeumJ library. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ethereum.samples;
+package org.one2oneeum.samples;
 
-import org.ethereum.core.Block;
-import org.ethereum.core.CallTransaction;
-import org.ethereum.core.PendingStateImpl;
-import org.ethereum.core.Transaction;
-import org.ethereum.core.TransactionReceipt;
-import org.ethereum.crypto.ECKey;
-import org.ethereum.db.BlockStore;
-import org.ethereum.db.ByteArrayWrapper;
-import org.ethereum.db.TransactionStore;
-import org.ethereum.facade.EthereumFactory;
-import org.ethereum.listener.BlockReplay;
-import org.ethereum.listener.EthereumListener;
-import org.ethereum.listener.EthereumListenerAdapter;
-import org.ethereum.listener.EventListener;
-import org.ethereum.listener.TxStatus;
-import org.ethereum.solidity.compiler.CompilationResult;
-import org.ethereum.solidity.compiler.SolidityCompiler;
-import org.ethereum.util.ByteUtil;
-import org.ethereum.vm.program.ProgramResult;
+import org.one2oneeum.core.Block;
+import org.one2oneeum.core.CallTransaction;
+import org.one2oneeum.core.PendingStateImpl;
+import org.one2oneeum.core.Transaction;
+import org.one2oneeum.core.TransactionReceipt;
+import org.one2oneeum.crypto.ECKey;
+import org.one2oneeum.db.BlockStore;
+import org.one2oneeum.db.ByteArrayWrapper;
+import org.one2oneeum.db.TransactionStore;
+import org.one2oneeum.facade.one2oneeumFactory;
+import org.one2oneeum.listener.BlockReplay;
+import org.one2oneeum.listener.one2oneeumListener;
+import org.one2oneeum.listener.one2oneeumListenerAdapter;
+import org.one2oneeum.listener.EventListener;
+import org.one2oneeum.listener.TxStatus;
+import org.one2oneeum.solidity.compiler.CompilationResult;
+import org.one2oneeum.solidity.compiler.SolidityCompiler;
+import org.one2oneeum.util.ByteUtil;
+import org.one2oneeum.vm.program.ProgramResult;
 import org.spongycastle.util.encoders.Hex;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -53,15 +53,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
-import static org.ethereum.crypto.HashUtil.sha3;
-import static org.ethereum.util.ByteUtil.toHexString;
+import static org.one2oneeum.crypto.HashUtil.sha3;
+import static org.one2oneeum.util.ByteUtil.toHexString;
 
 /**
  * Sample usage of events listener API.
  * {@link EventListener}        Contract events listener
  * {@link BlockReplay}          Listener wrapper for pushing old blocks to any listener in addition to live data
  *
- *  - getting free Ether assuming we are running in test network
+ *  - getting free one2one assuming we are running in test network
  *  - deploying contract with event, which we are going to track
  *  - calling contract and catching corresponding events
  *  - alternatively you could provide address of already deployed contract and
@@ -162,7 +162,7 @@ public class EventListenerSample extends TestNetSample {
         }
 
         @Override
-        protected IncEvent onEvent(CallTransaction.Invocation event, Block block, TransactionReceipt receipt, int txCount, EthereumListener.PendingTransactionState state) {
+        protected IncEvent onEvent(CallTransaction.Invocation event, Block block, TransactionReceipt receipt, int txCount, one2oneeumListener.PendingTransactionState state) {
             // Processing raw event data to fill our model IncEvent
             if ("Inc".equals(event.function.name)) {
                 String address = Hex.toHexString((byte[]) event.args[0]);
@@ -205,7 +205,7 @@ public class EventListenerSample extends TestNetSample {
      */
     @Override
     public void onSyncDone() throws Exception {
-        ethereum.addListener(new EthereumListenerAdapter() {
+        one2oneeum.addListener(new one2oneeumListenerAdapter() {
             @Override
             public void onPendingTransactionUpdate(TransactionReceipt txReceipt, PendingTransactionState state, Block block) {
                 ByteArrayWrapper txHashW = new ByteArrayWrapper(txReceipt.getTransaction().getHash());
@@ -215,8 +215,8 @@ public class EventListenerSample extends TestNetSample {
                 }
             }
         });
-        requestFreeEther(ECKey.fromPrivate(senderPrivateKey).getAddress());
-        requestFreeEther(ECKey.fromPrivate(sender2PrivateKey).getAddress());
+        requestFreeone2one(ECKey.fromPrivate(senderPrivateKey).getAddress());
+        requestFreeone2one(ECKey.fromPrivate(sender2PrivateKey).getAddress());
         if (contractAddress == null) {
             deployContractAndTest();
         } else {
@@ -224,20 +224,20 @@ public class EventListenerSample extends TestNetSample {
         }
     }
 
-    public void requestFreeEther(byte[] addressBytes) {
+    public void requestFreeone2one(byte[] addressBytes) {
         String address = "0x" + toHexString(addressBytes);
-        logger.info("Checking address {} for available ether.", address);
-        BigInteger balance = ethereum.getRepository().getBalance(addressBytes);
+        logger.info("Checking address {} for available one2one.", address);
+        BigInteger balance = one2oneeum.getRepository().getBalance(addressBytes);
         logger.info("Address {} balance: {} wei", address, balance);
-        BigInteger requiredBalance = BigInteger.valueOf(3_000_000 * ethereum.getGasPrice());
+        BigInteger requiredBalance = BigInteger.valueOf(3_000_000 * one2oneeum.getGasPrice());
         if (balance.compareTo(requiredBalance) < 0) {
-            logger.info("Insufficient funds for address {}, requesting free ether", address);
+            logger.info("Insufficient funds for address {}, requesting free one2one", address);
             try {
                 String result = postQuery("https://ropsten.faucet.b9lab.com/tap", "{\"toWhom\":\"" + address + "\"}");
-                logger.info("Answer from free Ether API: {}", result);
-                waitForEther(addressBytes, requiredBalance);
+                logger.info("Answer from free one2one API: {}", result);
+                waitForone2one(addressBytes, requiredBalance);
             } catch (Exception ex) {
-                logger.error("Error during request of free Ether,", ex);
+                logger.error("Error during request of free one2one,", ex);
             }
         }
     }
@@ -268,9 +268,9 @@ public class EventListenerSample extends TestNetSample {
         return result;
     }
 
-    private void waitForEther(byte[] address, BigInteger requiredBalance) throws InterruptedException {
+    private void waitForone2one(byte[] address, BigInteger requiredBalance) throws InterruptedException {
         while(true) {
-            BigInteger balance = ethereum.getRepository().getBalance(address);
+            BigInteger balance = one2oneeum.getRepository().getBalance(address);
             if (balance.compareTo(requiredBalance) > 0) {
                 logger.info("Address {} successfully funded. Balance: {} wei", "0x" + toHexString(address), balance);
                 break;
@@ -287,7 +287,7 @@ public class EventListenerSample extends TestNetSample {
      *  - Calls contract from 2 different addresses
      */
     private void deployContractAndTest() throws Exception {
-        ethereum.addListener(new EthereumListenerAdapter() {
+        one2oneeum.addListener(new one2oneeumListenerAdapter() {
             // when block arrives look for our included transactions
             @Override
             public void onBlock(Block block, List<TransactionReceipt> receipts) {
@@ -309,13 +309,13 @@ public class EventListenerSample extends TestNetSample {
         logger.info("Contract created: " + toHexString(address));
 
         IncEventListener eventListener = new IncEventListener(pendingState, metadata.abi, address);
-        ethereum.addListener(eventListener.listener);
+        one2oneeum.addListener(eventListener.listener);
 
         CallTransaction.Contract contract = new CallTransaction.Contract(metadata.abi);
         contractIncCall(senderPrivateKey, 777, metadata.abi, address);
         contractIncCall(sender2PrivateKey, 555, metadata.abi, address);
 
-        ProgramResult r = ethereum.callConstantFunction(Hex.toHexString(address),
+        ProgramResult r = one2oneeum.callConstantFunction(Hex.toHexString(address),
                 contract.getByName("get"));
         Object[] ret = contract.getByName("get").decodeResult(r.getHReturn());
         logger.info("Current contract data member value: " + ret[0]);
@@ -332,7 +332,7 @@ public class EventListenerSample extends TestNetSample {
         IncEventListener eventListener = new IncEventListener(pendingState, metadata.abi, address);
         BlockReplay blockReplay = new BlockReplay(blockStore, transactionStore, eventListener.listener,
                 blockStore.getMaxNumber() - 5000);
-        ethereum.addListener(blockReplay);
+        one2oneeum.addListener(blockReplay);
         blockReplay.replayAsync();
     }
 
@@ -371,21 +371,21 @@ public class EventListenerSample extends TestNetSample {
 
     protected TransactionReceipt sendTxAndWait(byte[] receiveAddress,
                                                byte[] data, byte[] privateKey) throws InterruptedException {
-        BigInteger nonce = ethereum.getRepository().getNonce(ECKey.fromPrivate(privateKey).getAddress());
+        BigInteger nonce = one2oneeum.getRepository().getNonce(ECKey.fromPrivate(privateKey).getAddress());
         Transaction tx = new Transaction(
                 ByteUtil.bigIntegerToBytes(nonce),
-                ByteUtil.longToBytesNoLeadZeroes(ethereum.getGasPrice()),
+                ByteUtil.longToBytesNoLeadZeroes(one2oneeum.getGasPrice()),
                 ByteUtil.longToBytesNoLeadZeroes(3_000_000),
                 receiveAddress,
                 ByteUtil.longToBytesNoLeadZeroes(0),
                 data,
-                ethereum.getChainIdForNextBlock());
+                one2oneeum.getChainIdForNextBlock());
         tx.sign(ECKey.fromPrivate(privateKey));
 
         logger.info("<=== Sending transaction: " + tx);
         ByteArrayWrapper txHashW = new ByteArrayWrapper(tx.getHash());
         txWaiters.put(txHashW, null);
-        ethereum.submitTransaction(tx);
+        one2oneeum.submitTransaction(tx);
 
         return waitForTx(txHashW);
     }
@@ -403,13 +403,13 @@ public class EventListenerSample extends TestNetSample {
     }
 
     protected TransactionReceipt waitForTx(ByteArrayWrapper txHashW) throws InterruptedException {
-        long startBlock = ethereum.getBlockchain().getBestBlock().getNumber();
+        long startBlock = one2oneeum.getBlockchain().getBestBlock().getNumber();
         while(true) {
             TransactionReceipt receipt = txWaiters.get(txHashW);
             if (receipt != null) {
                 return receipt;
             } else {
-                long curBlock = ethereum.getBlockchain().getBestBlock().getNumber();
+                long curBlock = one2oneeum.getBlockchain().getBestBlock().getNumber();
                 if (curBlock > startBlock + 16) {
                     throw new RuntimeException("The transaction was not included during last 16 blocks: " + txHashW.toString().substring(0,8));
                 } else {
@@ -424,7 +424,7 @@ public class EventListenerSample extends TestNetSample {
     }
 
     public static void main(String[] args) throws Exception {
-        sLogger.info("Starting EthereumJ!");
+        sLogger.info("Starting one2oneeumJ!");
 
         class Config extends TestNetConfig{
             @Override
@@ -436,6 +436,6 @@ public class EventListenerSample extends TestNetSample {
 
         // Based on Config class the BasicSample would be created by Spring
         // and its springInit() method would be called as an entry point
-        EthereumFactory.createEthereum(Config.class);
+        one2oneeumFactory.createone2oneeum(Config.class);
     }
 }

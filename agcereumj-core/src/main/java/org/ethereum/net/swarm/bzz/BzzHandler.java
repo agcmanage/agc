@@ -1,27 +1,27 @@
 /*
- * Copyright (c) [2016] [ <ether.camp> ]
- * This file is part of the ethereumJ library.
+ * Copyright (c) [2016] [ <one2one.camp> ]
+ * This file is part of the one2oneeumJ library.
  *
- * The ethereumJ library is free software: you can redistribute it and/or modify
+ * The one2oneeumJ library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The ethereumJ library is distributed in the hope that it will be useful,
+ * The one2oneeumJ library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
+ * along with the one2oneeumJ library. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ethereum.net.swarm.bzz;
+package org.one2oneeum.net.swarm.bzz;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
-import org.ethereum.listener.EthereumListener;
-import org.ethereum.net.MessageQueue;
-import org.ethereum.net.swarm.NetStore;
+import org.one2oneeum.listener.one2oneeumListener;
+import org.one2oneeum.net.MessageQueue;
+import org.one2oneeum.net.swarm.NetStore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +48,7 @@ public class BzzHandler extends SimpleChannelInboundHandler<BzzMessage>
     BzzProtocol bzzProtocol;
 
     @Autowired
-    EthereumListener ethereumListener;
+    one2oneeumListener one2oneeumListener;
 
     @Autowired
     NetStore netStore;
@@ -68,7 +68,7 @@ public class BzzHandler extends SimpleChannelInboundHandler<BzzMessage>
         if (BzzMessageCodes.inRange(msg.getCommand().asByte()))
             logger.debug("BzzHandler invoke: [{}]", msg.getCommand());
 
-        ethereumListener.trace(String.format("BzzHandler invoke: [%s]", msg.getCommand()));
+        one2oneeumListener.trace(String.format("BzzHandler invoke: [%s]", msg.getCommand()));
 
         if (bzzProtocol != null) {
             bzzProtocol.accept(msg);
@@ -95,7 +95,7 @@ public class BzzHandler extends SimpleChannelInboundHandler<BzzMessage>
 
     public void activate() {
         logger.info("BZZ protocol activated");
-        ethereumListener.trace("BZZ protocol activated");
+        one2oneeumListener.trace("BZZ protocol activated");
         createBzzProtocol();
         this.active = true;
     }

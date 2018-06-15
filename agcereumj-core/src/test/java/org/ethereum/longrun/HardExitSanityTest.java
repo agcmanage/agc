@@ -1,28 +1,28 @@
 /*
- * Copyright (c) [2016] [ <ether.camp> ]
- * This file is part of the ethereumJ library.
+ * Copyright (c) [2016] [ <one2one.camp> ]
+ * This file is part of the one2oneeumJ library.
  *
- * The ethereumJ library is free software: you can redistribute it and/or modify
+ * The one2oneeumJ library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The ethereumJ library is distributed in the hope that it will be useful,
+ * The one2oneeumJ library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
+ * along with the one2oneeumJ library. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ethereum.longrun;
+package org.one2oneeum.longrun;
 
 import com.typesafe.config.ConfigFactory;
 import org.apache.commons.lang3.mutable.MutableObject;
-import org.ethereum.config.CommonConfig;
-import org.ethereum.config.SystemProperties;
-import org.ethereum.facade.Ethereum;
-import org.ethereum.facade.EthereumFactory;
+import org.one2oneeum.config.CommonConfig;
+import org.one2oneeum.config.SystemProperties;
+import org.one2oneeum.facade.one2oneeum;
+import org.one2oneeum.facade.one2oneeumFactory;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -49,7 +49,7 @@ import static org.junit.Assert.assertNotNull;
  *
  * Runs sync with defined config
  * - checks that State Trie is not broken
- * - checks whether all blocks are in blockstore, validates parent connection and bodies
+ * - checks whone2one all blocks are in blockstore, validates parent connection and bodies
  * - checks and validates transaction receipts
  *
  * Stopped from time to time via process killing to replicate
@@ -67,7 +67,7 @@ import static org.junit.Assert.assertNotNull;
 @Ignore
 public class HardExitSanityTest {
 
-    private Ethereum checkNode;
+    private one2oneeum checkNode;
     private static AtomicBoolean checkInProgress = new AtomicBoolean(false);
     private static final Logger testLogger = LoggerFactory.getLogger("TestLogger");
     // Database path and type of two following configurations should match, so check will run over the same DB
@@ -88,7 +88,7 @@ public class HardExitSanityTest {
         if (overrideNodeRunCmd != null) {
             nodeRunCmd = overrideNodeRunCmd;
         }
-        testLogger.info("Test will run EthereumJ using command: {}", nodeRunCmd);
+        testLogger.info("Test will run one2oneeumJ using command: {}", nodeRunCmd);
 
         String overrideConfigPath = System.getProperty("override.config.res");
         if (overrideConfigPath != null) {
@@ -128,8 +128,8 @@ public class HardExitSanityTest {
             return new SyncSanityTest.RegularNode() {
                 @Override
                 public void run() {
-                    testLogger.info("Begin sanity check for EthereumJ, best block [{}]", ethereum.getBlockchain().getBestBlock().getNumber());
-                    fullSanityCheck(ethereum, commonConfig);
+                    testLogger.info("Begin sanity check for one2oneeumJ, best block [{}]", one2oneeum.getBlockchain().getBestBlock().getNumber());
+                    fullSanityCheck(one2oneeum, commonConfig);
                     checkInProgress.set(false);
                 }
             };
@@ -151,8 +151,8 @@ public class HardExitSanityTest {
         }
     }
 
-    private static void fullSanityCheck(Ethereum ethereum, CommonConfig commonConfig) {
-        BlockchainValidation.fullCheck(ethereum, commonConfig, fatalErrors);
+    private static void fullSanityCheck(one2oneeum one2oneeum, CommonConfig commonConfig) {
+        BlockchainValidation.fullCheck(one2oneeum, commonConfig, fatalErrors);
         logStats();
     }
 
@@ -165,15 +165,15 @@ public class HardExitSanityTest {
                 while (true) {
                     Random rnd = new Random();
                     int runDistance = 60 * 5 + rnd.nextInt(60 * 5); // 5 - 10 minutes
-                    testLogger.info("Running EthereumJ node for {} seconds", runDistance);
-                    startEthereumJ();
+                    testLogger.info("Running one2oneeumJ node for {} seconds", runDistance);
+                    startone2oneeumJ();
                     TimeUnit.SECONDS.sleep(runDistance);
-                    killEthereumJ();
+                    killone2oneeumJ();
                     sleep(2000);
 
                     checkInProgress.set(true);
-                    testLogger.info("Starting EthereumJ sanity check instance");
-                    this.checkNode = EthereumFactory.createEthereum(SanityCheckConfig.class);
+                    testLogger.info("Starting one2oneeumJ sanity check instance");
+                    this.checkNode = one2oneeumFactory.createone2oneeum(SanityCheckConfig.class);
                     while (checkInProgress.get()) {
                         sleep(1000);
                     }
@@ -188,7 +188,7 @@ public class HardExitSanityTest {
 
         if(statTimer.awaitTermination(MAX_RUN_MINUTES, TimeUnit.MINUTES)) {
             if (!checkInProgress.get()) {
-                killEthereumJ();
+                killone2oneeumJ();
             }
             while (checkInProgress.get()) {
                 sleep(1000);
@@ -197,20 +197,20 @@ public class HardExitSanityTest {
         }
     }
 
-    private void startEthereumJ() {
+    private void startone2oneeumJ() {
         try {
             File dir = new File(System.getProperty("user.dir"));
-            if (dir.toString().contains("ethereumj-core")) {
+            if (dir.toString().contains("one2oneeumj-core")) {
                 dir = new File(dir.getParent());
             }
             String javaHomePath = System.getenv("JAVA_HOME");
             proc = Runtime.getRuntime().exec(nodeRunCmd, new String[] {"JAVA_HOME=" + javaHomePath}, dir);
             flushOutput(proc);
-            testLogger.info("EthereumJ started, pid {}", getUnixPID(proc));
+            testLogger.info("one2oneeumJ started, pid {}", getUnixPID(proc));
             // Uncomment following line for debugging purposes
 //            System.out.print(getProcOutput(proc));
         } catch (Exception ex) {
-            testLogger.error("Error during starting of main EthereumJ using cmd: " + nodeRunCmd, ex);
+            testLogger.error("Error during starting of main one2oneeumJ using cmd: " + nodeRunCmd, ex);
             fatalErrors.addAndGet(1);
         }
     }
@@ -283,19 +283,19 @@ public class HardExitSanityTest {
         return buffer.toString();
     }
 
-    private void killEthereumJ() {
+    private void killone2oneeumJ() {
         try {
             if (!proc.isAlive()) {
-                testLogger.warn("Not killing EthereumJ, already finished.");
+                testLogger.warn("Not killing one2oneeumJ, already finished.");
                 return;
             }
-            testLogger.info("Killing EthereumJ");
+            testLogger.info("Killing one2oneeumJ");
             // Gradle (PID) -> Java app (another PID)
             if (killUnixProcess(getChildPID(getUnixPID(proc))) != 0) {
-                throw new RuntimeException("Killing EthereunJ was not successful");
+                throw new RuntimeException("Killing one2oneeunJ was not successful");
             }
         } catch (Exception ex) {
-            testLogger.error("Error during shutting down of main EthereumJ", ex);
+            testLogger.error("Error during shutting down of main one2oneeumJ", ex);
             fatalErrors.addAndGet(1);
         }
     }

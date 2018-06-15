@@ -1,41 +1,41 @@
 /*
- * Copyright (c) [2016] [ <ether.camp> ]
- * This file is part of the ethereumJ library.
+ * Copyright (c) [2016] [ <one2one.camp> ]
+ * This file is part of the one2oneeumJ library.
  *
- * The ethereumJ library is free software: you can redistribute it and/or modify
+ * The one2oneeumJ library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The ethereumJ library is distributed in the hope that it will be useful,
+ * The one2oneeumJ library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
+ * along with the one2oneeumJ library. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ethereum.longrun;
+package org.one2oneeum.longrun;
 
-import org.ethereum.config.CommonConfig;
-import org.ethereum.core.AccountState;
-import org.ethereum.core.Block;
-import org.ethereum.core.BlockHeader;
-import org.ethereum.core.BlockchainImpl;
-import org.ethereum.core.Bloom;
-import org.ethereum.core.Transaction;
-import org.ethereum.core.TransactionInfo;
-import org.ethereum.core.TransactionReceipt;
-import org.ethereum.crypto.HashUtil;
-import org.ethereum.datasource.NodeKeyCompositor;
-import org.ethereum.datasource.Source;
-import org.ethereum.datasource.SourceCodec;
-import org.ethereum.db.BlockStore;
-import org.ethereum.db.HeaderStore;
-import org.ethereum.facade.Ethereum;
-import org.ethereum.trie.SecureTrie;
-import org.ethereum.trie.TrieImpl;
-import org.ethereum.util.FastByteComparisons;
+import org.one2oneeum.config.CommonConfig;
+import org.one2oneeum.core.AccountState;
+import org.one2oneeum.core.Block;
+import org.one2oneeum.core.BlockHeader;
+import org.one2oneeum.core.BlockchainImpl;
+import org.one2oneeum.core.Bloom;
+import org.one2oneeum.core.Transaction;
+import org.one2oneeum.core.TransactionInfo;
+import org.one2oneeum.core.TransactionReceipt;
+import org.one2oneeum.crypto.HashUtil;
+import org.one2oneeum.datasource.NodeKeyCompositor;
+import org.one2oneeum.datasource.Source;
+import org.one2oneeum.datasource.SourceCodec;
+import org.one2oneeum.db.BlockStore;
+import org.one2oneeum.db.HeaderStore;
+import org.one2oneeum.facade.one2oneeum;
+import org.one2oneeum.trie.SecureTrie;
+import org.one2oneeum.trie.TrieImpl;
+import org.one2oneeum.util.FastByteComparisons;
 import org.junit.Assert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,7 +45,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static org.ethereum.core.BlockchainImpl.calcReceiptsTrie;
+import static org.one2oneeum.core.BlockchainImpl.calcReceiptsTrie;
 
 /**
  * Validation for all kind of blockchain data
@@ -83,10 +83,10 @@ public class BlockchainValidation {
         return ret.get();
     }
 
-    public static void checkNodes(Ethereum ethereum, CommonConfig commonConfig, AtomicInteger fatalErrors) {
+    public static void checkNodes(one2oneeum one2oneeum, CommonConfig commonConfig, AtomicInteger fatalErrors) {
         try {
             Source<byte[], byte[]> stateDS = commonConfig.stateSource();
-            byte[] stateRoot = ethereum.getBlockchain().getBestBlock().getHeader().getStateRoot();
+            byte[] stateRoot = one2oneeum.getBlockchain().getBestBlock().getHeader().getStateRoot();
             int rootsSize = TrieTraversal.ofState(stateDS, stateRoot, true).go();
             testLogger.info("Node validation successful");
             testLogger.info("Non-unique node size: {}", rootsSize);
@@ -96,14 +96,14 @@ public class BlockchainValidation {
         }
     }
 
-    public static void checkHeaders(Ethereum ethereum, AtomicInteger fatalErrors) {
-        int blockNumber = (int) ethereum.getBlockchain().getBestBlock().getHeader().getNumber();
+    public static void checkHeaders(one2oneeum one2oneeum, AtomicInteger fatalErrors) {
+        int blockNumber = (int) one2oneeum.getBlockchain().getBestBlock().getHeader().getNumber();
         byte[] lastParentHash = null;
         testLogger.info("Checking headers from best block: {}", blockNumber);
 
         try {
             while (blockNumber >= 0) {
-                Block currentBlock = ethereum.getBlockchain().getBlockByNumber(blockNumber);
+                Block currentBlock = one2oneeum.getBlockchain().getBlockByNumber(blockNumber);
                 if (lastParentHash != null) {
                     assert FastByteComparisons.equal(currentBlock.getHash(), lastParentHash);
                 }
@@ -119,7 +119,7 @@ public class BlockchainValidation {
         }
     }
 
-    public static void checkFastHeaders(Ethereum ethereum, CommonConfig commonConfig, AtomicInteger fatalErrors) {
+    public static void checkFastHeaders(one2oneeum one2oneeum, CommonConfig commonConfig, AtomicInteger fatalErrors) {
         HeaderStore headerStore = commonConfig.headerStore();
         int blockNumber = headerStore.size() - 1;
         byte[] lastParentHash = null;
@@ -136,7 +136,7 @@ public class BlockchainValidation {
                 blockNumber--;
             }
 
-            Block genesis = ethereum.getBlockchain().getBlockByNumber(0);
+            Block genesis = one2oneeum.getBlockchain().getBlockByNumber(0);
             assert FastByteComparisons.equal(genesis.getHash(), lastParentHash);
 
             testLogger.info("Checking fast headers successful, ended on block: {}", blockNumber + 1);
@@ -146,20 +146,20 @@ public class BlockchainValidation {
         }
     }
 
-    public static void checkBlocks(Ethereum ethereum, AtomicInteger fatalErrors) {
-        Block currentBlock = ethereum.getBlockchain().getBestBlock();
+    public static void checkBlocks(one2oneeum one2oneeum, AtomicInteger fatalErrors) {
+        Block currentBlock = one2oneeum.getBlockchain().getBestBlock();
         int blockNumber = (int) currentBlock.getHeader().getNumber();
 
         try {
-            BlockStore blockStore = ethereum.getBlockchain().getBlockStore();
+            BlockStore blockStore = one2oneeum.getBlockchain().getBlockStore();
             testLogger.info("Checking blocks from best block: {}", blockNumber);
             BigInteger curTotalDiff = blockStore.getTotalDifficultyForHash(currentBlock.getHash());
 
             while (blockNumber > 0) {
-                currentBlock = ethereum.getBlockchain().getBlockByNumber(blockNumber);
+                currentBlock = one2oneeum.getBlockchain().getBlockByNumber(blockNumber);
 
                 // Validate uncles
-                assert ((BlockchainImpl) ethereum.getBlockchain()).validateUncles(currentBlock);
+                assert ((BlockchainImpl) one2oneeum.getBlockchain()).validateUncles(currentBlock);
                 // Validate total difficulty
                 Assert.assertTrue(String.format("Total difficulty, count %s == %s blockStore",
                         curTotalDiff, blockStore.getTotalDifficultyForHash(currentBlock.getHash())),
@@ -170,7 +170,7 @@ public class BlockchainValidation {
             }
 
             // Checking total difficulty for genesis
-            currentBlock = ethereum.getBlockchain().getBlockByNumber(0);
+            currentBlock = one2oneeum.getBlockchain().getBlockByNumber(0);
             Assert.assertTrue(String.format("Total difficulty for genesis, count %s == %s blockStore",
                     curTotalDiff, blockStore.getTotalDifficultyForHash(currentBlock.getHash())),
                     curTotalDiff.compareTo(blockStore.getTotalDifficultyForHash(currentBlock.getHash())) == 0);
@@ -185,17 +185,17 @@ public class BlockchainValidation {
         }
     }
 
-    public static void checkTransactions(Ethereum ethereum, AtomicInteger fatalErrors) {
-        int blockNumber = (int) ethereum.getBlockchain().getBestBlock().getHeader().getNumber();
+    public static void checkTransactions(one2oneeum one2oneeum, AtomicInteger fatalErrors) {
+        int blockNumber = (int) one2oneeum.getBlockchain().getBestBlock().getHeader().getNumber();
         testLogger.info("Checking block transactions from best block: {}", blockNumber);
 
         try {
             while (blockNumber > 0) {
-                Block currentBlock = ethereum.getBlockchain().getBlockByNumber(blockNumber);
+                Block currentBlock = one2oneeum.getBlockchain().getBlockByNumber(blockNumber);
 
                 List<TransactionReceipt> receipts = new ArrayList<>();
                 for (Transaction tx : currentBlock.getTransactionsList()) {
-                    TransactionInfo txInfo = ((BlockchainImpl) ethereum.getBlockchain()).getTransactionInfo(tx.getHash());
+                    TransactionInfo txInfo = ((BlockchainImpl) one2oneeum.getBlockchain()).getTransactionInfo(tx.getHash());
                     assert txInfo != null;
                     receipts.add(txInfo.getReceipt());
                 }
@@ -217,26 +217,26 @@ public class BlockchainValidation {
         }
     }
 
-    public static void fullCheck(Ethereum ethereum, CommonConfig commonConfig, AtomicInteger fatalErrors) {
+    public static void fullCheck(one2oneeum one2oneeum, CommonConfig commonConfig, AtomicInteger fatalErrors) {
 
         // nodes
         testLogger.info("Validating nodes: Start");
-        BlockchainValidation.checkNodes(ethereum, commonConfig, fatalErrors);
+        BlockchainValidation.checkNodes(one2oneeum, commonConfig, fatalErrors);
         testLogger.info("Validating nodes: End");
 
         // headers
         testLogger.info("Validating block headers: Start");
-        BlockchainValidation.checkHeaders(ethereum, fatalErrors);
+        BlockchainValidation.checkHeaders(one2oneeum, fatalErrors);
         testLogger.info("Validating block headers: End");
 
         // blocks
         testLogger.info("Validating blocks: Start");
-        BlockchainValidation.checkBlocks(ethereum, fatalErrors);
+        BlockchainValidation.checkBlocks(one2oneeum, fatalErrors);
         testLogger.info("Validating blocks: End");
 
         // receipts
         testLogger.info("Validating transaction receipts: Start");
-        BlockchainValidation.checkTransactions(ethereum, fatalErrors);
+        BlockchainValidation.checkTransactions(one2oneeum, fatalErrors);
         testLogger.info("Validating transaction receipts: End");
     }
 }

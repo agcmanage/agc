@@ -1,35 +1,35 @@
 /*
- * Copyright (c) [2016] [ <ether.camp> ]
- * This file is part of the ethereumJ library.
+ * Copyright (c) [2016] [ <one2one.camp> ]
+ * This file is part of the one2oneeumJ library.
  *
- * The ethereumJ library is free software: you can redistribute it and/or modify
+ * The one2oneeumJ library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The ethereumJ library is distributed in the hope that it will be useful,
+ * The one2oneeumJ library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
+ * along with the one2oneeumJ library. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ethereum.mine;
+package org.one2oneeum.mine;
 
 import com.typesafe.config.ConfigFactory;
 import org.apache.commons.lang3.tuple.Pair;
-import org.ethereum.config.NoAutoscan;
-import org.ethereum.config.SystemProperties;
-import org.ethereum.core.*;
-import org.ethereum.crypto.ECKey;
-import org.ethereum.db.ByteArrayWrapper;
-import org.ethereum.facade.Ethereum;
-import org.ethereum.facade.EthereumFactory;
-import org.ethereum.listener.EthereumListenerAdapter;
-import org.ethereum.net.eth.handler.Eth62;
-import org.ethereum.net.eth.message.*;
-import org.ethereum.util.ByteUtil;
+import org.one2oneeum.config.NoAutoscan;
+import org.one2oneeum.config.SystemProperties;
+import org.one2oneeum.core.*;
+import org.one2oneeum.crypto.ECKey;
+import org.one2oneeum.db.ByteArrayWrapper;
+import org.one2oneeum.facade.one2oneeum;
+import org.one2oneeum.facade.one2oneeumFactory;
+import org.one2oneeum.listener.one2oneeumListenerAdapter;
+import org.one2oneeum.net.eth.handler.Eth62;
+import org.one2oneeum.net.eth.message.*;
+import org.one2oneeum.util.ByteUtil;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -96,10 +96,10 @@ public class MinerTest {
 //                        "genesis = frontier.json \n" +
                         "database.dir = testDB-1 \n"));
 
-        Ethereum ethereum2 = EthereumFactory.createEthereum(SysPropConfig2.props, SysPropConfig2.class);
+        one2oneeum one2oneeum2 = one2oneeumFactory.createone2oneeum(SysPropConfig2.props, SysPropConfig2.class);
 
         final CountDownLatch semaphore = new CountDownLatch(1);
-        ethereum2.addListener(new EthereumListenerAdapter() {
+        one2oneeum2.addListener(new one2oneeumListenerAdapter() {
             @Override
             public void onBlock(Block block, List<TransactionReceipt> receipts) {
                 System.err.println("=== New block: " + blockInfo(block));
@@ -144,14 +144,14 @@ public class MinerTest {
         ECKey senderKey = ECKey.fromPrivate(Hex.decode("6ef8da380c27cea8fdf7448340ea99e8e2268fc2950d79ed47cbf6f85dc977ec"));
         byte[] receiverAddr = Hex.decode("5db10750e8caff27f906b41c71b3471057dd2004");
 
-        for (int i = ethereum2.getRepository().getNonce(senderKey.getAddress()).intValue(), j = 0; j < 200; i++, j++) {
+        for (int i = one2oneeum2.getRepository().getNonce(senderKey.getAddress()).intValue(), j = 0; j < 200; i++, j++) {
             {
                 Transaction tx = new Transaction(ByteUtil.intToBytesNoLeadZeroes(i),
                         ByteUtil.longToBytesNoLeadZeroes(50_000_000_000L), ByteUtil.longToBytesNoLeadZeroes(0xfffff),
                         receiverAddr, new byte[]{77}, new byte[0]);
                 tx.sign(senderKey);
                 System.out.println("=== Submitting tx: " + tx);
-                ethereum2.submitTransaction(tx);
+                one2oneeum2.submitTransaction(tx);
 
                 submittedTxs.put(new ByteArrayWrapper(tx.getHash()), Pair.of(tx, System.currentTimeMillis()));
             }
@@ -199,11 +199,11 @@ public class MinerTest {
 ////                        "genesis = frontier.json \n" +
 //                        "database.dir = testDB-1 \n"));
 
-        Ethereum ethereum1 = EthereumFactory.createEthereum(SysPropConfig1.props, SysPropConfig1.class);
-//        Ethereum ethereum2 = EthereumFactory.createEthereum(SysPropConfig2.props, SysPropConfig2.class);
+        one2oneeum one2oneeum1 = one2oneeumFactory.createone2oneeum(SysPropConfig1.props, SysPropConfig1.class);
+//        one2oneeum one2oneeum2 = one2oneeumFactory.createone2oneeum(SysPropConfig2.props, SysPropConfig2.class);
 
         final CountDownLatch semaphore = new CountDownLatch(1);
-        ethereum1.addListener(new EthereumListenerAdapter() {
+        one2oneeum1.addListener(new one2oneeumListenerAdapter() {
             @Override
             public void onBlock(Block block, List<TransactionReceipt> receipts) {
                 System.out.println("=== New block: " + blockInfo(block));
@@ -215,7 +215,7 @@ public class MinerTest {
             }
         });
 
-//        ethereum2.addListener(new EthereumListenerAdapter() {
+//        one2oneeum2.addListener(new one2oneeumListenerAdapter() {
 //            @Override
 //            public void onBlock(Block block, List<TransactionReceipt> receipts) {
 //                System.err.println("=== New block: " + block);
@@ -232,7 +232,7 @@ public class MinerTest {
         System.out.println("=== Sync done.");
 
 
-        BlockMiner blockMiner = ethereum1.getBlockMiner();
+        BlockMiner blockMiner = one2oneeum1.getBlockMiner();
         blockMiner.addListener(new MinerListener() {
             @Override
             public void miningStarted() {
@@ -277,14 +277,14 @@ public class MinerTest {
         ECKey senderKey = ECKey.fromPrivate(Hex.decode("3ec771c31cac8c0dba77a69e503765701d3c2bb62435888d4ffa38fed60c445c"));
         byte[] receiverAddr = Hex.decode("31e2e1ed11951c7091dfba62cd4b7145e947219c");
 
-        for (int i = ethereum1.getRepository().getNonce(senderKey.getAddress()).intValue(), j = 0; j < 20000; i++, j++) {
+        for (int i = one2oneeum1.getRepository().getNonce(senderKey.getAddress()).intValue(), j = 0; j < 20000; i++, j++) {
             {
                 Transaction tx = new Transaction(ByteUtil.intToBytesNoLeadZeroes(i),
                         ByteUtil.longToBytesNoLeadZeroes(50_000_000_000L), ByteUtil.longToBytesNoLeadZeroes(0xfffff),
                         receiverAddr, new byte[]{77}, new byte[0]);
                 tx.sign(senderKey);
                 System.out.println("=== Submitting tx: " + tx);
-                ethereum1.submitTransaction(tx);
+                one2oneeum1.submitTransaction(tx);
 
                 submittedTxs.put(new ByteArrayWrapper(tx.getHash()), Pair.of(tx, System.currentTimeMillis()));
             }
@@ -293,7 +293,7 @@ public class MinerTest {
 
         Thread.sleep(1000000000);
 
-        ethereum1.close();
+        one2oneeum1.close();
 
         System.out.println("Passed.");
 

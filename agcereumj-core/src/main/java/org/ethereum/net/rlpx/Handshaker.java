@@ -1,31 +1,31 @@
 /*
- * Copyright (c) [2016] [ <ether.camp> ]
- * This file is part of the ethereumJ library.
+ * Copyright (c) [2016] [ <one2one.camp> ]
+ * This file is part of the one2oneeumJ library.
  *
- * The ethereumJ library is free software: you can redistribute it and/or modify
+ * The one2oneeumJ library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The ethereumJ library is distributed in the hope that it will be useful,
+ * The one2oneeumJ library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
+ * along with the one2oneeumJ library. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ethereum.net.rlpx;
+package org.one2oneeum.net.rlpx;
 
 import com.google.common.base.Throwables;
 import com.google.common.collect.Lists;
-import org.ethereum.crypto.ECIESCoder;
-import org.ethereum.crypto.ECKey;
-import org.ethereum.net.client.Capability;
-import org.ethereum.net.message.ReasonCode;
-import org.ethereum.net.p2p.DisconnectMessage;
-import org.ethereum.net.p2p.PingMessage;
-import org.ethereum.net.rlpx.EncryptionHandshake.Secrets;
+import org.one2oneeum.crypto.ECIESCoder;
+import org.one2oneeum.crypto.ECKey;
+import org.one2oneeum.net.client.Capability;
+import org.one2oneeum.net.message.ReasonCode;
+import org.one2oneeum.net.p2p.DisconnectMessage;
+import org.one2oneeum.net.p2p.PingMessage;
+import org.one2oneeum.net.rlpx.EncryptionHandshake.Secrets;
 import org.spongycastle.crypto.digests.KeccakDigest;
 import org.spongycastle.util.encoders.Hex;
 
@@ -35,7 +35,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Arrays;
 
-import static org.ethereum.util.ByteUtil.toHexString;
+import static org.one2oneeum.util.ByteUtil.toHexString;
 
 /**
  * Created by devrandom on 2015-04-09.

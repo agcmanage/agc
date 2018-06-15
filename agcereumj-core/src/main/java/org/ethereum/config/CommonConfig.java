@@ -1,35 +1,35 @@
 /*
- * Copyright (c) [2016] [ <ether.camp> ]
- * This file is part of the ethereumJ library.
+ * Copyright (c) [2016] [ <one2one.camp> ]
+ * This file is part of the one2oneeumJ library.
  *
- * The ethereumJ library is free software: you can redistribute it and/or modify
+ * The one2oneeumJ library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The ethereumJ library is distributed in the hope that it will be useful,
+ * The one2oneeumJ library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
+ * along with the one2oneeumJ library. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ethereum.config;
+package org.one2oneeum.config;
 
-import org.ethereum.core.*;
-import org.ethereum.crypto.HashUtil;
-import org.ethereum.datasource.*;
-import org.ethereum.datasource.inmem.HashMapDB;
-import org.ethereum.datasource.leveldb.LevelDbDataSource;
-import org.ethereum.datasource.rocksdb.RocksDbDataSource;
-import org.ethereum.db.*;
-import org.ethereum.listener.EthereumListener;
-import org.ethereum.net.eth.handler.Eth63;
-import org.ethereum.sync.FastSyncManager;
-import org.ethereum.validator.*;
-import org.ethereum.vm.DataWord;
-import org.ethereum.vm.program.ProgramPrecompile;
+import org.one2oneeum.core.*;
+import org.one2oneeum.crypto.HashUtil;
+import org.one2oneeum.datasource.*;
+import org.one2oneeum.datasource.inmem.HashMapDB;
+import org.one2oneeum.datasource.leveldb.LevelDbDataSource;
+import org.one2oneeum.datasource.rocksdb.RocksDbDataSource;
+import org.one2oneeum.db.*;
+import org.one2oneeum.listener.one2oneeumListener;
+import org.one2oneeum.net.eth.handler.Eth63;
+import org.one2oneeum.sync.FastSyncManager;
+import org.one2oneeum.validator.*;
+import org.one2oneeum.vm.DataWord;
+import org.one2oneeum.vm.program.ProgramPrecompile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.config.BeanPostProcessor;
@@ -46,7 +46,7 @@ import static java.util.Arrays.asList;
 @Configuration
 @EnableTransactionManagement
 @ComponentScan(
-        basePackages = "org.ethereum",
+        basePackages = "org.one2oneeum",
         excludeFilters = @ComponentScan.Filter(NoAutoscan.class))
 public class CommonConfig {
     private static final Logger logger = LoggerFactory.getLogger("general");
@@ -199,9 +199,9 @@ public class CommonConfig {
         if (fastsyncStageBytes == null) return; // no uncompleted fast sync
         if (!systemProperties().blocksLoader().isEmpty()) return; // blocks loader enabled
 
-        EthereumListener.SyncState syncStage = EthereumListener.SyncState.values()[fastsyncStageBytes[0]];
+        one2oneeumListener.SyncState syncStage = one2oneeumListener.SyncState.values()[fastsyncStageBytes[0]];
 
-        if (!systemProperties().isFastSyncEnabled() || syncStage == EthereumListener.SyncState.UNSECURE) {
+        if (!systemProperties().isFastSyncEnabled() || syncStage == one2oneeumListener.SyncState.UNSECURE) {
             // we need to cleanup state/blocks/tranasaction DBs when previous fast sync was not complete:
             // - if we now want to do regular sync
             // - if the first fastsync stage was not complete (thus DBs are not in consistent state)

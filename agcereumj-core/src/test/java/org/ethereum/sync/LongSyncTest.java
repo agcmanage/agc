@@ -1,38 +1,38 @@
 /*
- * Copyright (c) [2016] [ <ether.camp> ]
- * This file is part of the ethereumJ library.
+ * Copyright (c) [2016] [ <one2one.camp> ]
+ * This file is part of the one2oneeumJ library.
  *
- * The ethereumJ library is free software: you can redistribute it and/or modify
+ * The one2oneeumJ library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The ethereumJ library is distributed in the hope that it will be useful,
+ * The one2oneeumJ library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
+ * along with the one2oneeumJ library. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ethereum.sync;
+package org.one2oneeum.sync;
 
-import org.ethereum.config.NoAutoscan;
-import org.ethereum.config.SystemProperties;
-import org.ethereum.config.blockchain.FrontierConfig;
-import org.ethereum.config.net.MainNetConfig;
-import org.ethereum.core.*;
-import org.ethereum.facade.Ethereum;
-import org.ethereum.facade.EthereumFactory;
-import org.ethereum.listener.EthereumListenerAdapter;
-import org.ethereum.net.eth.handler.Eth62;
-import org.ethereum.net.eth.handler.EthHandler;
-import org.ethereum.net.eth.message.*;
-import org.ethereum.net.message.Message;
-import org.ethereum.net.p2p.DisconnectMessage;
-import org.ethereum.net.rlpx.Node;
-import org.ethereum.net.server.Channel;
-import org.ethereum.util.blockchain.StandaloneBlockchain;
+import org.one2oneeum.config.NoAutoscan;
+import org.one2oneeum.config.SystemProperties;
+import org.one2oneeum.config.blockchain.FrontierConfig;
+import org.one2oneeum.config.net.MainNetConfig;
+import org.one2oneeum.core.*;
+import org.one2oneeum.facade.one2oneeum;
+import org.one2oneeum.facade.one2oneeumFactory;
+import org.one2oneeum.listener.one2oneeumListenerAdapter;
+import org.one2oneeum.net.eth.handler.Eth62;
+import org.one2oneeum.net.eth.handler.EthHandler;
+import org.one2oneeum.net.eth.message.*;
+import org.one2oneeum.net.message.Message;
+import org.one2oneeum.net.p2p.DisconnectMessage;
+import org.one2oneeum.net.rlpx.Node;
+import org.one2oneeum.net.server.Channel;
+import org.one2oneeum.util.blockchain.StandaloneBlockchain;
 import org.junit.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -49,7 +49,7 @@ import java.util.*;
 import java.util.concurrent.CountDownLatch;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
-import static org.ethereum.util.FileUtil.recursiveDelete;
+import static org.one2oneeum.util.FileUtil.recursiveDelete;
 import static org.junit.Assert.fail;
 import static org.spongycastle.util.encoders.Hex.decode;
 
@@ -64,8 +64,8 @@ public class LongSyncTest {
     private static List<Block> mainB1B10;
     private static Block b10;
 
-    private Ethereum ethereumA;
-    private Ethereum ethereumB;
+    private one2oneeum one2oneeumA;
+    private one2oneeum one2oneeumB;
     private EthHandler ethA;
     private String testDbA;
     private String testDbB;
@@ -155,7 +155,7 @@ public class LongSyncTest {
         // A == b10, B == genesis
 
         final CountDownLatch semaphore = new CountDownLatch(1);
-        ethereumB.addListener(new EthereumListenerAdapter() {
+        one2oneeumB.addListener(new one2oneeumListenerAdapter() {
             @Override
             public void onBlock(Block block, List<TransactionReceipt> receipts) {
                 if (block.isEqual(b10)) {
@@ -195,7 +195,7 @@ public class LongSyncTest {
         // A == b10, B == genesis
 
         final CountDownLatch semaphoreDisconnect = new CountDownLatch(1);
-        ethereumA.addListener(new EthereumListenerAdapter() {
+        one2oneeumA.addListener(new one2oneeumListenerAdapter() {
             @Override
             public void onRecvMessage(Channel channel, Message message) {
                 if (message instanceof DisconnectMessage) {
@@ -245,7 +245,7 @@ public class LongSyncTest {
         // A == b10, B == genesis
 
         final CountDownLatch semaphoreDisconnect = new CountDownLatch(1);
-        ethereumA.addListener(new EthereumListenerAdapter() {
+        one2oneeumA.addListener(new one2oneeumListenerAdapter() {
             @Override
             public void onRecvMessage(Channel channel, Message message) {
                 if (message instanceof DisconnectMessage) {
@@ -290,7 +290,7 @@ public class LongSyncTest {
         // A == b10, B == genesis
 
         final CountDownLatch semaphoreDisconnect = new CountDownLatch(1);
-        ethereumA.addListener(new EthereumListenerAdapter() {
+        one2oneeumA.addListener(new one2oneeumListenerAdapter() {
             @Override
             public void onRecvMessage(Channel channel, Message message) {
                 if (message instanceof DisconnectMessage) {
@@ -339,7 +339,7 @@ public class LongSyncTest {
         // A == b10, B == genesis
 
         final CountDownLatch semaphoreDisconnect = new CountDownLatch(1);
-        ethereumA.addListener(new EthereumListenerAdapter() {
+        one2oneeumA.addListener(new one2oneeumListenerAdapter() {
             @Override
             public void onRecvMessage(Channel channel, Message message) {
                 if (message instanceof DisconnectMessage) {
@@ -376,23 +376,23 @@ public class LongSyncTest {
 
         };
 
-        ethereumA = EthereumFactory.createEthereum(SysPropConfigA.props, SysPropConfigA.class);
+        one2oneeumA = one2oneeumFactory.createone2oneeum(SysPropConfigA.props, SysPropConfigA.class);
 
-        Blockchain blockchainA = (Blockchain) ethereumA.getBlockchain();
+        Blockchain blockchainA = (Blockchain) one2oneeumA.getBlockchain();
         for (Block b : mainB1B10) {
             blockchainA.tryToConnect(b);
         }
 
         // A == b10
 
-        ethereumB = EthereumFactory.createEthereum(SysPropConfigB.props, SysPropConfigB.class);
+        one2oneeumB = one2oneeumFactory.createone2oneeum(SysPropConfigB.props, SysPropConfigB.class);
 
-        ethereumB.connect(nodeA);
+        one2oneeumB.connect(nodeA);
 
         // A == b10, B == genesis
 
         final CountDownLatch semaphoreDisconnect = new CountDownLatch(1);
-        ethereumA.addListener(new EthereumListenerAdapter() {
+        one2oneeumA.addListener(new one2oneeumListenerAdapter() {
             @Override
             public void onRecvMessage(Channel channel, Message message) {
                 if (message instanceof DisconnectMessage) {
@@ -441,7 +441,7 @@ public class LongSyncTest {
         // A == b10, B == genesis
 
         final CountDownLatch semaphoreDisconnect = new CountDownLatch(1);
-        ethereumA.addListener(new EthereumListenerAdapter() {
+        one2oneeumA.addListener(new one2oneeumListenerAdapter() {
             @Override
             public void onRecvMessage(Channel channel, Message message) {
                 if (message instanceof DisconnectMessage) {
@@ -491,7 +491,7 @@ public class LongSyncTest {
         // A == b10, B == genesis
 
         final CountDownLatch semaphoreDisconnect = new CountDownLatch(1);
-        ethereumA.addListener(new EthereumListenerAdapter() {
+        one2oneeumA.addListener(new one2oneeumListenerAdapter() {
             @Override
             public void onRecvMessage(Channel channel, Message message) {
                 if (message instanceof DisconnectMessage) {
@@ -514,9 +514,9 @@ public class LongSyncTest {
 
     private void setupPeers(Block best) throws InterruptedException {
 
-        ethereumA = EthereumFactory.createEthereum(SysPropConfigA.class);
+        one2oneeumA = one2oneeumFactory.createone2oneeum(SysPropConfigA.class);
 
-        Blockchain blockchainA = (Blockchain) ethereumA.getBlockchain();
+        Blockchain blockchainA = (Blockchain) one2oneeumA.getBlockchain();
         for (Block b : mainB1B10) {
             ImportResult result = blockchainA.tryToConnect(b);
             Assert.assertEquals(result, ImportResult.IMPORTED_BEST);
@@ -525,9 +525,9 @@ public class LongSyncTest {
 
         // A == best
 
-        ethereumB = EthereumFactory.createEthereum(SysPropConfigB.props, SysPropConfigB.class);
+        one2oneeumB = one2oneeumFactory.createone2oneeum(SysPropConfigB.props, SysPropConfigB.class);
 
-        ethereumA.addListener(new EthereumListenerAdapter() {
+        one2oneeumA.addListener(new one2oneeumListenerAdapter() {
             @Override
             public void onEthStatusUpdated(Channel channel, StatusMessage statusMessage) {
                 ethA = (EthHandler) channel.getEthHandler();
@@ -536,14 +536,14 @@ public class LongSyncTest {
 
         final CountDownLatch semaphore = new CountDownLatch(1);
 
-        ethereumB.addListener(new EthereumListenerAdapter() {
+        one2oneeumB.addListener(new one2oneeumListenerAdapter() {
             @Override
             public void onPeerAddedToSyncPool(Channel peer) {
                 semaphore.countDown();
             }
         });
 
-        ethereumB.connect(nodeA);
+        one2oneeumB.connect(nodeA);
 
         semaphore.await(10, SECONDS);
         if(semaphore.getCount() > 0) {

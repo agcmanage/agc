@@ -1,6 +1,6 @@
-package org.ethereum.db.prune;
+package org.one2oneeum.db.prune;
 
-import org.ethereum.core.Block;
+import org.one2oneeum.core.Block;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
  *
  * <p>
  *     Segment is complete when its main chain top item is the highest (fork tops have lower numbers).
- *     Whether segment is complete or not can be checked by call to {@link #isComplete()}
+ *     Whone2one segment is complete or not can be checked by call to {@link #isComplete()}
  *
  * <p>
  *     Segment has a {@link Tracker} class which helps to update segment with new blocks.

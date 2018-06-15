@@ -1,28 +1,28 @@
 /*
- * Copyright (c) [2016] [ <ether.camp> ]
- * This file is part of the ethereumJ library.
+ * Copyright (c) [2016] [ <one2one.camp> ]
+ * This file is part of the one2oneeumJ library.
  *
- * The ethereumJ library is free software: you can redistribute it and/or modify
+ * The one2oneeumJ library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The ethereumJ library is distributed in the hope that it will be useful,
+ * The one2oneeumJ library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
+ * along with the one2oneeumJ library. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ethereum.net.eth.handler;
+package org.one2oneeum.net.eth.handler;
 
 import com.google.common.util.concurrent.ListenableFuture;
-import org.ethereum.core.*;
-import org.ethereum.net.eth.EthVersion;
-import org.ethereum.net.eth.message.EthMessageCodes;
-import org.ethereum.sync.PeerState;
-import org.ethereum.sync.SyncStatistics;
+import org.one2oneeum.core.*;
+import org.one2oneeum.net.eth.EthVersion;
+import org.one2oneeum.net.eth.message.EthMessageCodes;
+import org.one2oneeum.sync.PeerState;
+import org.one2oneeum.sync.SyncStatistics;
 
 import java.math.BigInteger;
 import java.util.List;
@@ -30,7 +30,7 @@ import java.util.List;
 /**
  * Describes interface required by Eth peer clients
  *
- * @see org.ethereum.net.server.Channel
+ * @see org.one2oneeum.net.server.Channel
  *
  * @author Mikhail Kalinin
  * @since 20.08.2015

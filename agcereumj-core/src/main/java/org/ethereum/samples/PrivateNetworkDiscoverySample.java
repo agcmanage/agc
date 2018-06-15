@@ -1,34 +1,34 @@
 /*
- * Copyright (c) [2016] [ <ether.camp> ]
- * This file is part of the ethereumJ library.
+ * Copyright (c) [2016] [ <one2one.camp> ]
+ * This file is part of the one2oneeumJ library.
  *
- * The ethereumJ library is free software: you can redistribute it and/or modify
+ * The one2oneeumJ library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The ethereumJ library is distributed in the hope that it will be useful,
+ * The one2oneeumJ library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
+ * along with the one2oneeumJ library. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ethereum.samples;
+package org.one2oneeum.samples;
 
 import com.google.common.base.Joiner;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 import com.typesafe.config.ConfigValue;
 import com.typesafe.config.ConfigValueFactory;
-import org.ethereum.config.SystemProperties;
-import org.ethereum.crypto.ECKey;
-import org.ethereum.facade.EthereumFactory;
-import org.ethereum.net.rlpx.discover.NodeManager;
-import org.ethereum.net.rlpx.discover.table.NodeEntry;
-import org.ethereum.net.server.Channel;
-import org.ethereum.net.server.ChannelManager;
+import org.one2oneeum.config.SystemProperties;
+import org.one2oneeum.crypto.ECKey;
+import org.one2oneeum.facade.one2oneeumFactory;
+import org.one2oneeum.net.rlpx.discover.NodeManager;
+import org.one2oneeum.net.rlpx.discover.table.NodeEntry;
+import org.one2oneeum.net.server.Channel;
+import org.one2oneeum.net.server.ChannelManager;
 import org.spongycastle.util.encoders.Hex;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -58,13 +58,13 @@ public class PrivateNetworkDiscoverySample {
      */
     public static void main(String[] args) throws Exception {
         BasicSample.sLogger.info("Starting main node to which others will connect to");
-        EthereumFactory.createEthereum(Node0Config.class);
+        one2oneeumFactory.createone2oneeum(Node0Config.class);
 
         BasicSample.sLogger.info("Starting regular instance 1!");
-        EthereumFactory.createEthereum(Node1Config.class);
+        one2oneeumFactory.createone2oneeum(Node1Config.class);
 
         BasicSample.sLogger.info("Starting regular instance 2!");
-        EthereumFactory.createEthereum(Node2Config.class);
+        one2oneeumFactory.createone2oneeum(Node2Config.class);
     }
 
 

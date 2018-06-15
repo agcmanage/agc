@@ -1,31 +1,31 @@
 /*
- * Copyright (c) [2016] [ <ether.camp> ]
- * This file is part of the ethereumJ library.
+ * Copyright (c) [2016] [ <one2one.camp> ]
+ * This file is part of the one2oneeumJ library.
  *
- * The ethereumJ library is free software: you can redistribute it and/or modify
+ * The one2oneeumJ library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The ethereumJ library is distributed in the hope that it will be useful,
+ * The one2oneeumJ library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
+ * along with the one2oneeumJ library. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ethereum.net.shh;
+package org.one2oneeum.net.shh;
 
 import org.apache.commons.lang3.tuple.Pair;
-import org.ethereum.config.NoAutoscan;
-import org.ethereum.facade.Ethereum;
-import org.ethereum.facade.EthereumFactory;
-import org.ethereum.listener.EthereumListenerAdapter;
-import org.ethereum.manager.WorldManager;
-import org.ethereum.net.p2p.HelloMessage;
-import org.ethereum.net.rlpx.Node;
-import org.ethereum.net.server.Channel;
+import org.one2oneeum.config.NoAutoscan;
+import org.one2oneeum.facade.one2oneeum;
+import org.one2oneeum.facade.one2oneeumFactory;
+import org.one2oneeum.listener.one2oneeumListenerAdapter;
+import org.one2oneeum.manager.WorldManager;
+import org.one2oneeum.net.p2p.HelloMessage;
+import org.one2oneeum.net.rlpx.Node;
+import org.one2oneeum.net.server.Channel;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.spongycastle.util.encoders.Hex;
@@ -58,16 +58,16 @@ public class ShhLongRun extends Thread {
 
     @Test
     public void test() throws Exception {
-//        remoteJsonRpc = new URL("http://whisper-1.ether.camp:8545");
+//        remoteJsonRpc = new URL("http://whisper-1.one2one.camp:8545");
 //        Node node = new Node("enode://52994910050f13cbd7848f02709f2f5ebccc363f13dafc4ec201e405e2f143ebc9c440935b3217073f6ec47f613220e0bc6b7b34274b7d2de125b82a2acd34ee" +
-//                "@whisper-1.ether.camp:30303");
+//                "@whisper-1.one2one.camp:30303");
 
         remoteJsonRpc = new URL("http://localhost:8545");
         Node node = new Node("enode://6ed738b650ac2b771838506172447dc683b7e9dae7b91d699a48a0f94651b1a0d2e2ef01c6fffa22f762aaa553286047f0b0bb39f2e3a24b2a18fe1b9637dcbe" +
                 "@localhost:10003");
 
-        Ethereum ethereum = EthereumFactory.createEthereum(Config.class);
-        ethereum.connect(
+        one2oneeum one2oneeum = one2oneeumFactory.createone2oneeum(Config.class);
+        one2oneeum.connect(
                 node.getHost(),
                 node.getPort(),
                 Hex.toHexString(node.getId()));
@@ -96,7 +96,7 @@ public class ShhLongRun extends Thread {
         WorldManager worldManager;
 
         @Autowired
-        Ethereum ethereum;
+        one2oneeum one2oneeum;
 
 
         @Autowired
@@ -110,7 +110,7 @@ public class ShhLongRun extends Thread {
         @PostConstruct
         void init() {
             System.out.println("========= init");
-            worldManager.addListener(new EthereumListenerAdapter() {
+            worldManager.addListener(new one2oneeumListenerAdapter() {
                 @Override
                 public void onHandShakePeer(Channel channel, HelloMessage helloMessage) {
                     System.out.println("========= onHandShakePeer");

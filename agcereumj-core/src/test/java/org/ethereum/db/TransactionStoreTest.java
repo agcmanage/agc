@@ -1,32 +1,32 @@
 /*
- * Copyright (c) [2016] [ <ether.camp> ]
- * This file is part of the ethereumJ library.
+ * Copyright (c) [2016] [ <one2one.camp> ]
+ * This file is part of the one2oneeumJ library.
  *
- * The ethereumJ library is free software: you can redistribute it and/or modify
+ * The one2oneeumJ library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The ethereumJ library is distributed in the hope that it will be useful,
+ * The one2oneeumJ library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
+ * along with the one2oneeumJ library. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ethereum.db;
+package org.one2oneeum.db;
 
-import org.ethereum.config.SystemProperties;
-import org.ethereum.config.blockchain.FrontierConfig;
-import org.ethereum.config.net.MainNetConfig;
-import org.ethereum.core.Block;
-import org.ethereum.core.Transaction;
-import org.ethereum.core.TransactionInfo;
-import org.ethereum.datasource.inmem.HashMapDB;
-import org.ethereum.util.blockchain.SolidityContract;
-import org.ethereum.util.blockchain.StandaloneBlockchain;
-import org.ethereum.vm.DataWord;
+import org.one2oneeum.config.SystemProperties;
+import org.one2oneeum.config.blockchain.FrontierConfig;
+import org.one2oneeum.config.net.MainNetConfig;
+import org.one2oneeum.core.Block;
+import org.one2oneeum.core.Transaction;
+import org.one2oneeum.core.TransactionInfo;
+import org.one2oneeum.datasource.inmem.HashMapDB;
+import org.one2oneeum.util.blockchain.SolidityContract;
+import org.one2oneeum.util.blockchain.StandaloneBlockchain;
+import org.one2oneeum.vm.DataWord;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -125,7 +125,7 @@ public class TransactionStoreTest {
         StandaloneBlockchain bc = new StandaloneBlockchain();
         bc.getBlockchain().withTransactionStore(transactionStore);
 
-        bc.sendEther(new byte[20], BigInteger.valueOf(1000));
+        bc.sendone2one(new byte[20], BigInteger.valueOf(1000));
         Block b1 = bc.createBlock();
         Transaction tx = b1.getTransactionsList().get(0);
         TransactionInfo info = transactionStore.get(tx.getHash()).get(0);

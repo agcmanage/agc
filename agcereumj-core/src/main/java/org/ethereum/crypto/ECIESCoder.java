@@ -1,24 +1,24 @@
 /*
- * Copyright (c) [2016] [ <ether.camp> ]
- * This file is part of the ethereumJ library.
+ * Copyright (c) [2016] [ <one2one.camp> ]
+ * This file is part of the one2oneeumJ library.
  *
- * The ethereumJ library is free software: you can redistribute it and/or modify
+ * The one2oneeumJ library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The ethereumJ library is distributed in the hope that it will be useful,
+ * The one2oneeumJ library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
+ * along with the one2oneeumJ library. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ethereum.crypto;
+package org.one2oneeum.crypto;
 
 import com.google.common.base.Throwables;
-import org.ethereum.ConcatKDFBytesGenerator;
+import org.one2oneeum.ConcatKDFBytesGenerator;
 import org.spongycastle.crypto.AsymmetricCipherKeyPair;
 import org.spongycastle.crypto.BufferedBlockCipher;
 import org.spongycastle.crypto.InvalidCipherTextException;
@@ -41,7 +41,7 @@ import java.io.IOException;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 
-import static org.ethereum.crypto.ECKey.CURVE;
+import static org.one2oneeum.crypto.ECKey.CURVE;
 
 public class ECIESCoder {
 
@@ -74,7 +74,7 @@ public class ECIESCoder {
     public static byte[] decrypt(ECPoint ephem, BigInteger prv, byte[] IV, byte[] cipher, byte[] macData) throws InvalidCipherTextException {
         AESEngine aesFastEngine = new AESEngine();
 
-        EthereumIESEngine iesEngine = new EthereumIESEngine(
+        one2oneeumIESEngine iesEngine = new one2oneeumIESEngine(
                 new ECDHBasicAgreement(),
                 new ConcatKDFBytesGenerator(new SHA256Digest()),
                 new HMac(new SHA256Digest()),
@@ -106,7 +106,7 @@ public class ECIESCoder {
      *  Used for Whisper V3
      */
     public static byte[] decryptSimple(BigInteger privKey, byte[] cipher) throws IOException, InvalidCipherTextException {
-        EthereumIESEngine iesEngine = new EthereumIESEngine(
+        one2oneeumIESEngine iesEngine = new one2oneeumIESEngine(
                 new ECDHBasicAgreement(),
                 new MGF1BytesGeneratorExt(new SHA1Digest(), 1),
                 new HMac(new SHA1Digest()),
@@ -142,7 +142,7 @@ public class ECIESCoder {
         AsymmetricCipherKeyPair ephemPair = eGen.generateKeyPair();
         BigInteger prv = ((ECPrivateKeyParameters)ephemPair.getPrivate()).getD();
         ECPoint pub = ((ECPublicKeyParameters)ephemPair.getPublic()).getQ();
-        EthereumIESEngine iesEngine = makeIESEngine(true, toPub, prv, IV);
+        one2oneeumIESEngine iesEngine = makeIESEngine(true, toPub, prv, IV);
 
 
         ECKeyGenerationParameters keygenParams = new ECKeyGenerationParameters(CURVE, random);
@@ -179,7 +179,7 @@ public class ECIESCoder {
      *  Used for Whisper V3
      */
     public static byte[] encryptSimple(ECPoint pub, byte[] plaintext) throws IOException, InvalidCipherTextException {
-        EthereumIESEngine iesEngine = new EthereumIESEngine(
+        one2oneeumIESEngine iesEngine = new one2oneeumIESEngine(
                 new ECDHBasicAgreement(),
                 new MGF1BytesGeneratorExt(new SHA1Digest(), 1),
                 new HMac(new SHA1Digest()),
@@ -219,10 +219,10 @@ public class ECIESCoder {
     }
 
 
-    private static EthereumIESEngine makeIESEngine(boolean isEncrypt, ECPoint pub, BigInteger prv, byte[] IV) {
+    private static one2oneeumIESEngine makeIESEngine(boolean isEncrypt, ECPoint pub, BigInteger prv, byte[] IV) {
         AESEngine aesFastEngine = new AESEngine();
 
-        EthereumIESEngine iesEngine = new EthereumIESEngine(
+        one2oneeumIESEngine iesEngine = new one2oneeumIESEngine(
                 new ECDHBasicAgreement(),
                 new ConcatKDFBytesGenerator(new SHA256Digest()),
                 new HMac(new SHA256Digest()),

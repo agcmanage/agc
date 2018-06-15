@@ -1,39 +1,39 @@
 /*
- * Copyright (c) [2016] [ <ether.camp> ]
- * This file is part of the ethereumJ library.
+ * Copyright (c) [2016] [ <one2one.camp> ]
+ * This file is part of the one2oneeumJ library.
  *
- * The ethereumJ library is free software: you can redistribute it and/or modify
+ * The one2oneeumJ library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The ethereumJ library is distributed in the hope that it will be useful,
+ * The one2oneeumJ library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
+ * along with the one2oneeumJ library. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ethereum.net.rlpx;
+package org.one2oneeum.net.rlpx;
 
 import com.google.common.io.ByteStreams;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToMessageCodec;
 import org.apache.commons.collections4.map.LRUMap;
 import org.apache.commons.lang3.tuple.Pair;
-import org.ethereum.config.SystemProperties;
-import org.ethereum.listener.EthereumListener;
-import org.ethereum.net.client.Capability;
-import org.ethereum.net.eth.EthVersion;
-import org.ethereum.net.eth.message.EthMessageCodes;
-import org.ethereum.net.message.Message;
-import org.ethereum.net.message.MessageFactory;
-import org.ethereum.net.message.ReasonCode;
-import org.ethereum.net.p2p.P2pMessageCodes;
-import org.ethereum.net.server.Channel;
-import org.ethereum.net.shh.ShhMessageCodes;
-import org.ethereum.net.swarm.bzz.BzzMessageCodes;
+import org.one2oneeum.config.SystemProperties;
+import org.one2oneeum.listener.one2oneeumListener;
+import org.one2oneeum.net.client.Capability;
+import org.one2oneeum.net.eth.EthVersion;
+import org.one2oneeum.net.eth.message.EthMessageCodes;
+import org.one2oneeum.net.message.Message;
+import org.one2oneeum.net.message.MessageFactory;
+import org.one2oneeum.net.message.ReasonCode;
+import org.one2oneeum.net.p2p.P2pMessageCodes;
+import org.one2oneeum.net.server.Channel;
+import org.one2oneeum.net.shh.ShhMessageCodes;
+import org.one2oneeum.net.swarm.bzz.BzzMessageCodes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,8 +45,8 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static java.lang.Math.min;
-import static org.ethereum.net.rlpx.FrameCodec.Frame;
-import static org.ethereum.util.ByteUtil.toHexString;
+import static org.one2oneeum.net.rlpx.FrameCodec.Frame;
+import static org.one2oneeum.util.ByteUtil.toHexString;
 
 /**
  * The Netty codec which encodes/decodes RPLx frames to subprotocol Messages
@@ -72,7 +72,7 @@ public class MessageCodec extends MessageToMessageCodec<Frame, Message> {
     private EthVersion ethVersion;
 
     @Autowired
-    EthereumListener ethereumListener;
+    one2oneeumListener one2oneeumListener;
 
     private SystemProperties config;
 
@@ -166,7 +166,7 @@ public class MessageCodec extends MessageToMessageCodec<Frame, Message> {
             return null;
         }
 
-        ethereumListener.onRecvMessage(channel, msg);
+        one2oneeumListener.onRecvMessage(channel, msg);
 
         channel.getNodeStatistics().rlpxInMessages.add();
         return msg;
@@ -175,7 +175,7 @@ public class MessageCodec extends MessageToMessageCodec<Frame, Message> {
     @Override
     protected void encode(ChannelHandlerContext ctx, Message msg, List<Object> out) throws Exception {
         String output = String.format("To: \t%s \tSend: \t%s", ctx.channel().remoteAddress(), msg);
-        ethereumListener.trace(output);
+        one2oneeumListener.trace(output);
 
         if (loggerNet.isDebugEnabled())
             loggerNet.debug("To:   {}    Send:  {}", channel, msg);

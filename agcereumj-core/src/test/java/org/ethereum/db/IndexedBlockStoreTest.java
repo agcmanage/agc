@@ -1,31 +1,31 @@
 /*
- * Copyright (c) [2016] [ <ether.camp> ]
- * This file is part of the ethereumJ library.
+ * Copyright (c) [2016] [ <one2one.camp> ]
+ * This file is part of the one2oneeumJ library.
  *
- * The ethereumJ library is free software: you can redistribute it and/or modify
+ * The one2oneeumJ library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The ethereumJ library is distributed in the hope that it will be useful,
+ * The one2oneeumJ library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
+ * along with the one2oneeumJ library. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ethereum.db;
+package org.one2oneeum.db;
 
-import org.ethereum.config.SystemProperties;
-import org.ethereum.core.Block;
-import org.ethereum.core.Genesis;
-import org.ethereum.datasource.DbSettings;
-import org.ethereum.datasource.DbSource;
-import org.ethereum.datasource.inmem.HashMapDB;
-import org.ethereum.datasource.rocksdb.RocksDbDataSource;
-import org.ethereum.util.FileUtil;
-import org.ethereum.util.blockchain.StandaloneBlockchain;
+import org.one2oneeum.config.SystemProperties;
+import org.one2oneeum.core.Block;
+import org.one2oneeum.core.Genesis;
+import org.one2oneeum.datasource.DbSettings;
+import org.one2oneeum.datasource.DbSource;
+import org.one2oneeum.datasource.inmem.HashMapDB;
+import org.one2oneeum.datasource.rocksdb.RocksDbDataSource;
+import org.one2oneeum.util.FileUtil;
+import org.one2oneeum.util.blockchain.StandaloneBlockchain;
 import org.junit.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,8 +41,8 @@ import java.nio.file.Files;
 import java.util.*;
 
 import static java.math.BigInteger.ZERO;
-import static org.ethereum.TestUtils.*;
-import static org.ethereum.util.ByteUtil.wrap;
+import static org.one2oneeum.TestUtils.*;
+import static org.one2oneeum.util.ByteUtil.wrap;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 

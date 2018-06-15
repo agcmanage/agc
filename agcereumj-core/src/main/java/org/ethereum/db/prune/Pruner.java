@@ -1,11 +1,11 @@
-package org.ethereum.db.prune;
+package org.one2oneeum.db.prune;
 
-import org.ethereum.crypto.HashUtil;
-import org.ethereum.datasource.CountingQuotientFilter;
-import org.ethereum.datasource.JournalSource;
-import org.ethereum.datasource.QuotientFilter;
-import org.ethereum.datasource.Source;
-import org.ethereum.util.ByteArraySet;
+import org.one2oneeum.crypto.HashUtil;
+import org.one2oneeum.datasource.CountingQuotientFilter;
+import org.one2oneeum.datasource.JournalSource;
+import org.one2oneeum.datasource.QuotientFilter;
+import org.one2oneeum.datasource.Source;
+import org.one2oneeum.util.ByteArraySet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static org.ethereum.util.ByteUtil.toHexString;
+import static org.one2oneeum.util.ByteUtil.toHexString;
 
 /**
  * This class is responsible for state pruning.

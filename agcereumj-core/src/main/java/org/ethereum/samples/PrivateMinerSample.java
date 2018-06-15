@@ -1,30 +1,30 @@
 /*
- * Copyright (c) [2016] [ <ether.camp> ]
- * This file is part of the ethereumJ library.
+ * Copyright (c) [2016] [ <one2one.camp> ]
+ * This file is part of the one2oneeumJ library.
  *
- * The ethereumJ library is free software: you can redistribute it and/or modify
+ * The one2oneeumJ library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The ethereumJ library is distributed in the hope that it will be useful,
+ * The one2oneeumJ library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
+ * along with the one2oneeumJ library. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ethereum.samples;
+package org.one2oneeum.samples;
 
 import com.typesafe.config.ConfigFactory;
-import org.ethereum.config.SystemProperties;
-import org.ethereum.core.Block;
-import org.ethereum.core.Transaction;
-import org.ethereum.crypto.ECKey;
-import org.ethereum.facade.EthereumFactory;
-import org.ethereum.mine.EthashListener;
-import org.ethereum.util.ByteUtil;
+import org.one2oneeum.config.SystemProperties;
+import org.one2oneeum.core.Block;
+import org.one2oneeum.core.Transaction;
+import org.one2oneeum.crypto.ECKey;
+import org.one2oneeum.facade.one2oneeumFactory;
+import org.one2oneeum.mine.EthashListener;
+import org.one2oneeum.util.ByteUtil;
 import org.spongycastle.util.encoders.Hex;
 import org.springframework.context.annotation.Bean;
 
@@ -34,7 +34,7 @@ import org.springframework.context.annotation.Bean;
  * included to blocks by the miner.
  *
  * Another concept demonstrated by this sample is the ability to run two independently configured
- * EthereumJ peers in a single JVM. For this two Spring ApplicationContext's are created which
+ * one2oneeumJ peers in a single JVM. For this two Spring ApplicationContext's are created which
  * are mostly differed by the configuration supplied
  *
  * Created by Anton Nashatyrev on 05.02.2016.
@@ -96,8 +96,8 @@ public class PrivateMinerSample {
         // networking or sync events
         @Override
         public void run() {
-            ethereum.getBlockMiner().addListener(this);
-            ethereum.getBlockMiner().startMining();
+            one2oneeum.getBlockMiner().addListener(this);
+            one2oneeum.getBlockMiner().startMining();
         }
 
         @Override
@@ -209,14 +209,14 @@ public class PrivateMinerSample {
             ECKey senderKey = ECKey.fromPrivate(Hex.decode("6ef8da380c27cea8fdf7448340ea99e8e2268fc2950d79ed47cbf6f85dc977ec"));
             byte[] receiverAddr = Hex.decode("5db10750e8caff27f906b41c71b3471057dd2004");
 
-            for (int i = ethereum.getRepository().getNonce(senderKey.getAddress()).intValue(), j = 0; j < 20000; i++, j++) {
+            for (int i = one2oneeum.getRepository().getNonce(senderKey.getAddress()).intValue(), j = 0; j < 20000; i++, j++) {
                 {
                     Transaction tx = new Transaction(ByteUtil.intToBytesNoLeadZeroes(i),
                             ByteUtil.longToBytesNoLeadZeroes(50_000_000_000L), ByteUtil.longToBytesNoLeadZeroes(0xfffff),
-                            receiverAddr, new byte[]{77}, new byte[0], ethereum.getChainIdForNextBlock());
+                            receiverAddr, new byte[]{77}, new byte[0], one2oneeum.getChainIdForNextBlock());
                     tx.sign(senderKey);
                     logger.info("<== Submitting tx: " + tx);
-                    ethereum.submitTransaction(tx);
+                    one2oneeum.submitTransaction(tx);
                 }
                 Thread.sleep(7000);
             }
@@ -224,7 +224,7 @@ public class PrivateMinerSample {
     }
 
     /**
-     *  Creating two EthereumJ instances with different config classes
+     *  Creating two one2oneeumJ instances with different config classes
      */
     public static void main(String[] args) throws Exception {
         if (Runtime.getRuntime().maxMemory() < (1250L << 20)) {
@@ -233,9 +233,9 @@ public class PrivateMinerSample {
         }
 
         BasicSample.sLogger.info("Starting EthtereumJ miner instance!");
-        EthereumFactory.createEthereum(MinerConfig.class);
+        one2oneeumFactory.createone2oneeum(MinerConfig.class);
 
         BasicSample.sLogger.info("Starting EthtereumJ regular instance!");
-        EthereumFactory.createEthereum(RegularConfig.class);
+        one2oneeumFactory.createone2oneeum(RegularConfig.class);
     }
 }

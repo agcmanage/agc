@@ -1,30 +1,30 @@
 /*
- * Copyright (c) [2016] [ <ether.camp> ]
- * This file is part of the ethereumJ library.
+ * Copyright (c) [2016] [ <one2one.camp> ]
+ * This file is part of the one2oneeumJ library.
  *
- * The ethereumJ library is free software: you can redistribute it and/or modify
+ * The one2oneeumJ library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The ethereumJ library is distributed in the hope that it will be useful,
+ * The one2oneeumJ library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
+ * along with the one2oneeumJ library. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ethereum.net.rlpx.discover;
+package org.one2oneeum.net.rlpx.discover;
 
 import org.apache.commons.lang3.tuple.Pair;
-import org.ethereum.config.SystemProperties;
-import org.ethereum.crypto.ECKey;
-import org.ethereum.db.PeerSource;
-import org.ethereum.listener.EthereumListener;
-import org.ethereum.net.rlpx.*;
-import org.ethereum.net.rlpx.discover.table.NodeTable;
-import org.ethereum.util.CollectionUtils;
+import org.one2oneeum.config.SystemProperties;
+import org.one2oneeum.crypto.ECKey;
+import org.one2oneeum.db.PeerSource;
+import org.one2oneeum.listener.one2oneeumListener;
+import org.one2oneeum.net.rlpx.*;
+import org.one2oneeum.net.rlpx.discover.table.NodeTable;
+import org.one2oneeum.util.CollectionUtils;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -62,7 +62,7 @@ public class NodeManager implements Consumer<DiscoveryEvent>{
 
     PeerConnectionTester peerConnectionManager;
     PeerSource peerSource;
-    EthereumListener ethereumListener;
+    one2oneeumListener one2oneeumListener;
     SystemProperties config = SystemProperties.getDefault();
 
     Consumer<DiscoveryEvent> messageSender;
@@ -86,10 +86,10 @@ public class NodeManager implements Consumer<DiscoveryEvent>{
     private ScheduledExecutorService pongTimer;
 
     @Autowired
-    public NodeManager(SystemProperties config, EthereumListener ethereumListener,
+    public NodeManager(SystemProperties config, one2oneeumListener one2oneeumListener,
                        ApplicationContext ctx, PeerConnectionTester peerConnectionManager) {
         this.config = config;
-        this.ethereumListener = ethereumListener;
+        this.one2oneeumListener = one2oneeumListener;
         this.peerConnectionManager = peerConnectionManager;
 
         PERSIST = config.peerDiscoveryPersist();
@@ -198,14 +198,14 @@ public class NodeManager implements Consumer<DiscoveryEvent>{
             nodeHandlerMap.put(key, ret);
             logger.debug(" +++ New node: " + ret + " " + n);
             if (!n.isDiscoveryNode() && !n.getHexId().equals(homeNode.getHexId())) {
-                ethereumListener.onNodeDiscovered(ret.getNode());
+                one2oneeumListener.onNodeDiscovered(ret.getNode());
             }
         } else if (ret.getNode().isDiscoveryNode() && !n.isDiscoveryNode()) {
             // we found discovery node with same host:port,
             // replace node with correct nodeId
             ret.node = n;
             if (!n.getHexId().equals(homeNode.getHexId())) {
-                ethereumListener.onNodeDiscovered(ret.getNode());
+                one2oneeumListener.onNodeDiscovered(ret.getNode());
             }
             logger.debug(" +++ Found real nodeId for discovery endpoint {}", n);
         }
@@ -241,7 +241,7 @@ public class NodeManager implements Consumer<DiscoveryEvent>{
     }
 
     /**
-     * Checks whether peers with such InetSocketAddress has penalize disconnect record
+     * Checks whone2one peers with such InetSocketAddress has penalize disconnect record
      * @param addr  Peer address
      * @return true if penalized, false if not or no records
      */

@@ -1,42 +1,42 @@
 /*
- * Copyright (c) [2016] [ <ether.camp> ]
- * This file is part of the ethereumJ library.
+ * Copyright (c) [2016] [ <one2one.camp> ]
+ * This file is part of the one2oneeumJ library.
  *
- * The ethereumJ library is free software: you can redistribute it and/or modify
+ * The one2oneeumJ library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The ethereumJ library is distributed in the hope that it will be useful,
+ * The one2oneeumJ library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
+ * along with the one2oneeumJ library. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ethereum.config;
+package org.one2oneeum.config;
 
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 import com.typesafe.config.ConfigObject;
 import com.typesafe.config.ConfigRenderOptions;
 import org.apache.commons.lang3.tuple.Pair;
-import org.ethereum.config.blockchain.OlympicConfig;
-import org.ethereum.config.net.*;
-import org.ethereum.core.Genesis;
-import org.ethereum.core.genesis.GenesisConfig;
-import org.ethereum.core.genesis.GenesisJson;
-import org.ethereum.core.genesis.GenesisLoader;
-import org.ethereum.crypto.ECKey;
-import org.ethereum.net.p2p.P2pHandler;
-import org.ethereum.net.rlpx.MessageCodec;
-import org.ethereum.net.rlpx.Node;
-import org.ethereum.util.BuildInfo;
-import org.ethereum.util.ByteUtil;
-import org.ethereum.util.Utils;
-import org.ethereum.validator.BlockCustomHashRule;
-import org.ethereum.validator.BlockHeaderValidator;
+import org.one2oneeum.config.blockchain.OlympicConfig;
+import org.one2oneeum.config.net.*;
+import org.one2oneeum.core.Genesis;
+import org.one2oneeum.core.genesis.GenesisConfig;
+import org.one2oneeum.core.genesis.GenesisJson;
+import org.one2oneeum.core.genesis.GenesisLoader;
+import org.one2oneeum.crypto.ECKey;
+import org.one2oneeum.net.p2p.P2pHandler;
+import org.one2oneeum.net.rlpx.MessageCodec;
+import org.one2oneeum.net.rlpx.Node;
+import org.one2oneeum.util.BuildInfo;
+import org.one2oneeum.util.ByteUtil;
+import org.one2oneeum.util.Utils;
+import org.one2oneeum.validator.BlockCustomHashRule;
+import org.one2oneeum.validator.BlockHeaderValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.spongycastle.util.encoders.Hex;
@@ -53,19 +53,19 @@ import java.net.Socket;
 import java.net.URL;
 import java.util.*;
 
-import static org.ethereum.crypto.HashUtil.sha3;
-import static org.ethereum.util.ByteUtil.toHexString;
+import static org.one2oneeum.crypto.HashUtil.sha3;
+import static org.one2oneeum.util.ByteUtil.toHexString;
 
 /**
- * Utility class to retrieve property values from the ethereumj.conf files
+ * Utility class to retrieve property values from the one2oneeumj.conf files
  *
  * The properties are taken from different sources and merged in the following order
  * (the config option from the next source overrides option from previous):
- * - resource ethereumj.conf : normally used as a reference config with default values
+ * - resource one2oneeumj.conf : normally used as a reference config with default values
  *          and shouldn't be changed
  * - system property : each config entry might be altered via -D VM option
- * - [user dir]/config/ethereumj.conf
- * - config specified with the -Dethereumj.conf.file=[file.conf] VM option
+ * - [user dir]/config/one2oneeumj.conf
+ * - config specified with the -Done2oneeumj.conf.file=[file.conf] VM option
  * - CLI options
  *
  * @author Roman Mandeleil
@@ -180,23 +180,23 @@ public class SystemProperties {
             this.classLoader = classLoader;
 
             Config javaSystemProperties = ConfigFactory.load("no-such-resource-only-system-props");
-            Config referenceConfig = ConfigFactory.parseResources("ethereumj.conf");
-            logger.info("Config (" + (referenceConfig.entrySet().size() > 0 ? " yes " : " no  ") + "): default properties from resource 'ethereumj.conf'");
-            String res = System.getProperty("ethereumj.conf.res");
+            Config referenceConfig = ConfigFactory.parseResources("one2oneeumj.conf");
+            logger.info("Config (" + (referenceConfig.entrySet().size() > 0 ? " yes " : " no  ") + "): default properties from resource 'one2oneeumj.conf'");
+            String res = System.getProperty("one2oneeumj.conf.res");
             Config cmdLineConfigRes = res != null ? ConfigFactory.parseResources(res) : ConfigFactory.empty();
-            logger.info("Config (" + (cmdLineConfigRes.entrySet().size() > 0 ? " yes " : " no  ") + "): user properties from -Dethereumj.conf.res resource '" + res + "'");
+            logger.info("Config (" + (cmdLineConfigRes.entrySet().size() > 0 ? " yes " : " no  ") + "): user properties from -Done2oneeumj.conf.res resource '" + res + "'");
             Config userConfig = ConfigFactory.parseResources("user.conf");
             logger.info("Config (" + (userConfig.entrySet().size() > 0 ? " yes " : " no  ") + "): user properties from resource 'user.conf'");
-            File userDirFile = new File(System.getProperty("user.dir"), "/config/ethereumj.conf");
+            File userDirFile = new File(System.getProperty("user.dir"), "/config/one2oneeumj.conf");
             Config userDirConfig = ConfigFactory.parseFile(userDirFile);
             logger.info("Config (" + (userDirConfig.entrySet().size() > 0 ? " yes " : " no  ") + "): user properties from file '" + userDirFile + "'");
-            Config testConfig = ConfigFactory.parseResources("test-ethereumj.conf");
-            logger.info("Config (" + (testConfig.entrySet().size() > 0 ? " yes " : " no  ") + "): test properties from resource 'test-ethereumj.conf'");
+            Config testConfig = ConfigFactory.parseResources("test-one2oneeumj.conf");
+            logger.info("Config (" + (testConfig.entrySet().size() > 0 ? " yes " : " no  ") + "): test properties from resource 'test-one2oneeumj.conf'");
             Config testUserConfig = ConfigFactory.parseResources("test-user.conf");
             logger.info("Config (" + (testUserConfig.entrySet().size() > 0 ? " yes " : " no  ") + "): test properties from resource 'test-user.conf'");
-            String file = System.getProperty("ethereumj.conf.file");
+            String file = System.getProperty("one2oneeumj.conf.file");
             Config cmdLineConfigFile = file != null ? ConfigFactory.parseFile(new File(file)) : ConfigFactory.empty();
-            logger.info("Config (" + (cmdLineConfigFile.entrySet().size() > 0 ? " yes " : " no  ") + "): user properties from -Dethereumj.conf.file file '" + file + "'");
+            logger.info("Config (" + (cmdLineConfigFile.entrySet().size() > 0 ? " yes " : " no  ") + "): user properties from -Done2oneeumj.conf.file file '" + file + "'");
             logger.info("Config (" + (apiConfig.entrySet().size() > 0 ? " yes " : " no  ") + "): config passed via constructor");
             config = apiConfig
                     .withFallback(cmdLineConfigFile)
@@ -355,7 +355,7 @@ public class SystemProperties {
                     } catch (ClassNotFoundException e) {
                         throw new RuntimeException("The class specified via blockchain.config.class '" + className + "' not found", e);
                     } catch (ClassCastException e) {
-                        throw new RuntimeException("The class specified via blockchain.config.class '" + className + "' is not instance of org.ethereum.config.BlockchainForkConfig", e);
+                        throw new RuntimeException("The class specified via blockchain.config.class '" + className + "' is not instance of org.one2oneeum.config.BlockchainForkConfig", e);
                     } catch (InstantiationException | IllegalAccessException e) {
                         throw new RuntimeException("The class specified via blockchain.config.class '" + className + "' couldn't be instantiated (check for default constructor and its accessibility)", e);
                     }

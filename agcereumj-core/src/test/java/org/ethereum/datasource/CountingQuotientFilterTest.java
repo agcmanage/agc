@@ -1,11 +1,11 @@
-package org.ethereum.datasource;
+package org.one2oneeum.datasource;
 
-import org.ethereum.datasource.CountingQuotientFilter;
+import org.one2oneeum.datasource.CountingQuotientFilter;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import static org.ethereum.crypto.HashUtil.sha3;
-import static org.ethereum.util.ByteUtil.intToBytes;
+import static org.one2oneeum.crypto.HashUtil.sha3;
+import static org.one2oneeum.util.ByteUtil.intToBytes;
 
 /**
  * @author Mikhail Kalinin

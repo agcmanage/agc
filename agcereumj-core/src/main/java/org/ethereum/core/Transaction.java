@@ -1,42 +1,42 @@
 /*
- * Copyright (c) [2016] [ <ether.camp> ]
- * This file is part of the ethereumJ library.
+ * Copyright (c) [2016] [ <one2one.camp> ]
+ * This file is part of the one2oneeumJ library.
  *
- * The ethereumJ library is free software: you can redistribute it and/or modify
+ * The one2oneeumJ library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The ethereumJ library is distributed in the hope that it will be useful,
+ * The one2oneeumJ library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
+ * along with the one2oneeumJ library. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ethereum.core;
+package org.one2oneeum.core;
 
 import static org.apache.commons.lang3.ArrayUtils.isEmpty;
-import static org.ethereum.datasource.MemSizeEstimator.ByteArrayEstimator;
-import static org.ethereum.util.ByteUtil.EMPTY_BYTE_ARRAY;
-import static org.ethereum.util.ByteUtil.ZERO_BYTE_ARRAY;
+import static org.one2oneeum.datasource.MemSizeEstimator.ByteArrayEstimator;
+import static org.one2oneeum.util.ByteUtil.EMPTY_BYTE_ARRAY;
+import static org.one2oneeum.util.ByteUtil.ZERO_BYTE_ARRAY;
 
 import java.math.BigInteger;
 import java.security.SignatureException;
 import java.util.Arrays;
 
-import org.ethereum.config.BlockchainNetConfig;
-import org.ethereum.crypto.ECKey;
-import org.ethereum.crypto.ECKey.ECDSASignature;
-import org.ethereum.crypto.ECKey.MissingPrivateKeyException;
-import org.ethereum.crypto.HashUtil;
-import org.ethereum.datasource.MemSizeEstimator;
-import org.ethereum.util.ByteUtil;
-import org.ethereum.util.RLP;
-import org.ethereum.util.RLPElement;
-import org.ethereum.util.RLPItem;
-import org.ethereum.util.RLPList;
+import org.one2oneeum.config.BlockchainNetConfig;
+import org.one2oneeum.crypto.ECKey;
+import org.one2oneeum.crypto.ECKey.ECDSASignature;
+import org.one2oneeum.crypto.ECKey.MissingPrivateKeyException;
+import org.one2oneeum.crypto.HashUtil;
+import org.one2oneeum.datasource.MemSizeEstimator;
+import org.one2oneeum.util.ByteUtil;
+import org.one2oneeum.util.RLP;
+import org.one2oneeum.util.RLPElement;
+import org.one2oneeum.util.RLPItem;
+import org.one2oneeum.util.RLPList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.spongycastle.util.BigIntegers;
@@ -44,7 +44,7 @@ import org.spongycastle.util.encoders.Hex;
 
 /**
  * A transaction (formally, T) is a single cryptographically
- * signed instruction sent by an actor external to Ethereum.
+ * signed instruction sent by an actor external to one2oneeum.
  * An external actor can be a person (via a mobile device or desktop computer)
  * or could be from a piece of automated software running on a server.
  * There are two types of transactions: those which result in message calls
@@ -65,14 +65,14 @@ public class Transaction {
     /* a counter used to make sure each transaction can only be processed once */
     private byte[] nonce;
 
-    /* the amount of ether to transfer (calculated as wei) */
+    /* the amount of one2one to transfer (calculated as wei) */
     private byte[] value;
 
     /* the address of the destination account
      * In creation transaction the receive address is - 0 */
     private byte[] receiveAddress;
 
-    /* the amount of ether to pay as a transaction fee
+    /* the amount of one2one to pay as a transaction fee
      * to the miner for each unit of gas */
     private byte[] gasPrice;
 

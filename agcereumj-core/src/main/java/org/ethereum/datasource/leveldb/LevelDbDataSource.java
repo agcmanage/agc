@@ -1,26 +1,26 @@
 /*
- * Copyright (c) [2016] [ <ether.camp> ]
- * This file is part of the ethereumJ library.
+ * Copyright (c) [2016] [ <one2one.camp> ]
+ * This file is part of the one2oneeumJ library.
  *
- * The ethereumJ library is free software: you can redistribute it and/or modify
+ * The one2oneeumJ library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The ethereumJ library is distributed in the hope that it will be useful,
+ * The one2oneeumJ library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
+ * along with the one2oneeumJ library. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ethereum.datasource.leveldb;
+package org.one2oneeum.datasource.leveldb;
 
-import org.ethereum.config.SystemProperties;
-import org.ethereum.datasource.DbSettings;
-import org.ethereum.datasource.DbSource;
-import org.ethereum.util.FileUtil;
+import org.one2oneeum.config.SystemProperties;
+import org.one2oneeum.datasource.DbSettings;
+import org.one2oneeum.datasource.DbSource;
+import org.one2oneeum.util.FileUtil;
 import org.iq80.leveldb.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,7 +38,7 @@ import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import static org.fusesource.leveldbjni.JniDBFactory.factory;
-import static org.ethereum.util.ByteUtil.toHexString;
+import static org.one2oneeum.util.ByteUtil.toHexString;
 
 /**
  * @author Roman Mandeleil
@@ -110,7 +110,7 @@ public class LevelDbDataSource implements DbSource<byte[]> {
                 } catch (IOException e) {
                     // database could be corrupted
                     // exception in std out may look:
-                    // org.fusesource.leveldbjni.internal.NativeDB$DBException: Corruption: 16 missing files; e.g.: /Users/stan/ethereumj/database-test/block/000026.ldb
+                    // org.fusesource.leveldbjni.internal.NativeDB$DBException: Corruption: 16 missing files; e.g.: /Users/stan/one2oneeumj/database-test/block/000026.ldb
                     // org.fusesource.leveldbjni.internal.NativeDB$DBException: Corruption: checksum mismatch
                     if (e.getMessage().contains("Corruption:")) {
                         logger.warn("Problem initializing database.", e);
@@ -120,7 +120,7 @@ public class LevelDbDataSource implements DbSource<byte[]> {
                         db = factory.open(dbPath.toFile(), options);
                     } else {
                         // must be db lock
-                        // org.fusesource.leveldbjni.internal.NativeDB$DBException: IO error: lock /Users/stan/ethereumj/database-test/state/LOCK: Resource temporarily unavailable
+                        // org.fusesource.leveldbjni.internal.NativeDB$DBException: IO error: lock /Users/stan/one2oneeumj/database-test/state/LOCK: Resource temporarily unavailable
                         throw e;
                     }
                 }

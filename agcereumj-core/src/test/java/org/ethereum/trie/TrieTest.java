@@ -1,28 +1,28 @@
 /*
- * Copyright (c) [2016] [ <ether.camp> ]
- * This file is part of the ethereumJ library.
+ * Copyright (c) [2016] [ <one2one.camp> ]
+ * This file is part of the one2oneeumJ library.
  *
- * The ethereumJ library is free software: you can redistribute it and/or modify
+ * The one2oneeumJ library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The ethereumJ library is distributed in the hope that it will be useful,
+ * The one2oneeumJ library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
+ * along with the one2oneeumJ library. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ethereum.trie;
+package org.one2oneeum.trie;
 
-import org.ethereum.core.AccountState;
-import org.ethereum.crypto.HashUtil;
-import org.ethereum.datasource.*;
-import org.ethereum.datasource.inmem.HashMapDB;
-import org.ethereum.datasource.inmem.HashMapDBSimple;
-import org.ethereum.util.Value;
+import org.one2oneeum.core.AccountState;
+import org.one2oneeum.crypto.HashUtil;
+import org.one2oneeum.datasource.*;
+import org.one2oneeum.datasource.inmem.HashMapDB;
+import org.one2oneeum.datasource.inmem.HashMapDBSimple;
+import org.one2oneeum.util.Value;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -44,9 +44,9 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.*;
 
-import static org.ethereum.crypto.HashUtil.EMPTY_TRIE_HASH;
-import static org.ethereum.crypto.HashUtil.sha3;
-import static org.ethereum.util.ByteUtil.intToBytes;
+import static org.one2oneeum.crypto.HashUtil.EMPTY_TRIE_HASH;
+import static org.one2oneeum.crypto.HashUtil.sha3;
+import static org.one2oneeum.util.ByteUtil.intToBytes;
 import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 
@@ -583,7 +583,7 @@ public class TrieTest {
         assertNotEquals(Hex.toHexString(trie1.getRootHash()), Hex.toHexString(trie2.getRootHash()));
     }
 
-    // Using tests from: https://github.com/ethereum/tests/blob/master/trietest.json
+    // Using tests from: https://github.com/one2oneeum/tests/blob/master/trietest.json
 
     @Test
     public void testSingleItem() {
@@ -621,11 +621,11 @@ public class TrieTest {
     public void testEmptyValues() {
         StringTrie trie = new StringTrie(mockDb);
         trie.put("do", "verb");
-        trie.put("ether", "wookiedoo");
+        trie.put("one2one", "wookiedoo");
         trie.put("horse", "stallion");
         trie.put("shaman", "horse");
         trie.put("doge", "coin");
-        trie.put("ether", "");
+        trie.put("one2one", "");
         trie.put("dog", "puppy");
         trie.put("shaman", "");
 
@@ -1009,7 +1009,7 @@ public class TrieTest {
         byte[] k1 = "do".getBytes();
         byte[] v1 = "verb".getBytes();
 
-        byte[] k2 = "ether".getBytes();
+        byte[] k2 = "one2one".getBytes();
         byte[] v2 = "wookiedoo".getBytes();
 
         byte[] k3 = "horse".getBytes();
@@ -1021,7 +1021,7 @@ public class TrieTest {
         byte[] k5 = "doge".getBytes();
         byte[] v5 = "coin".getBytes();
 
-        byte[] k6 = "ether".getBytes();
+        byte[] k6 = "one2one".getBytes();
         byte[] v6 = "".getBytes();
 
         byte[] k7 = "dog".getBytes();

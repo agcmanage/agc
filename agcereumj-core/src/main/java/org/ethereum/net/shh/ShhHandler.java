@@ -1,24 +1,24 @@
 /*
- * Copyright (c) [2016] [ <ether.camp> ]
- * This file is part of the ethereumJ library.
+ * Copyright (c) [2016] [ <one2one.camp> ]
+ * This file is part of the one2oneeumJ library.
  *
- * The ethereumJ library is free software: you can redistribute it and/or modify
+ * The one2oneeumJ library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The ethereumJ library is distributed in the hope that it will be useful,
+ * The one2oneeumJ library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
+ * along with the one2oneeumJ library. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ethereum.net.shh;
+package org.one2oneeum.net.shh;
 
-import org.ethereum.listener.EthereumListener;
-import org.ethereum.net.MessageQueue;
+import org.one2oneeum.listener.one2oneeumListener;
+import org.one2oneeum.net.MessageQueue;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -46,7 +46,7 @@ public class ShhHandler extends SimpleChannelInboundHandler<ShhMessage> {
     private BloomFilter peerBloomFilter = BloomFilter.createAll();
 
     @Autowired
-    private EthereumListener ethereumListener;
+    private one2oneeumListener one2oneeumListener;
 
     @Autowired
     private WhisperImpl whisper;
@@ -66,11 +66,11 @@ public class ShhHandler extends SimpleChannelInboundHandler<ShhMessage> {
         if (ShhMessageCodes.inRange(msg.getCommand().asByte()))
             logger.info("ShhHandler invoke: [{}]", msg.getCommand());
 
-        ethereumListener.trace(String.format("ShhHandler invoke: [%s]", msg.getCommand()));
+        one2oneeumListener.trace(String.format("ShhHandler invoke: [%s]", msg.getCommand()));
 
         switch (msg.getCommand()) {
             case STATUS:
-                ethereumListener.trace("[Recv: " + msg + "]");
+                one2oneeumListener.trace("[Recv: " + msg + "]");
                 break;
             case MESSAGE:
                 whisper.processEnvelope((ShhEnvelopeMessage) msg, this);
@@ -104,7 +104,7 @@ public class ShhHandler extends SimpleChannelInboundHandler<ShhMessage> {
 
     public void activate() {
         logger.info("SHH protocol activated");
-        ethereumListener.trace("SHH protocol activated");
+        one2oneeumListener.trace("SHH protocol activated");
         whisper.addPeer(this);
         sendStatus();
         sendHostBloom();

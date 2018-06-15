@@ -1,48 +1,48 @@
 /*
- * Copyright (c) [2016] [ <ether.camp> ]
- * This file is part of the ethereumJ library.
+ * Copyright (c) [2016] [ <one2one.camp> ]
+ * This file is part of the one2oneeumJ library.
  *
- * The ethereumJ library is free software: you can redistribute it and/or modify
+ * The one2oneeumJ library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The ethereumJ library is distributed in the hope that it will be useful,
+ * The one2oneeumJ library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
+ * along with the one2oneeumJ library. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ethereum.util.blockchain;
+package org.one2oneeum.util.blockchain;
 
-import org.ethereum.config.BlockchainNetConfig;
-import org.ethereum.config.SystemProperties;
-import org.ethereum.config.blockchain.FrontierConfig;
-import org.ethereum.core.*;
-import org.ethereum.core.genesis.GenesisLoader;
-import org.ethereum.crypto.ECKey;
-import org.ethereum.datasource.*;
-import org.ethereum.datasource.inmem.HashMapDB;
-import org.ethereum.db.PruneManager;
-import org.ethereum.db.RepositoryRoot;
-import org.ethereum.db.ByteArrayWrapper;
-import org.ethereum.db.IndexedBlockStore;
-import org.ethereum.listener.CompositeEthereumListener;
-import org.ethereum.listener.EthereumListener;
-import org.ethereum.listener.EthereumListenerAdapter;
-import org.ethereum.mine.Ethash;
-import org.ethereum.solidity.compiler.CompilationResult;
-import org.ethereum.solidity.compiler.CompilationResult.ContractMetadata;
-import org.ethereum.solidity.compiler.SolidityCompiler;
-import org.ethereum.sync.SyncManager;
-import org.ethereum.util.ByteUtil;
-import org.ethereum.util.FastByteComparisons;
-import org.ethereum.validator.DependentBlockHeaderRuleAdapter;
-import org.ethereum.vm.DataWord;
-import org.ethereum.vm.LogInfo;
-import org.ethereum.vm.program.invoke.ProgramInvokeFactoryImpl;
+import org.one2oneeum.config.BlockchainNetConfig;
+import org.one2oneeum.config.SystemProperties;
+import org.one2oneeum.config.blockchain.FrontierConfig;
+import org.one2oneeum.core.*;
+import org.one2oneeum.core.genesis.GenesisLoader;
+import org.one2oneeum.crypto.ECKey;
+import org.one2oneeum.datasource.*;
+import org.one2oneeum.datasource.inmem.HashMapDB;
+import org.one2oneeum.db.PruneManager;
+import org.one2oneeum.db.RepositoryRoot;
+import org.one2oneeum.db.ByteArrayWrapper;
+import org.one2oneeum.db.IndexedBlockStore;
+import org.one2oneeum.listener.Compositeone2oneeumListener;
+import org.one2oneeum.listener.one2oneeumListener;
+import org.one2oneeum.listener.one2oneeumListenerAdapter;
+import org.one2oneeum.mine.Ethash;
+import org.one2oneeum.solidity.compiler.CompilationResult;
+import org.one2oneeum.solidity.compiler.CompilationResult.ContractMetadata;
+import org.one2oneeum.solidity.compiler.SolidityCompiler;
+import org.one2oneeum.sync.SyncManager;
+import org.one2oneeum.util.ByteUtil;
+import org.one2oneeum.util.FastByteComparisons;
+import org.one2oneeum.validator.DependentBlockHeaderRuleAdapter;
+import org.one2oneeum.vm.DataWord;
+import org.one2oneeum.vm.LogInfo;
+import org.one2oneeum.vm.program.invoke.ProgramInvokeFactoryImpl;
 import org.iq80.leveldb.DBException;
 import org.spongycastle.util.encoders.Hex;
 
@@ -52,7 +52,7 @@ import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ExecutionException;
 
-import static org.ethereum.util.ByteUtil.wrap;
+import static org.one2oneeum.util.ByteUtil.wrap;
 
 /**
  * Created by Anton Nashatyrev on 23.03.2016.
@@ -63,7 +63,7 @@ public class StandaloneBlockchain implements LocalBlockchain {
     byte[] coinbase;
     BlockchainImpl blockchain;
     PendingStateImpl pendingState;
-    CompositeEthereumListener listener;
+    Compositeone2oneeumListener listener;
     ECKey txSender;
     long gasPrice;
     long gasLimit;
@@ -315,7 +315,7 @@ public class StandaloneBlockchain implements LocalBlockchain {
     }
 
     @Override
-    public void sendEther(byte[] toAddress, BigInteger weis) {
+    public void sendone2one(byte[] toAddress, BigInteger weis) {
         submitNewTx(new PendingTx(toAddress, weis, new byte[0]));
     }
 
@@ -431,7 +431,7 @@ public class StandaloneBlockchain implements LocalBlockchain {
         if (blockchain == null) {
             blockchain = createBlockchain(genesis);
             blockchain.setMinerCoinbase(coinbase);
-            addEthereumListener(new EthereumListenerAdapter() {
+            addone2oneeumListener(new one2oneeumListenerAdapter() {
                 @Override
                 public void onBlock(BlockSummary blockSummary) {
                     lastSummary = blockSummary;
@@ -441,7 +441,7 @@ public class StandaloneBlockchain implements LocalBlockchain {
         return blockchain;
     }
 
-    public void addEthereumListener(EthereumListener listener) {
+    public void addone2oneeumListener(one2oneeumListener listener) {
         getBlockchain();
         this.listener.addListener(listener);
     }
@@ -480,10 +480,10 @@ public class StandaloneBlockchain implements LocalBlockchain {
         final RepositoryRoot repository = new RepositoryRoot(pruningStateDS);
 
         ProgramInvokeFactoryImpl programInvokeFactory = new ProgramInvokeFactoryImpl();
-        listener = new CompositeEthereumListener();
+        listener = new Compositeone2oneeumListener();
 
         BlockchainImpl blockchain = new BlockchainImpl(blockStore, repository)
-                .withEthereumListener(listener)
+                .withone2oneeumListener(listener)
                 .withSyncManager(new SyncManager());
         blockchain.setParentHeaderValidator(new DependentBlockHeaderRuleAdapter());
         blockchain.setProgramInvokeFactory(programInvokeFactory);
@@ -592,7 +592,7 @@ public class StandaloneBlockchain implements LocalBlockchain {
             Repository repository = getBlockchain().getRepository().getSnapshotTo(callBlock.getStateRoot()).startTracking();
 
             try {
-                org.ethereum.core.TransactionExecutor executor = new org.ethereum.core.TransactionExecutor
+                org.one2oneeum.core.TransactionExecutor executor = new org.one2oneeum.core.TransactionExecutor
                         (tx, callBlock.getCoinbase(), repository, getBlockchain().getBlockStore(),
                                 getBlockchain().getProgramInvokeFactory(), callBlock)
                         .setLocalCall(true);

@@ -1,29 +1,29 @@
 /*
- * Copyright (c) [2016] [ <ether.camp> ]
- * This file is part of the ethereumJ library.
+ * Copyright (c) [2016] [ <one2one.camp> ]
+ * This file is part of the one2oneeumJ library.
  *
- * The ethereumJ library is free software: you can redistribute it and/or modify
+ * The one2oneeumJ library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The ethereumJ library is distributed in the hope that it will be useful,
+ * The one2oneeumJ library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
+ * along with the one2oneeumJ library. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ethereum.samples;
+package org.one2oneeum.samples;
 
 import com.typesafe.config.ConfigFactory;
-import org.ethereum.config.SystemProperties;
-import org.ethereum.crypto.ECKey;
-import org.ethereum.facade.EthereumFactory;
+import org.one2oneeum.config.SystemProperties;
+import org.one2oneeum.crypto.ECKey;
+import org.one2oneeum.facade.one2oneeumFactory;
 import org.springframework.context.annotation.Bean;
 
-import static org.ethereum.crypto.HashUtil.sha3;
+import static org.one2oneeum.crypto.HashUtil.sha3;
 
 /**
  * This class just extends the BasicSample with the config which connect the peer to the test network
@@ -74,7 +74,7 @@ public class TestNetSample extends BasicSample {
     }
 
     public static void main(String[] args) throws Exception {
-        sLogger.info("Starting EthereumJ!");
+        sLogger.info("Starting one2oneeumJ!");
 
         class SampleConfig extends TestNetConfig {
             @Bean
@@ -85,6 +85,6 @@ public class TestNetSample extends BasicSample {
 
         // Based on Config class the BasicSample would be created by Spring
         // and its springInit() method would be called as an entry point
-        EthereumFactory.createEthereum(SampleConfig.class);
+        one2oneeumFactory.createone2oneeum(SampleConfig.class);
     }
 }

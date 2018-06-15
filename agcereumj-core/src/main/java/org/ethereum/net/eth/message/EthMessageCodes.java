@@ -1,46 +1,46 @@
 /*
- * Copyright (c) [2016] [ <ether.camp> ]
- * This file is part of the ethereumJ library.
+ * Copyright (c) [2016] [ <one2one.camp> ]
+ * This file is part of the one2oneeumJ library.
  *
- * The ethereumJ library is free software: you can redistribute it and/or modify
+ * The one2oneeumJ library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The ethereumJ library is distributed in the hope that it will be useful,
+ * The one2oneeumJ library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
+ * along with the one2oneeumJ library. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ethereum.net.eth.message;
+package org.one2oneeum.net.eth.message;
 
-import org.ethereum.net.eth.EthVersion;
+import org.one2oneeum.net.eth.EthVersion;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.ethereum.net.eth.EthVersion.*;
+import static org.one2oneeum.net.eth.EthVersion.*;
 
 /**
- * A list of commands for the Ethereum network protocol.
+ * A list of commands for the one2oneeum network protocol.
  * <br>
  * The codes for these commands are the first byte in every packet.
  *
- * @see <a href="https://github.com/ethereum/wiki/wiki/Ethereum-Wire-Protocol">
- * https://github.com/ethereum/wiki/wiki/Ethereum-Wire-Protocol</a>
+ * @see <a href="https://github.com/one2oneeum/wiki/wiki/one2oneeum-Wire-Protocol">
+ * https://github.com/one2oneeum/wiki/wiki/one2oneeum-Wire-Protocol</a>
  */
 public enum EthMessageCodes {
 
-    /* Ethereum protocol */
+    /* one2oneeum protocol */
 
     /**
      * {@code [0x00, [PROTOCOL_VERSION, NETWORK_ID, TD, BEST_HASH, GENESIS_HASH] } <br>
      *
-     * Inform a peer of it's current ethereum state. This message should be
-     * send after the initial handshake and prior to any ethereum related messages.
+     * Inform a peer of it's current one2oneeum state. This message should be
+     * send after the initial handshake and prior to any one2oneeum related messages.
      */
     STATUS(0x00),
 
@@ -68,7 +68,7 @@ public enum EthMessageCodes {
      *
      * Specify (a) transaction(s) that the peer should make sure is included
      * on its transaction queue. The items in the list (following the first item 0x12)
-     * are transactions in the format described in the main Ethereum specification.
+     * are transactions in the format described in the main one2oneeum specification.
      */
     TRANSACTIONS(0x02),
 
@@ -92,7 +92,7 @@ public enum EthMessageCodes {
      *
      * Reply to GetBlockHeaders.
      * The items in the list (following the message ID) are
-     * block headers in the format described in the main Ethereum specification,
+     * block headers in the format described in the main one2oneeum specification,
      * previously asked for in a GetBlockHeaders message.
      * This may validly contain no block headers
      * if no block headers were able to be returned for the GetBlockHeaders query.
@@ -116,7 +116,7 @@ public enum EthMessageCodes {
      *
      * Reply to GetBlockBodies.
      * The items in the list (following the message ID) are some of the blocks, minus the header,
-     * in the format described in the main Ethereum specification, previously asked for in a GetBlockBodies message.
+     * in the format described in the main one2oneeum specification, previously asked for in a GetBlockBodies message.
      * This may validly contain no block headers
      * if no block headers were able to be returned for the GetBlockHeaders query.
      */
@@ -127,7 +127,7 @@ public enum EthMessageCodes {
      *
      * Specify a single block that the peer should know about. The composite item
      * in the list (following the message ID) is a block in the format described
-     * in the main Ethereum specification.
+     * in the main one2oneeum specification.
      */
     NEW_BLOCK(0x07),
 

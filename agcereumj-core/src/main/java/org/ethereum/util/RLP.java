@@ -1,23 +1,23 @@
 /*
- * Copyright (c) [2016] [ <ether.camp> ]
- * This file is part of the ethereumJ library.
+ * Copyright (c) [2016] [ <one2one.camp> ]
+ * This file is part of the one2oneeumJ library.
  *
- * The ethereumJ library is free software: you can redistribute it and/or modify
+ * The one2oneeumJ library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The ethereumJ library is distributed in the hope that it will be useful,
+ * The one2oneeumJ library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
+ * along with the one2oneeumJ library. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ethereum.util;
+package org.one2oneeum.util;
 
-import org.ethereum.db.ByteArrayWrapper;
+import org.one2oneeum.db.ByteArrayWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.spongycastle.util.encoders.Hex;
@@ -26,7 +26,7 @@ import java.math.BigInteger;
 import java.util.*;
 
 import static java.util.Arrays.copyOfRange;
-import static org.ethereum.util.ByteUtil.*;
+import static org.one2oneeum.util.ByteUtil.*;
 import static org.spongycastle.util.Arrays.concatenate;
 import static org.spongycastle.util.BigIntegers.asUnsignedByteArray;
 
@@ -34,14 +34,14 @@ import static org.spongycastle.util.BigIntegers.asUnsignedByteArray;
  * Recursive Length Prefix (RLP) encoding.
  * <p>
  * The purpose of RLP is to encode arbitrarily nested arrays of binary data, and
- * RLP is the main encoding method used to serialize objects in Ethereum. The
+ * RLP is the main encoding method used to serialize objects in one2oneeum. The
  * only purpose of RLP is to encode structure; encoding specific atomic data
  * types (eg. strings, integers, floats) is left up to higher-order protocols; in
- * Ethereum the standard is that integers are represented in big endian binary
+ * one2oneeum the standard is that integers are represented in big endian binary
  * form. If one wishes to use RLP to encode a dictionary, the two suggested
  * canonical forms are to either use [[k1,v1],[k2,v2]...] with keys in
  * lexicographic order or to use the higher-level Patricia Tree encoding as
- * Ethereum does.
+ * one2oneeum does.
  * <p>
  * The RLP encoding function takes in an item. An item is defined as follows:
  * <p>
@@ -54,7 +54,7 @@ import static org.spongycastle.util.BigIntegers.asUnsignedByteArray;
  * synonym for "a certain number of bytes of binary data"; no special encodings
  * are used and no knowledge about the content of the strings is implied.
  * <p>
- * See: https://github.com/ethereum/wiki/wiki/%5BEnglish%5D-RLP
+ * See: https://github.com/one2oneeum/wiki/wiki/%5BEnglish%5D-RLP
  *
  * @author Roman Mandeleil
  * @since 01.04.2014
@@ -153,7 +153,7 @@ public class RLP {
 
         int value = 0;
         // NOTE: From RLP doc:
-        // Ethereum integers must be represented in big endian binary form
+        // one2oneeum integers must be represented in big endian binary form
         // with no leading zeroes (thus making the integer value zero be
         // equivalent to the empty byte array)
 

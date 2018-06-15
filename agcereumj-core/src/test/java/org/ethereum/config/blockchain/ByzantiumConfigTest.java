@@ -1,28 +1,28 @@
 /*
- * Copyright (c) [2017] [ <ether.camp> ]
- * This file is part of the ethereumJ library.
+ * Copyright (c) [2017] [ <one2one.camp> ]
+ * This file is part of the one2oneeumJ library.
  *
- * The ethereumJ library is free software: you can redistribute it and/or modify
+ * The one2oneeumJ library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The ethereumJ library is distributed in the hope that it will be useful,
+ * The one2oneeumJ library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
+ * along with the one2oneeumJ library. If not, see <http://www.gnu.org/licenses/>.
  *
  *
  */
 
-package org.ethereum.config.blockchain;
+package org.one2oneeum.config.blockchain;
 
-import org.ethereum.config.Constants;
-import org.ethereum.config.ConstantsAdapter;
-import org.ethereum.core.BlockHeader;
+import org.one2oneeum.config.Constants;
+import org.one2oneeum.config.ConstantsAdapter;
+import org.one2oneeum.core.BlockHeader;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.spongycastle.util.encoders.Hex;
@@ -87,10 +87,10 @@ public class ByzantiumConfigTest {
 
     @Test
     @Ignore
-    public void testEtherscanIoBlock4490790() throws Exception {
+    public void testone2onescanIoBlock4490790() throws Exception {
         ByzantiumConfig byzantiumConfig = new ByzantiumConfig(new TestBlockchainConfig());
 
-        // https://etherscan.io/block/4490788
+        // https://one2onescan.io/block/4490788
         String parentHash = "fd9d7467e933ff2975c33ea3045ddf8773c87c4cec4e7da8de1bcc015361b38b";
         BlockHeader parent = new BlockHeaderBuilder(parentHash.getBytes(), 4490788, "1,377,255,445,606,146")
                 .withTimestamp(1509827488)
@@ -98,7 +98,7 @@ public class ByzantiumConfigTest {
                 .withUncles(Hex.decode("1dcc4de8dec75d7aab85b567b6ccd41ad312451b948a7413f0a142fd40d49347"))
                 .build();
 
-        // https://etherscan.io/block/4490789
+        // https://one2onescan.io/block/4490789
         BlockHeader current = new BlockHeaderBuilder(parent.getHash(), 4490789, BigInteger.ZERO)
                 .withTimestamp(1509827494)
                 .build();
@@ -106,8 +106,8 @@ public class ByzantiumConfigTest {
         BigInteger minimumDifficulty = byzantiumConfig.calcDifficulty(current, parent);
         assertEquals(BlockHeaderBuilder.parse("1,378,600,421,631,340"), minimumDifficulty);
 
-        BigInteger actualDifficultyOnEtherscan = BlockHeaderBuilder.parse("1,377,927,933,620,791");
-        assertTrue(actualDifficultyOnEtherscan.compareTo(minimumDifficulty) > -1);
+        BigInteger actualDifficultyOnone2onescan = BlockHeaderBuilder.parse("1,377,927,933,620,791");
+        assertTrue(actualDifficultyOnone2onescan.compareTo(minimumDifficulty) > -1);
     }
 
     @Test

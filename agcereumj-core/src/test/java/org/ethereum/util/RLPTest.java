@@ -1,30 +1,30 @@
 /*
- * Copyright (c) [2016] [ <ether.camp> ]
- * This file is part of the ethereumJ library.
+ * Copyright (c) [2016] [ <one2one.camp> ]
+ * This file is part of the one2oneeumJ library.
  *
- * The ethereumJ library is free software: you can redistribute it and/or modify
+ * The one2oneeumJ library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The ethereumJ library is distributed in the hope that it will be useful,
+ * The one2oneeumJ library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
+ * along with the one2oneeumJ library. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ethereum.util;
+package org.one2oneeum.util;
 
-import org.ethereum.crypto.HashUtil;
+import org.one2oneeum.crypto.HashUtil;
 
 import com.cedarsoftware.util.DeepEquals;
 
-import org.ethereum.db.ByteArrayWrapper;
-import org.ethereum.net.client.Capability;
-import org.ethereum.net.p2p.HelloMessage;
-import org.ethereum.net.swarm.Util;
+import org.one2oneeum.db.ByteArrayWrapper;
+import org.one2oneeum.net.client.Capability;
+import org.one2oneeum.net.p2p.HelloMessage;
+import org.one2oneeum.net.swarm.Util;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -42,11 +42,11 @@ import java.net.UnknownHostException;
 
 import java.util.*;
 
-import static org.ethereum.util.ByteUtil.byteArrayToInt;
-import static org.ethereum.util.ByteUtil.wrap;
-import static org.ethereum.util.RLP.*;
+import static org.one2oneeum.util.ByteUtil.byteArrayToInt;
+import static org.one2oneeum.util.ByteUtil.wrap;
+import static org.one2oneeum.util.RLP.*;
 import static org.junit.Assert.*;
-import static org.ethereum.util.RlpTestData.*;
+import static org.one2oneeum.util.RlpTestData.*;
 
 public class RLPTest {
 
@@ -273,12 +273,12 @@ public class RLPTest {
                 (byte) 0x75, (byte) 0x6D, (byte) 0x4A, (byte) 0x20, (byte) 0x43, (byte) 0x6C,
                 (byte) 0x69, (byte) 0x65, (byte) 0x6E, (byte) 0x74};
 
-        String test = "EthereumJ Client";
+        String test = "one2oneeumJ Client";
         data = encodeString(test);
 
         assertArrayEquals(expected, data);
 
-        String test2 = "Ethereum(++)/ZeroGox/v0.5.0/ncurses/Linux/g++";
+        String test2 = "one2oneeum(++)/ZeroGox/v0.5.0/ncurses/Linux/g++";
 
         byte[] expected2 = {(byte) 0xAD, (byte) 0x45, (byte) 0x74, (byte) 0x68, (byte) 0x65, (byte) 0x72, (byte) 0x65,
                 (byte) 0x75, (byte) 0x6D, (byte) 0x28, (byte) 0x2B, (byte) 0x2B, (byte) 0x29, (byte) 0x2F,
@@ -291,7 +291,7 @@ public class RLPTest {
         data = encodeString(test2);
         assertArrayEquals(expected2, data);
 
-        String test3 = "Ethereum(++)/ZeroGox/v0.5.0/ncurses/Linux/g++Ethereum(++)/ZeroGox/v0.5.0/ncurses/Linux/g++";
+        String test3 = "one2oneeum(++)/ZeroGox/v0.5.0/ncurses/Linux/g++one2oneeum(++)/ZeroGox/v0.5.0/ncurses/Linux/g++";
 
         byte[] expected3 = {(byte) 0xB8, (byte) 0x5A,
                 (byte) 0x45, (byte) 0x74, (byte) 0x68, (byte) 0x65, (byte) 0x72, (byte) 0x65,
@@ -614,7 +614,7 @@ public class RLPTest {
     }
 
     /************************************
-     * Test data from: https://github.com/ethereum/wiki/wiki/%5BEnglish%5D-RLP
+     * Test data from: https://github.com/one2oneeum/wiki/wiki/%5BEnglish%5D-RLP
      *
      * Using assertEquals(String, String) instead of assertArrayEquals to see the actual content when the test fails.
      */

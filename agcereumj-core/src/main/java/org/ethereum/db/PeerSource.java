@@ -1,38 +1,38 @@
 /*
- * Copyright (c) [2016] [ <ether.camp> ]
- * This file is part of the ethereumJ library.
+ * Copyright (c) [2016] [ <one2one.camp> ]
+ * This file is part of the one2oneeumJ library.
  *
- * The ethereumJ library is free software: you can redistribute it and/or modify
+ * The one2oneeumJ library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The ethereumJ library is distributed in the hope that it will be useful,
+ * The one2oneeumJ library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
+ * along with the one2oneeumJ library. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ethereum.db;
+package org.one2oneeum.db;
 
 import org.apache.commons.lang3.tuple.Pair;
-import org.ethereum.datasource.DataSourceArray;
-import org.ethereum.datasource.DbSource;
-import org.ethereum.datasource.ObjectDataSource;
-import org.ethereum.datasource.Serializer;
-import org.ethereum.datasource.Source;
-import org.ethereum.net.rlpx.Node;
-import org.ethereum.util.ByteUtil;
-import org.ethereum.util.RLP;
-import org.ethereum.util.RLPList;
+import org.one2oneeum.datasource.DataSourceArray;
+import org.one2oneeum.datasource.DbSource;
+import org.one2oneeum.datasource.ObjectDataSource;
+import org.one2oneeum.datasource.Serializer;
+import org.one2oneeum.datasource.Source;
+import org.one2oneeum.net.rlpx.Node;
+import org.one2oneeum.util.ByteUtil;
+import org.one2oneeum.util.RLP;
+import org.one2oneeum.util.RLPList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.math.BigInteger;
 
 /**
- * Source for {@link org.ethereum.net.rlpx.Node} also known as Peers
+ * Source for {@link org.one2oneeum.net.rlpx.Node} also known as Peers
  */
 public class PeerSource {
     private static final Logger logger = LoggerFactory.getLogger("db");

@@ -1,28 +1,28 @@
 /*
- * Copyright (c) [2016] [ <ether.camp> ]
- * This file is part of the ethereumJ library.
+ * Copyright (c) [2016] [ <one2one.camp> ]
+ * This file is part of the one2oneeumJ library.
  *
- * The ethereumJ library is free software: you can redistribute it and/or modify
+ * The one2oneeumJ library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The ethereumJ library is distributed in the hope that it will be useful,
+ * The one2oneeumJ library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
+ * along with the one2oneeumJ library. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ethereum.longrun;
+package org.one2oneeum.longrun;
 
 import com.typesafe.config.ConfigFactory;
 import org.apache.commons.lang3.mutable.MutableObject;
-import org.ethereum.config.CommonConfig;
-import org.ethereum.config.SystemProperties;
-import org.ethereum.facade.Ethereum;
-import org.ethereum.facade.EthereumFactory;
+import org.one2oneeum.config.CommonConfig;
+import org.one2oneeum.config.SystemProperties;
+import org.one2oneeum.facade.one2oneeum;
+import org.one2oneeum.facade.one2oneeumFactory;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -43,7 +43,7 @@ import static java.lang.Thread.sleep;
  *
  * Runs sync with defined config
  * - checks State Trie is not broken
- * - checks whether all blocks are in blockstore, validates parent connection and bodies
+ * - checks whone2one all blocks are in blockstore, validates parent connection and bodies
  * - checks and validate transaction receipts
  * Stopped, than restarts in 1 minute, syncs and pass all checks again
  *
@@ -55,7 +55,7 @@ import static java.lang.Thread.sleep;
 @Ignore
 public class SyncSanityTest {
 
-    private Ethereum regularNode;
+    private one2oneeum regularNode;
     private static AtomicBoolean firstRun = new AtomicBoolean(true);
     private static final Logger testLogger = LoggerFactory.getLogger("TestLogger");
     private static final MutableObject<String> configPath = new MutableObject<>("longrun/conf/ropsten.conf");
@@ -111,7 +111,7 @@ public class SyncSanityTest {
     }
 
     /**
-     * Just regular EthereumJ node
+     * Just regular one2oneeumJ node
      */
     static class RegularNode extends BasicNode {
         public RegularNode() {
@@ -130,7 +130,7 @@ public class SyncSanityTest {
                     // Stop syncing
                     config.setSyncEnabled(false);
                     config.setDiscoveryEnabled(false);
-                    ethereum.getChannelManager().close();
+                    one2oneeum.getChannelManager().close();
                     syncPool.close();
 
                     return;
@@ -141,7 +141,7 @@ public class SyncSanityTest {
         @Override
         public void onSyncDone() throws Exception {
             // Full sanity check
-            fullSanityCheck(ethereum, commonConfig);
+            fullSanityCheck(one2oneeum, commonConfig);
         }
     }
 
@@ -160,9 +160,9 @@ public class SyncSanityTest {
         return fatalErrors.get() == 0;
     }
 
-    private static void fullSanityCheck(Ethereum ethereum, CommonConfig commonConfig) {
+    private static void fullSanityCheck(one2oneeum one2oneeum, CommonConfig commonConfig) {
 
-        BlockchainValidation.fullCheck(ethereum, commonConfig, fatalErrors);
+        BlockchainValidation.fullCheck(one2oneeum, commonConfig, fatalErrors);
         logStats();
 
         if (!firstRun.get()) {
@@ -176,7 +176,7 @@ public class SyncSanityTest {
     @Test
     public void testDoubleCheck() throws Exception {
 
-        runEthereum();
+        runone2oneeum();
 
         new Thread(() -> {
             try {
@@ -188,7 +188,7 @@ public class SyncSanityTest {
                 testLogger.info("First run stopped");
                 sleep(60_000);
                 testLogger.info("Starting second run");
-                runEthereum();
+                runone2oneeum();
             } catch (Throwable e) {
                 e.printStackTrace();
             }
@@ -202,8 +202,8 @@ public class SyncSanityTest {
         }
     }
 
-    public void runEthereum() throws Exception {
-        testLogger.info("Starting EthereumJ regular instance!");
-        this.regularNode = EthereumFactory.createEthereum(RegularConfig.class);
+    public void runone2oneeum() throws Exception {
+        testLogger.info("Starting one2oneeumJ regular instance!");
+        this.regularNode = one2oneeumFactory.createone2oneeum(RegularConfig.class);
     }
 }

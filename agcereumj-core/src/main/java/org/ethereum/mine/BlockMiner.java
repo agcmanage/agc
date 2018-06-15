@@ -1,35 +1,35 @@
 /*
- * Copyright (c) [2016] [ <ether.camp> ]
- * This file is part of the ethereumJ library.
+ * Copyright (c) [2016] [ <one2one.camp> ]
+ * This file is part of the one2oneeumJ library.
  *
- * The ethereumJ library is free software: you can redistribute it and/or modify
+ * The one2oneeumJ library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The ethereumJ library is distributed in the hope that it will be useful,
+ * The one2oneeumJ library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
+ * along with the one2oneeumJ library. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ethereum.mine;
+package org.one2oneeum.mine;
 
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.MoreExecutors;
 import org.apache.commons.collections4.CollectionUtils;
-import org.ethereum.config.SystemProperties;
-import org.ethereum.core.*;
-import org.ethereum.db.BlockStore;
-import org.ethereum.db.ByteArrayWrapper;
-import org.ethereum.db.IndexedBlockStore;
-import org.ethereum.facade.Ethereum;
-import org.ethereum.facade.EthereumImpl;
-import org.ethereum.listener.CompositeEthereumListener;
-import org.ethereum.listener.EthereumListenerAdapter;
-import org.ethereum.mine.MinerIfc.MiningResult;
+import org.one2oneeum.config.SystemProperties;
+import org.one2oneeum.core.*;
+import org.one2oneeum.db.BlockStore;
+import org.one2oneeum.db.ByteArrayWrapper;
+import org.one2oneeum.db.IndexedBlockStore;
+import org.one2oneeum.facade.one2oneeum;
+import org.one2oneeum.facade.one2oneeumImpl;
+import org.one2oneeum.listener.Compositeone2oneeumListener;
+import org.one2oneeum.listener.one2oneeumListenerAdapter;
+import org.one2oneeum.mine.MinerIfc.MiningResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,11 +57,11 @@ public class BlockMiner {
     private BlockStore blockStore;
 
     @Autowired
-    private Ethereum ethereum;
+    private one2oneeum one2oneeum;
 
     protected PendingState pendingState;
 
-    private CompositeEthereumListener listener;
+    private Compositeone2oneeumListener listener;
 
     private SystemProperties config;
 
@@ -82,7 +82,7 @@ public class BlockMiner {
     private int UNCLE_GENERATION_LIMIT;
 
     @Autowired
-    public BlockMiner(final SystemProperties config, final CompositeEthereumListener listener,
+    public BlockMiner(final SystemProperties config, final Compositeone2oneeumListener listener,
                       final Blockchain blockchain, final BlockStore blockStore,
                       final PendingState pendingState) {
         this.listener = listener;
@@ -96,7 +96,7 @@ public class BlockMiner {
         minBlockTimeout = config.getMineMinBlockTimeoutMsec();
         cpuThreads = config.getMineCpuThreads();
         fullMining = config.isMineFullDataset();
-        listener.addListener(new EthereumListenerAdapter() {
+        listener.addListener(new one2oneeumListenerAdapter() {
             @Override
             public void onPendingStateChanged(PendingState pendingState) {
                 BlockMiner.this.onPendingStateChanged();
@@ -315,7 +315,7 @@ public class BlockMiner {
 
         // broadcast the block
         logger.debug("Importing newly mined block {} {} ...", newBlock.getShortHash(), newBlock.getNumber());
-        ImportResult importResult = ((EthereumImpl) ethereum).addNewMinedBlock(newBlock);
+        ImportResult importResult = ((one2oneeumImpl) one2oneeum).addNewMinedBlock(newBlock);
         logger.debug("Mined block import result is " + importResult);
     }
 

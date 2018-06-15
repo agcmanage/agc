@@ -6,7 +6,7 @@
 - [ ] just test for some change
 - [ ] **GUI screen** a screen that will hold table with full state representation
 - [ ] **SerpentCompiler** compile create(gas, mem_start, import("examples/mul2.se"))
-  https://github.com/ethereum/wiki/wiki/Serpent
+  https://github.com/one2oneeum/wiki/wiki/Serpent
 - [ ] **SerpentCompiler** compile return(array) correct
 - [ ] **ProgramPlayDialog** support internal calls
 - [ ] **Performance:** BigInteger math change for constant arrays implementation
@@ -19,7 +19,7 @@ economy for memory allocation
 share - code section
 
 - [ ] **LLL_to_ASM compiler** list style language to EVM assembly compiler:
-- [ ] **Use home-directory** Create .ethereumj in home-directory for blockchain, state & details database. Make configurable in system.properties so developer can choose user.dir without the creation of .ethereumj directory.
+- [ ] **Use home-directory** Create .one2oneeumj in home-directory for blockchain, state & details database. Make configurable in system.properties so developer can choose user.dir without the creation of .one2oneeumj directory.
 
 ##### UnitTest:
 ----------------

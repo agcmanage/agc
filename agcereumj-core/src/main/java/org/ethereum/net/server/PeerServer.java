@@ -1,24 +1,24 @@
 /*
- * Copyright (c) [2016] [ <ether.camp> ]
- * This file is part of the ethereumJ library.
+ * Copyright (c) [2016] [ <one2one.camp> ]
+ * This file is part of the one2oneeumJ library.
  *
- * The ethereumJ library is free software: you can redistribute it and/or modify
+ * The one2oneeumJ library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The ethereumJ library is distributed in the hope that it will be useful,
+ * The one2oneeumJ library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
+ * along with the one2oneeumJ library. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ethereum.net.server;
+package org.one2oneeum.net.server;
 
-import org.ethereum.config.SystemProperties;
-import org.ethereum.listener.EthereumListener;
+import org.one2oneeum.config.SystemProperties;
+import org.one2oneeum.listener.one2oneeumListener;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
@@ -36,7 +36,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
-import static org.ethereum.util.ByteUtil.toHexString;
+import static org.one2oneeum.util.ByteUtil.toHexString;
 
 /**
  * This class establishes a listener for incoming connections.
@@ -54,9 +54,9 @@ public class PeerServer {
 
     private ApplicationContext ctx;
 
-    private EthereumListener ethereumListener;
+    private one2oneeumListener one2oneeumListener;
 
-    public EthereumChannelInitializer ethereumChannelInitializer;
+    public one2oneeumChannelInitializer one2oneeumChannelInitializer;
 
     private boolean listening;
 
@@ -66,10 +66,10 @@ public class PeerServer {
 
     @Autowired
     public PeerServer(final SystemProperties config, final ApplicationContext ctx,
-                      final EthereumListener ethereumListener) {
+                      final one2oneeumListener one2oneeumListener) {
         this.ctx = ctx;
         this.config = config;
-        this.ethereumListener = ethereumListener;
+        this.one2oneeumListener = one2oneeumListener;
     }
 
     public void start(int port) {
@@ -77,9 +77,9 @@ public class PeerServer {
         bossGroup = new NioEventLoopGroup(1);
         workerGroup = new NioEventLoopGroup();
 
-        ethereumChannelInitializer = ctx.getBean(EthereumChannelInitializer.class, "");
+        one2oneeumChannelInitializer = ctx.getBean(one2oneeumChannelInitializer.class, "");
 
-        ethereumListener.trace("Listening on port " + port);
+        one2oneeumListener.trace("Listening on port " + port);
 
 
         try {
@@ -93,7 +93,7 @@ public class PeerServer {
             b.option(ChannelOption.CONNECT_TIMEOUT_MILLIS, config.peerConnectionTimeout());
 
             b.handler(new LoggingHandler());
-            b.childHandler(ethereumChannelInitializer);
+            b.childHandler(one2oneeumChannelInitializer);
 
             // Start the client.
             logger.info("Listening for incoming connections, port: [{}] ", port);

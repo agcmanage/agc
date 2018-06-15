@@ -1,21 +1,21 @@
 /*
- * Copyright (c) [2016] [ <ether.camp> ]
- * This file is part of the ethereumJ library.
+ * Copyright (c) [2016] [ <one2one.camp> ]
+ * This file is part of the one2oneeumJ library.
  *
- * The ethereumJ library is free software: you can redistribute it and/or modify
+ * The one2oneeumJ library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The ethereumJ library is distributed in the hope that it will be useful,
+ * The one2oneeumJ library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
+ * along with the one2oneeumJ library. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ethereum.net.swarm;
+package org.one2oneeum.net.swarm;
 
 import java.util.Collection;
 
@@ -36,7 +36,7 @@ import java.util.Collection;
  * and receives an error channel. The chunk channel is the one on which the caller receives placeholder chunks with
  * missing data. The DPA is supposed to forward this to the chunk stores and notify the chunker if the data
  * has been delivered (i.e. retrieved from memory cache, disk-persisted db or cloud based swarm delivery).
- * The chunker then puts these together and notifies the DPA if data has been assembled by a closed error channel.
+ * The chunker then puts these togone2one and notifies the DPA if data has been assembled by a closed error channel.
  * Once the DPA finds the data has been joined, it is free to deliver it back to swarm in full (if the original
  * request was via the bzz protocol) or save and serve if it it was a local client request.
  */

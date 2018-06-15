@@ -1,4 +1,4 @@
-package org.ethereum.db.prune;
+package org.one2oneeum.db.prune;
 
 import java.util.ArrayList;
 import java.util.List;

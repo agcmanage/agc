@@ -1,21 +1,21 @@
 /*
- * Copyright (c) [2016] [ <ether.camp> ]
- * This file is part of the ethereumJ library.
+ * Copyright (c) [2016] [ <one2one.camp> ]
+ * This file is part of the one2oneeumJ library.
  *
- * The ethereumJ library is free software: you can redistribute it and/or modify
+ * The one2oneeumJ library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The ethereumJ library is distributed in the hope that it will be useful,
+ * The one2oneeumJ library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
+ * along with the one2oneeumJ library. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ethereum.crypto;
+package org.one2oneeum.crypto;
 
 import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.Futures;
@@ -23,9 +23,9 @@ import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
 
-import org.ethereum.core.Transaction;
-import org.ethereum.crypto.ECKey.ECDSASignature;
-import org.ethereum.crypto.jce.SpongyCastleProvider;
+import org.one2oneeum.core.Transaction;
+import org.one2oneeum.crypto.ECKey.ECDSASignature;
+import org.one2oneeum.crypto.jce.SpongyCastleProvider;
 import org.junit.Assert;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -176,7 +176,7 @@ public class ECKeyTest {
     }
 
     @Test
-    public void testEthereumSign() throws IOException {
+    public void testone2oneeumSign() throws IOException {
         ECKey key = ECKey.fromPrivate(privateKey);
         System.out.println("Secret\t: " + Hex.toHexString(key.getPrivKeyBytes()));
         System.out.println("Pubkey\t: " + Hex.toHexString(key.getPubKey()));
@@ -189,10 +189,10 @@ public class ECKeyTest {
     }
 
     /**
-     * Verified via https://etherchain.org/verify/signature
+     * Verified via https://one2onechain.org/verify/signature
      */
     @Test
-    public void testEthereumSignToHex() {
+    public void testone2oneeumSignToHex() {
         ECKey key = ECKey.fromPrivate(privateKey);
         byte[] messageHash = HashUtil.sha3(exampleMessage.getBytes());
         ECDSASignature signature = key.sign(messageHash);

@@ -1,44 +1,44 @@
 /*
- * Copyright (c) [2016] [ <ether.camp> ]
- * This file is part of the ethereumJ library.
+ * Copyright (c) [2016] [ <one2one.camp> ]
+ * This file is part of the one2oneeumJ library.
  *
- * The ethereumJ library is free software: you can redistribute it and/or modify
+ * The one2oneeumJ library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The ethereumJ library is distributed in the hope that it will be useful,
+ * The one2oneeumJ library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
+ * along with the one2oneeumJ library. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ethereum.samples;
+package org.one2oneeum.samples;
 
-import org.ethereum.core.Block;
-import org.ethereum.core.PendingState;
-import org.ethereum.core.Transaction;
-import org.ethereum.core.TransactionReceipt;
-import org.ethereum.crypto.ECKey;
-import org.ethereum.db.ByteArrayWrapper;
-import org.ethereum.facade.EthereumFactory;
-import org.ethereum.listener.EthereumListenerAdapter;
-import org.ethereum.util.ByteUtil;
+import org.one2oneeum.core.Block;
+import org.one2oneeum.core.PendingState;
+import org.one2oneeum.core.Transaction;
+import org.one2oneeum.core.TransactionReceipt;
+import org.one2oneeum.crypto.ECKey;
+import org.one2oneeum.db.ByteArrayWrapper;
+import org.one2oneeum.facade.one2oneeumFactory;
+import org.one2oneeum.listener.one2oneeumListenerAdapter;
+import org.one2oneeum.util.ByteUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 
 import java.math.BigInteger;
 import java.util.*;
 
-import static org.ethereum.util.ByteUtil.toHexString;
+import static org.one2oneeum.util.ByteUtil.toHexString;
 
 /**
  * PendingState is the ability to track the changes made by transaction immediately and not wait for
  * the block containing that transaction.
  *
- * This sample connects to the test network (it has a lot of free Ethers) and starts periodically
+ * This sample connects to the test network (it has a lot of free one2ones) and starts periodically
  * transferring funds to a random address. The pending state is monitored and you may see that
  * while the actual receiver balance remains the same right after transaction sent the pending
  * state reflects balance change immediately.
@@ -64,7 +64,7 @@ public class PendingStateSample extends TestNetSample {
 
     @Override
     public void onSyncDone() {
-        ethereum.addListener(new EthereumListenerAdapter() {
+        one2oneeum.addListener(new one2oneeumListenerAdapter() {
             // listening here when the PendingState is updated with new transactions
             @Override
             public void onPendingTransactionsReceived(List<Transaction> transactions) {
@@ -96,7 +96,7 @@ public class PendingStateSample extends TestNetSample {
     void sendTransactions() throws InterruptedException {
         // initial sender nonce needs to be retrieved from the repository
         // for further transactions we just do nonce++
-        BigInteger nonce = ethereum.getRepository().getNonce(senderAddress);
+        BigInteger nonce = one2oneeum.getRepository().getNonce(senderAddress);
 
         int weisToSend = 100;
         int count = 0;
@@ -104,14 +104,14 @@ public class PendingStateSample extends TestNetSample {
             if (count < 5) {
                 Transaction tx = new Transaction(
                         ByteUtil.bigIntegerToBytes(nonce),
-                        ByteUtil.longToBytesNoLeadZeroes(ethereum.getGasPrice()),
+                        ByteUtil.longToBytesNoLeadZeroes(one2oneeum.getGasPrice()),
                         ByteUtil.longToBytesNoLeadZeroes(1_000_000),
                         receiverAddress,
                         ByteUtil.longToBytesNoLeadZeroes(weisToSend), new byte[0],
-                        ethereum.getChainIdForNextBlock());
+                        one2oneeum.getChainIdForNextBlock());
                 tx.sign(ECKey.fromPrivate(receiverAddress));
                 logger.info("<=== Sending transaction: " + tx);
-                ethereum.submitTransaction(tx);
+                one2oneeum.submitTransaction(tx);
 
                 nonce = nonce.add(BigInteger.ONE);
                 count++;
@@ -136,7 +136,7 @@ public class PendingStateSample extends TestNetSample {
     void onPendingTransactionReceived(Transaction tx) {
         logger.info("onPendingTransactionReceived: " + tx);
         if (Arrays.equals(tx.getSender(), senderAddress)) {
-            BigInteger receiverBalance = ethereum.getRepository().getBalance(receiverAddress);
+            BigInteger receiverBalance = one2oneeum.getRepository().getBalance(receiverAddress);
             BigInteger receiverBalancePending = pendingState.getRepository().getBalance(receiverAddress);
             logger.info(" + New pending transaction 0x" + toHexString(tx.getHash()).substring(0, 8));
 
@@ -164,7 +164,7 @@ public class PendingStateSample extends TestNetSample {
                 cleared++;
             }
         }
-        BigInteger receiverBalance = ethereum.getRepository().getBalance(receiverAddress);
+        BigInteger receiverBalance = one2oneeum.getRepository().getBalance(receiverAddress);
         BigInteger receiverBalancePending = pendingState.getRepository().getBalance(receiverAddress);
         logger.info("" + cleared + " transactions cleared in the block " + block.getShortDescr());
         logger.info("Receiver pending/current balance: " + receiverBalancePending + " / " + receiverBalance +
@@ -173,7 +173,7 @@ public class PendingStateSample extends TestNetSample {
 
 
     public static void main(String[] args) throws Exception {
-        sLogger.info("Starting EthereumJ!");
+        sLogger.info("Starting one2oneeumJ!");
 
         class Config extends TestNetConfig{
             @Override
@@ -185,6 +185,6 @@ public class PendingStateSample extends TestNetSample {
 
         // Based on Config class the BasicSample would be created by Spring
         // and its springInit() method would be called as an entry point
-        EthereumFactory.createEthereum(Config.class);
+        one2oneeumFactory.createone2oneeum(Config.class);
     }
 }

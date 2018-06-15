@@ -1,36 +1,36 @@
 /*
- * Copyright (c) [2016] [ <ether.camp> ]
- * This file is part of the ethereumJ library.
+ * Copyright (c) [2016] [ <one2one.camp> ]
+ * This file is part of the one2oneeumJ library.
  *
- * The ethereumJ library is free software: you can redistribute it and/or modify
+ * The one2oneeumJ library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The ethereumJ library is distributed in the hope that it will be useful,
+ * The one2oneeumJ library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
+ * along with the one2oneeumJ library. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ethereum.core;
+package org.one2oneeum.core;
 
 import org.apache.commons.lang3.tuple.Pair;
-import org.ethereum.config.BlockchainConfig;
-import org.ethereum.config.CommonConfig;
-import org.ethereum.config.SystemProperties;
-import org.ethereum.db.BlockStore;
-import org.ethereum.db.ContractDetails;
-import org.ethereum.listener.EthereumListener;
-import org.ethereum.listener.EthereumListenerAdapter;
-import org.ethereum.util.ByteArraySet;
-import org.ethereum.vm.*;
-import org.ethereum.vm.program.Program;
-import org.ethereum.vm.program.ProgramResult;
-import org.ethereum.vm.program.invoke.ProgramInvoke;
-import org.ethereum.vm.program.invoke.ProgramInvokeFactory;
+import org.one2oneeum.config.BlockchainConfig;
+import org.one2oneeum.config.CommonConfig;
+import org.one2oneeum.config.SystemProperties;
+import org.one2oneeum.db.BlockStore;
+import org.one2oneeum.db.ContractDetails;
+import org.one2oneeum.listener.one2oneeumListener;
+import org.one2oneeum.listener.one2oneeumListenerAdapter;
+import org.one2oneeum.util.ByteArraySet;
+import org.one2oneeum.vm.*;
+import org.one2oneeum.vm.program.Program;
+import org.one2oneeum.vm.program.ProgramResult;
+import org.one2oneeum.vm.program.invoke.ProgramInvoke;
+import org.one2oneeum.vm.program.invoke.ProgramInvokeFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,11 +39,11 @@ import java.util.List;
 
 import static org.apache.commons.lang3.ArrayUtils.getLength;
 import static org.apache.commons.lang3.ArrayUtils.isEmpty;
-import static org.ethereum.util.BIUtil.*;
-import static org.ethereum.util.ByteUtil.EMPTY_BYTE_ARRAY;
-import static org.ethereum.util.ByteUtil.toHexString;
-import static org.ethereum.vm.VMUtils.saveProgramTraceFile;
-import static org.ethereum.vm.VMUtils.zipAndEncode;
+import static org.one2oneeum.util.BIUtil.*;
+import static org.one2oneeum.util.ByteUtil.EMPTY_BYTE_ARRAY;
+import static org.one2oneeum.util.ByteUtil.toHexString;
+import static org.one2oneeum.vm.VMUtils.saveProgramTraceFile;
+import static org.one2oneeum.vm.VMUtils.zipAndEncode;
 
 /**
  * @author Roman Mandeleil
@@ -73,7 +73,7 @@ public class TransactionExecutor {
     private ProgramResult result = new ProgramResult();
     private Block currentBlock;
 
-    private final EthereumListener listener;
+    private final one2oneeumListener listener;
 
     private VM vm;
     private Program program;
@@ -91,12 +91,12 @@ public class TransactionExecutor {
     public TransactionExecutor(Transaction tx, byte[] coinbase, Repository track, BlockStore blockStore,
                                ProgramInvokeFactory programInvokeFactory, Block currentBlock) {
 
-        this(tx, coinbase, track, blockStore, programInvokeFactory, currentBlock, new EthereumListenerAdapter(), 0);
+        this(tx, coinbase, track, blockStore, programInvokeFactory, currentBlock, new one2oneeumListenerAdapter(), 0);
     }
 
     public TransactionExecutor(Transaction tx, byte[] coinbase, Repository track, BlockStore blockStore,
                                ProgramInvokeFactory programInvokeFactory, Block currentBlock,
-                               EthereumListener listener, long gasUsedInTheBlock) {
+                               one2oneeumListener listener, long gasUsedInTheBlock) {
 
         this.tx = tx;
         this.coinbase = coinbase;
@@ -368,7 +368,7 @@ public class TransactionExecutor {
         } catch (Throwable e) {
 
             // TODO: catch whatever they will throw on you !!!
-//            https://github.com/ethereum/cpp-ethereum/blob/develop/libethereum/Executive.cpp#L241
+//            https://github.com/one2oneeum/cpp-one2oneeum/blob/develop/libone2oneeum/Executive.cpp#L241
             rollback();
             m_endGas = BigInteger.ZERO;
             execError(e.getMessage());

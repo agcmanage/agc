@@ -1,37 +1,37 @@
 /*
- * Copyright (c) [2016] [ <ether.camp> ]
- * This file is part of the ethereumJ library.
+ * Copyright (c) [2016] [ <one2one.camp> ]
+ * This file is part of the one2oneeumJ library.
  *
- * The ethereumJ library is free software: you can redistribute it and/or modify
+ * The one2oneeumJ library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The ethereumJ library is distributed in the hope that it will be useful,
+ * The one2oneeumJ library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
+ * along with the one2oneeumJ library. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ethereum.mine;
+package org.one2oneeum.mine;
 
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.SettableFuture;
-import org.ethereum.config.SystemProperties;
-import org.ethereum.config.blockchain.FrontierConfig;
-import org.ethereum.core.Block;
-import org.ethereum.core.BlockHeader;
-import org.ethereum.core.BlockchainImpl;
-import org.ethereum.core.ImportResult;
-import org.ethereum.db.PruneManager;
-import org.ethereum.facade.Ethereum;
-import org.ethereum.facade.EthereumImpl;
-import org.ethereum.listener.CompositeEthereumListener;
-import org.ethereum.util.ByteUtil;
-import org.ethereum.util.blockchain.LocalBlockchain;
-import org.ethereum.util.blockchain.StandaloneBlockchain;
+import org.one2oneeum.config.SystemProperties;
+import org.one2oneeum.config.blockchain.FrontierConfig;
+import org.one2oneeum.core.Block;
+import org.one2oneeum.core.BlockHeader;
+import org.one2oneeum.core.BlockchainImpl;
+import org.one2oneeum.core.ImportResult;
+import org.one2oneeum.db.PruneManager;
+import org.one2oneeum.facade.one2oneeum;
+import org.one2oneeum.facade.one2oneeumImpl;
+import org.one2oneeum.listener.Compositeone2oneeumListener;
+import org.one2oneeum.util.ByteUtil;
+import org.one2oneeum.util.blockchain.LocalBlockchain;
+import org.one2oneeum.util.blockchain.StandaloneBlockchain;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -59,10 +59,10 @@ public class ExternalMinerTest {
 
     private StandaloneBlockchain bc = new StandaloneBlockchain().withAutoblock(false);
 
-    private CompositeEthereumListener listener = new CompositeEthereumListener();
+    private Compositeone2oneeumListener listener = new Compositeone2oneeumListener();
 
     @Mock
-    private EthereumImpl ethereum;
+    private one2oneeumImpl one2oneeum;
 
     @InjectMocks
     @Resource
@@ -81,7 +81,7 @@ public class ExternalMinerTest {
         // Initialize mocks created above
         MockitoAnnotations.initMocks(this);
 
-        when(ethereum.addNewMinedBlock(any(Block.class))).thenAnswer(new Answer<ImportResult>() {
+        when(one2oneeum.addNewMinedBlock(any(Block.class))).thenAnswer(new Answer<ImportResult>() {
             @Override
             public ImportResult answer(InvocationOnMock invocation) throws Throwable {
                 Block block = (Block) invocation.getArguments()[0];

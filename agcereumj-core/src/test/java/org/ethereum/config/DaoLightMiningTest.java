@@ -1,28 +1,28 @@
 /*
- * Copyright (c) [2016] [ <ether.camp> ]
- * This file is part of the ethereumJ library.
+ * Copyright (c) [2016] [ <one2one.camp> ]
+ * This file is part of the one2oneeumJ library.
  *
- * The ethereumJ library is free software: you can redistribute it and/or modify
+ * The one2oneeumJ library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The ethereumJ library is distributed in the hope that it will be useful,
+ * The one2oneeumJ library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
+ * along with the one2oneeumJ library. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ethereum.config;
+package org.one2oneeum.config;
 
-import org.ethereum.config.blockchain.DaoHFConfig;
-import org.ethereum.config.blockchain.DaoNoHFConfig;
-import org.ethereum.config.blockchain.FrontierConfig;
-import org.ethereum.config.net.BaseNetConfig;
-import org.ethereum.core.Block;
-import org.ethereum.util.blockchain.StandaloneBlockchain;
+import org.one2oneeum.config.blockchain.DaoHFConfig;
+import org.one2oneeum.config.blockchain.DaoNoHFConfig;
+import org.one2oneeum.config.blockchain.FrontierConfig;
+import org.one2oneeum.config.net.BaseNetConfig;
+import org.one2oneeum.core.Block;
+import org.one2oneeum.util.blockchain.StandaloneBlockchain;
 import org.junit.Test;
 
 import java.math.BigInteger;
@@ -48,10 +48,10 @@ public class DaoLightMiningTest {
 //            System.out.println("Created block " + b.getNumber() + " " + getData(b.getExtraData()));
         }
 
-        assertEquals("EthereumJ powered", getData(sb, FORK_BLOCK - 1));
+        assertEquals("one2oneeumJ powered", getData(sb, FORK_BLOCK - 1));
         assertEquals("dao-hard-fork", getData(sb, FORK_BLOCK));
         assertEquals("dao-hard-fork", getData(sb, FORK_BLOCK + FORK_BLOCK_AFFECTED - 1));
-        assertEquals("EthereumJ powered", getData(sb, FORK_BLOCK + FORK_BLOCK_AFFECTED));
+        assertEquals("one2oneeumJ powered", getData(sb, FORK_BLOCK + FORK_BLOCK_AFFECTED));
     }
 
     @Test
@@ -62,10 +62,10 @@ public class DaoLightMiningTest {
             Block b = sb.createBlock();
         }
 
-        assertEquals("EthereumJ powered", getData(sb, FORK_BLOCK - 1));
+        assertEquals("one2oneeumJ powered", getData(sb, FORK_BLOCK - 1));
         assertEquals("", getData(sb, FORK_BLOCK));
         assertEquals("", getData(sb, FORK_BLOCK + FORK_BLOCK_AFFECTED - 1));
-        assertEquals("EthereumJ powered", getData(sb, FORK_BLOCK + FORK_BLOCK_AFFECTED));
+        assertEquals("one2oneeumJ powered", getData(sb, FORK_BLOCK + FORK_BLOCK_AFFECTED));
     }
 
     private String getData(StandaloneBlockchain sb, long blockNumber) {

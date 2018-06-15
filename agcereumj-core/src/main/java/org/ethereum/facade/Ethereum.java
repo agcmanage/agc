@@ -1,33 +1,33 @@
 /*
- * Copyright (c) [2016] [ <ether.camp> ]
- * This file is part of the ethereumJ library.
+ * Copyright (c) [2016] [ <one2one.camp> ]
+ * This file is part of the one2oneeumJ library.
  *
- * The ethereumJ library is free software: you can redistribute it and/or modify
+ * The one2oneeumJ library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The ethereumJ library is distributed in the hope that it will be useful,
+ * The one2oneeumJ library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
+ * along with the one2oneeumJ library. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ethereum.facade;
+package org.one2oneeum.facade;
 
-import org.ethereum.core.*;
-import org.ethereum.crypto.ECKey;
-import org.ethereum.listener.EthereumListener;
-import org.ethereum.manager.AdminInfo;
-import org.ethereum.manager.BlockLoader;
-import org.ethereum.mine.BlockMiner;
-import org.ethereum.net.client.PeerClient;
-import org.ethereum.net.rlpx.Node;
-import org.ethereum.net.server.ChannelManager;
-import org.ethereum.net.shh.Whisper;
-import org.ethereum.vm.program.ProgramResult;
+import org.one2oneeum.core.*;
+import org.one2oneeum.crypto.ECKey;
+import org.one2oneeum.listener.one2oneeumListener;
+import org.one2oneeum.manager.AdminInfo;
+import org.one2oneeum.manager.BlockLoader;
+import org.one2oneeum.mine.BlockMiner;
+import org.one2oneeum.net.client.PeerClient;
+import org.one2oneeum.net.rlpx.Node;
+import org.one2oneeum.net.server.ChannelManager;
+import org.one2oneeum.net.shh.Whisper;
+import org.one2oneeum.vm.program.ProgramResult;
 
 import java.math.BigInteger;
 import java.net.InetAddress;
@@ -39,7 +39,7 @@ import java.util.concurrent.Future;
  * @author Roman Mandeleil
  * @since 27.07.2014
  */
-public interface Ethereum {
+public interface one2oneeum {
 
     void startPeerDiscovery();
 
@@ -53,7 +53,7 @@ public interface Ethereum {
 
     Blockchain getBlockchain();
 
-    void addListener(EthereumListener listener);
+    void addListener(one2oneeumListener listener);
 
     PeerClient getDefaultPeer();
 
@@ -76,7 +76,7 @@ public interface Ethereum {
      *                   lastr submited block
      * @param gas - the quantity of gas requested for the transaction
      * @param receiveAddress - the target address of the transaction
-     * @param value - the ether value of the transaction
+     * @param value - the one2one value of the transaction
      * @param data - can be init procedure for creational transaction,
      *               also msg data for invoke transaction for only value
      *               transactions this one is empty.
@@ -127,7 +127,7 @@ public interface Ethereum {
      * @param function  contract function
      * @param funcArgs  function arguments
      * @return function result. The return value can be fetched via {@link ProgramResult#getHReturn()}
-     * and decoded with {@link org.ethereum.core.CallTransaction.Function#decodeResult(byte[])}.
+     * and decoded with {@link org.one2oneeum.core.CallTransaction.Function#decodeResult(byte[])}.
      */
     ProgramResult callConstantFunction(String receiveAddress, CallTransaction.Function function,
                                        Object... funcArgs);
@@ -142,7 +142,7 @@ public interface Ethereum {
      * @param function  contract function
      * @param funcArgs  function arguments
      * @return function result. The return value can be fetched via {@link ProgramResult#getHReturn()}
-     * and decoded with {@link org.ethereum.core.CallTransaction.Function#decodeResult(byte[])}.
+     * and decoded with {@link org.one2oneeum.core.CallTransaction.Function#decodeResult(byte[])}.
      */
     ProgramResult callConstantFunction(String receiveAddress, ECKey senderPrivateKey,
                                        CallTransaction.Function function, Object... funcArgs);
@@ -210,8 +210,8 @@ public interface Ethereum {
      * be increased at some ratio (e.g. * 1.2)
      *
      * <b>UPDATED</b>: Old version of gas tracking greatly fluctuates in networks with big number of transactions
-     * like Ethereum MainNet. But it's light and simple and still could be used for test networks. If you
-     * want to get accurate recommended gas price use {@link org.ethereum.listener.RecommendedGasPriceTracker}
+     * like one2oneeum MainNet. But it's light and simple and still could be used for test networks. If you
+     * want to get accurate recommended gas price use {@link org.one2oneeum.listener.RecommendedGasPriceTracker}
      * instead by adding it to listener and polling data.
      * Updated tracker is not enabled by default because it needs noticeable resources
      * and is excessive for most users.
@@ -229,7 +229,7 @@ public interface Ethereum {
     /**
      * Manual switch to Short Sync mode
      * Maybe useful in small private and detached networks when automatic detection fails
-     * @return Future, which completes when syncDone is turned to True in {@link org.ethereum.sync.SyncManager}
+     * @return Future, which completes when syncDone is turned to True in {@link org.one2oneeum.sync.SyncManager}
      */
     CompletableFuture<Void> switchToShortSync();
 

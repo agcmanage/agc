@@ -26,7 +26,7 @@ apply plugin: 'com.jfrog.artifactory-upload'
 
 sourceCompatibility = 1.8
 
-mainClassName = 'org.ethereum.Start'
+mainClassName = 'org.one2oneeum.Start'
 applicationDefaultJvmArgs = ["-server", "-Xss2m", "-Xmx2G", "-XX:-OmitStackTraceInFastThrow"]
 
 if ( project.hasProperty('jvmArgs') ) {
@@ -49,13 +49,13 @@ tasks.withType(JavaCompile){
 task runRopsten (type: JavaExec) {
     main = mainClassName
     classpath = sourceSets.main.runtimeClasspath
-    jvmArgs = applicationDefaultJvmArgs + '-Dethereumj.conf.res=ropsten.conf'
+    jvmArgs = applicationDefaultJvmArgs + '-Done2oneeumj.conf.res=ropsten.conf'
 }
 
 task runTest (type: JavaExec) {
     main = mainClassName
     classpath = sourceSets.main.runtimeClasspath
-    jvmArgs = applicationDefaultJvmArgs + '-Dethereumj.conf.res=test.conf'
+    jvmArgs = applicationDefaultJvmArgs + '-Done2oneeumj.conf.res=test.conf'
 }
 
 /**
@@ -76,13 +76,13 @@ task tckRun(type:JavaExec){
         jvmArgs = ["-Xss4M"]
     }
 
-    main = "org.ethereum.tck.RunTck"
+    main = "org.one2oneeum.tck.RunTck"
     classpath = sourceSets.test.runtimeClasspath
 }
 
 /**
  * Runs all tests
- * EthereumJ also runs common Ethereum clients tests
+ * one2oneeumJ also runs common one2oneeum clients tests
  * See {@link #prepareGithubTests()} if you want to use local repo
  * instead of downloading tests during test execution
  */
@@ -126,11 +126,11 @@ dependencies {
 
     compile "org.iq80.leveldb:leveldb:${leveldbVersion}"     // Java API wrapper around native components
 
-    compile "org.ethereum:leveldbjni-all:1.18.3"             // native leveldb components
+    compile "org.one2oneeum:leveldbjni-all:1.18.3"             // native leveldb components
 
-    compile "org.ethereum:rocksdbjni:5.9.2"                   // RocksDB Java API
+    compile "org.one2oneeum:rocksdbjni:5.9.2"                   // RocksDB Java API
 
-    compile "org.ethereum:solcJ-all:0.4.19"                  // Solidity Compiler win/mac/linux binaries
+    compile "org.one2oneeum:solcJ-all:0.4.19"                  // Solidity Compiler win/mac/linux binaries
 
     compile "com.google.guava:guava:24.1-jre"
 
@@ -247,12 +247,12 @@ bintray {
 
     configurations = ['archives']
 
-    dryRun = false //Whether to run this as dry-run, without deploying
+    dryRun = false //Whone2one to run this as dry-run, without deploying
     publish = true //If version should be auto published after an upload
     pkg {
-        userOrg = 'ethereum' //An optional organization name when the repo belongs to one of the user's orgs
+        userOrg = 'one2oneeum' //An optional organization name when the repo belongs to one of the user's orgs
         repo = 'maven'
-        name = 'org.ethereum'
+        name = 'org.one2oneeum'
     }
 }
 
@@ -297,12 +297,12 @@ def customizePom(pom, gradleProject) {
 
         // add all items necessary for maven central publication
         generatedPom.project {
-            name = "ethereumj"
-            description = "Java implementation of the Ethereum protocol"
-            url = "https://github.com/ethereum/ethereumj"
+            name = "one2oneeumj"
+            description = "Java implementation of the one2oneeum protocol"
+            url = "https://github.com/one2oneeum/one2oneeumj"
             organization {
-                name = "Ethereum"
-                url = "https://ethereum.org"
+                name = "one2oneeum"
+                url = "https://one2oneeum.org"
             }
             licenses {
                 license {
@@ -312,9 +312,9 @@ def customizePom(pom, gradleProject) {
                 }
             }
             scm {
-                url = "https://github.com/ethereum/ethereumj"
-                connection = "scm:git:git://github.com/ethereum/ethereumj"
-                developerConnection = "scm:git:git://github.com/ethereum/ethereumj"
+                url = "https://github.com/one2oneeum/one2oneeumj"
+                connection = "scm:git:git://github.com/one2oneeum/one2oneeumj"
+                developerConnection = "scm:git:git://github.com/one2oneeum/one2oneeumj"
             }
             developers {
                 developer {
@@ -343,7 +343,7 @@ def customizePom(pom, gradleProject) {
             }
             issueManagement {
                 system = "GitHub Issues"
-                url = "https://github.com/ethereum/ethereumj/issues"
+                url = "https://github.com/one2oneeum/one2oneeumj/issues"
             }
         }
     }
@@ -369,36 +369,36 @@ def gitCurBranch() {
 }
 
 /**
- * This method is used to prepare local Ethereum Github tests for EthereumJ tests
+ * This method is used to prepare local one2oneeum Github tests for one2oneeumJ tests
  *
- * These tests  are designed for all Ethereum clients and
- * maintained by Ethereum Foundation/Community.
- * EthereumJ executes all of them but by default downloads every
+ * These tests  are designed for all one2oneeum clients and
+ * maintained by one2oneeum Foundation/Community.
+ * one2oneeumJ executes all of them but by default downloads every
  * single file using internet connection.
  * Alternatively you could use local repo to run tests from it.
  *
  * Common usage:
  * 1) Local run:
- *  a. Clone Ethereum tests repo (https://github.com/ethereum/tests)
+ *  a. Clone one2oneeum tests repo (https://github.com/one2oneeum/tests)
  *    to some local directory
  *  b. Create `test-user.conf` file in test resources directory.
  *    This file is under `.gitignore`, so it's your local file only.
- *    You could override any EthereumJ configuration in it, but
- *    for using local Ethereum tests repo you need following line:
- *    GitHubTests.testPath=/some/path/with/Ethereum/tests/repo
+ *    You could override any one2oneeumJ configuration in it, but
+ *    for using local one2oneeum tests repo you need following line:
+ *    GitHubTests.testPath=/some/path/with/one2oneeum/tests/repo
  *  c. Run `./gradlew test` task.
  * 2) CI run:
- *  a. Clone Ethereum tests repo (https://github.com/ethereum/tests)
+ *  a. Clone one2oneeum tests repo (https://github.com/one2oneeum/tests)
  *    to some local directory
  *  b. Run `test` task with following parameter:
- *    -DGitHubTests.testPath=/some/path/with/Ethereum/tests/repo
+ *    -DGitHubTests.testPath=/some/path/with/one2oneeum/tests/repo
  *
  * In both cases this method will get commit hash from
  * `src/test/resources/github-tests.prop` and checkout local repo
- * to specific commit. So, EthereumJ tests will run common
- * Ethereum client tests using local copy of repository.
+ * to specific commit. So, one2oneeumJ tests will run common
+ * one2oneeum client tests using local copy of repository.
  *
- * Repo with tests is changed often and EthereumJ is guaranteed
+ * Repo with tests is changed often and one2oneeumJ is guaranteed
  * to pass only tests from specific commit.
  */
 import org.ajoberstar.grgit.Grgit
@@ -407,8 +407,8 @@ import com.typesafe.config.ConfigFactory
 def prepareGithubTests() {
     String testsPathKey = "GitHubTests.testPath"
     String testsCommitKey = "GitHubTests.commit"
-    String testUserConf = "ethereumj-core/src/test/resources/test-user.conf"
-    String githubTestsProp = "ethereumj-core/src/test/resources/github-tests.prop"
+    String testUserConf = "one2oneeumj-core/src/test/resources/test-user.conf"
+    String githubTestsProp = "one2oneeumj-core/src/test/resources/github-tests.prop"
     def repoPath = System.getProperty(testsPathKey)
     if (repoPath == null) {
         try {
@@ -424,13 +424,13 @@ def prepareGithubTests() {
         commit = testProp.getProperty(testsCommitKey)
     }
     if (repoPath != null && commit != null) {
-        println "Tests: Checking out Ethereum Tests repo at " + repoPath + " to commit #" + commit
+        println "Tests: Checking out one2oneeum Tests repo at " + repoPath + " to commit #" + commit
         try {
             def testsRepo = Grgit.open(dir: repoPath)
             testsRepo.fetch()
             testsRepo.checkout(branch: commit)
         } catch (Exception ex) {
-            println "Error occurs while trying to checkout local Ethereum tests repo to specific commit"
+            println "Error occurs while trying to checkout local one2oneeum tests repo to specific commit"
             println "Either remove " + testsPathKey + " property to use remote repo in tests or fix the issue"
             println "Error: "
             println ex

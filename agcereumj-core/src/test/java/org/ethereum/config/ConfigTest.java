@@ -1,21 +1,21 @@
 /*
- * Copyright (c) [2016] [ <ether.camp> ]
- * This file is part of the ethereumJ library.
+ * Copyright (c) [2016] [ <one2one.camp> ]
+ * This file is part of the one2oneeumJ library.
  *
- * The ethereumJ library is free software: you can redistribute it and/or modify
+ * The one2oneeumJ library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The ethereumJ library is distributed in the hope that it will be useful,
+ * The one2oneeumJ library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
+ * along with the one2oneeumJ library. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ethereum.config;
+package org.one2oneeum.config;
 
 import com.typesafe.config.*;
 import org.junit.Assert;
@@ -32,7 +32,7 @@ public class ConfigTest {
 
     @Test
     public void simpleTest() {
-        Config config = ConfigFactory.parseResources("ethereumj.conf");
+        Config config = ConfigFactory.parseResources("one2oneeumj.conf");
         System.out.println(config.root().render(ConfigRenderOptions.defaults().setComments(false)));
         for (Map.Entry<String, ConfigValue> entry : config.entrySet()) {
 //            System.out.println("Name:  " + entry.getKey());
@@ -58,7 +58,7 @@ public class ConfigTest {
     @Test
     public void fallbackTest() {
         System.setProperty("blocks.loader", "bla-bla");
-        Config config = ConfigFactory.load("ethereumj.conf");
+        Config config = ConfigFactory.load("one2oneeumj.conf");
         // Ignore this assertion since the SystemProperties are loaded by the static initializer
         // so if the ConfigFactory was used prior to this test the setProperty() has no effect
 //        Assert.assertEquals("bla-bla", config.getString("blocks.loader"));
@@ -76,7 +76,7 @@ public class ConfigTest {
     }
 
     @Test
-    public void ethereumjConfTest() {
+    public void one2oneeumjConfTest() {
         System.out.println("'" + SystemProperties.getDefault().databaseDir() + "'");
         System.out.println(SystemProperties.getDefault().peerActive());
     }

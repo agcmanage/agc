@@ -1,42 +1,42 @@
 /*
- * Copyright (c) [2016] [ <ether.camp> ]
- * This file is part of the ethereumJ library.
+ * Copyright (c) [2016] [ <one2one.camp> ]
+ * This file is part of the one2oneeumJ library.
  *
- * The ethereumJ library is free software: you can redistribute it and/or modify
+ * The one2oneeumJ library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The ethereumJ library is distributed in the hope that it will be useful,
+ * The one2oneeumJ library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
+ * along with the one2oneeumJ library. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ethereum.mine;
+package org.one2oneeum.mine;
 
-import org.ethereum.config.NoAutoscan;
-import org.ethereum.config.SystemProperties;
-import org.ethereum.config.net.MainNetConfig;
-import org.ethereum.core.Block;
-import org.ethereum.core.BlockSummary;
-import org.ethereum.core.Blockchain;
-import org.ethereum.core.ImportResult;
-import org.ethereum.core.Transaction;
-import org.ethereum.crypto.ECKey;
-import org.ethereum.facade.Ethereum;
-import org.ethereum.facade.EthereumFactory;
-import org.ethereum.facade.EthereumImpl;
-import org.ethereum.facade.SyncStatus;
-import org.ethereum.listener.EthereumListenerAdapter;
-import org.ethereum.net.eth.handler.Eth62;
-import org.ethereum.net.rlpx.Node;
-import org.ethereum.net.server.Channel;
-import org.ethereum.util.FastByteComparisons;
-import org.ethereum.util.blockchain.EtherUtil;
-import org.ethereum.util.blockchain.StandaloneBlockchain;
+import org.one2oneeum.config.NoAutoscan;
+import org.one2oneeum.config.SystemProperties;
+import org.one2oneeum.config.net.MainNetConfig;
+import org.one2oneeum.core.Block;
+import org.one2oneeum.core.BlockSummary;
+import org.one2oneeum.core.Blockchain;
+import org.one2oneeum.core.ImportResult;
+import org.one2oneeum.core.Transaction;
+import org.one2oneeum.crypto.ECKey;
+import org.one2oneeum.facade.one2oneeum;
+import org.one2oneeum.facade.one2oneeumFactory;
+import org.one2oneeum.facade.one2oneeumImpl;
+import org.one2oneeum.facade.SyncStatus;
+import org.one2oneeum.listener.one2oneeumListenerAdapter;
+import org.one2oneeum.net.eth.handler.Eth62;
+import org.one2oneeum.net.rlpx.Node;
+import org.one2oneeum.net.server.Channel;
+import org.one2oneeum.util.FastByteComparisons;
+import org.one2oneeum.util.blockchain.one2oneUtil;
+import org.one2oneeum.util.blockchain.StandaloneBlockchain;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -65,8 +65,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
-import static org.ethereum.crypto.HashUtil.sha3;
-import static org.ethereum.util.FileUtil.recursiveDelete;
+import static org.one2oneeum.crypto.HashUtil.sha3;
+import static org.one2oneeum.util.FileUtil.recursiveDelete;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -77,13 +77,13 @@ import static org.spongycastle.util.encoders.Hex.decode;
 /**
  * If Miner is started manually, sync status is not changed in any manner,
  * so if miner is started while the peer is in Long Sync mode, miner creates
- * new blocks but ignores any txs, because they are dropped by {@link org.ethereum.core.PendingStateImpl}
+ * new blocks but ignores any txs, because they are dropped by {@link org.one2oneeum.core.PendingStateImpl}
  * While automatic detection of long sync works correctly in any live network
  * with big number of peers, automatic detection of Short Sync condition in
  * detached or small private networks looks not doable.
  *
  * To resolve this and any other similar issues manual switch to Short Sync mode
- * was added: {@link EthereumImpl#switchToShortSync()}
+ * was added: {@link one2oneeumImpl#switchToShortSync()}
  * This test verifies that manual switching to Short Sync works correctly
  * and solves miner issue.
  */
@@ -93,8 +93,8 @@ public class SyncDoneTest {
     private static Node nodeA;
     private static List<Block> mainB1B10;
 
-    private Ethereum ethereumA;
-    private Ethereum ethereumB;
+    private one2oneeum one2oneeumA;
+    private one2oneeum one2oneeumB;
     private String testDbA;
     private String testDbB;
 
@@ -167,7 +167,7 @@ public class SyncDoneTest {
 
         // A == B == genesis
 
-        Blockchain blockchainA = (Blockchain) ethereumA.getBlockchain();
+        Blockchain blockchainA = (Blockchain) one2oneeumA.getBlockchain();
 
         for (Block b : mainB1B10) {
             ImportResult result = blockchainA.tryToConnect(b);
@@ -179,7 +179,7 @@ public class SyncDoneTest {
         // Check that we are synced and on the same block
         assertTrue(loadedBlocks > 0);
         final CountDownLatch semaphore = new CountDownLatch(1);
-        ethereumB.addListener(new EthereumListenerAdapter() {
+        one2oneeumB.addListener(new one2oneeumListenerAdapter() {
             @Override
             public void onBlock(BlockSummary blockSummary) {
                 if (blockSummary.getBlock().getNumber() == loadedBlocks) {
@@ -189,21 +189,21 @@ public class SyncDoneTest {
         });
         semaphore.await(MAX_SECONDS_WAIT, SECONDS);
         Assert.assertEquals(0, semaphore.getCount());
-        assertEquals(loadedBlocks, ethereumB.getBlockchain().getBestBlock().getNumber());
+        assertEquals(loadedBlocks, one2oneeumB.getBlockchain().getBestBlock().getNumber());
 
-        ethereumA.getBlockMiner().startMining();
+        one2oneeumA.getBlockMiner().startMining();
 
         final CountDownLatch semaphore2 = new CountDownLatch(2);
-        ethereumB.addListener(new EthereumListenerAdapter() {
+        one2oneeumB.addListener(new one2oneeumListenerAdapter() {
             @Override
             public void onBlock(BlockSummary blockSummary) {
                 if (blockSummary.getBlock().getNumber() == loadedBlocks + 2) {
                     semaphore2.countDown();
-                    ethereumA.getBlockMiner().stopMining();
+                    one2oneeumA.getBlockMiner().stopMining();
                 }
             }
         });
-        ethereumA.addListener(new EthereumListenerAdapter(){
+        one2oneeumA.addListener(new one2oneeumListenerAdapter(){
             @Override
             public void onBlock(BlockSummary blockSummary) {
                 if (blockSummary.getBlock().getNumber() == loadedBlocks + 2) {
@@ -214,23 +214,23 @@ public class SyncDoneTest {
         semaphore2.await(MAX_SECONDS_WAIT, SECONDS);
         Assert.assertEquals(0, semaphore2.getCount());
 
-        assertFalse(ethereumA.getSyncStatus().getStage().equals(SyncStatus.SyncStage.Complete));
-        assertTrue(ethereumB.getSyncStatus().getStage().equals(SyncStatus.SyncStage.Complete)); // Receives NEW_BLOCKs from EthereumA
+        assertFalse(one2oneeumA.getSyncStatus().getStage().equals(SyncStatus.SyncStage.Complete));
+        assertTrue(one2oneeumB.getSyncStatus().getStage().equals(SyncStatus.SyncStage.Complete)); // Receives NEW_BLOCKs from one2oneeumA
 
         // Trying to include txs while miner is on long sync
         // Txs should be dropped as peer is not on short sync
         ECKey sender = ECKey.fromPrivate(Hex.decode("3ec771c31cac8c0dba77a69e503765701d3c2bb62435888d4ffa38fed60c445c"));
         Transaction tx = Transaction.create(
                 Hex.toHexString(ECKey.fromPrivate(sha3("cow".getBytes())).getAddress()),
-                EtherUtil.convert(1, EtherUtil.Unit.ETHER),
+                one2oneUtil.convert(1, one2oneUtil.Unit.one2one),
                 BigInteger.ZERO,
-                BigInteger.valueOf(ethereumA.getGasPrice()),
+                BigInteger.valueOf(one2oneeumA.getGasPrice()),
                 new BigInteger("3000000"),
                 null
         );
         tx.sign(sender);
         final CountDownLatch txSemaphore = new CountDownLatch(1);
-        ethereumA.addListener(new EthereumListenerAdapter(){
+        one2oneeumA.addListener(new one2oneeumListenerAdapter(){
             @Override
             public void onBlock(BlockSummary blockSummary) {
                 if (!blockSummary.getBlock().getTransactionsList().isEmpty() &&
@@ -240,10 +240,10 @@ public class SyncDoneTest {
                 }
             }
         });
-        ethereumB.submitTransaction(tx);
+        one2oneeumB.submitTransaction(tx);
 
         final CountDownLatch semaphore3 = new CountDownLatch(2);
-        ethereumB.addListener(new EthereumListenerAdapter() {
+        one2oneeumB.addListener(new one2oneeumListenerAdapter() {
             @Override
             public void onBlock(BlockSummary blockSummary) {
                 if (blockSummary.getBlock().getNumber() == loadedBlocks + 5) {
@@ -251,55 +251,55 @@ public class SyncDoneTest {
                 }
             }
         });
-        ethereumA.addListener(new EthereumListenerAdapter(){
+        one2oneeumA.addListener(new one2oneeumListenerAdapter(){
             @Override
             public void onBlock(BlockSummary blockSummary) {
                 if (blockSummary.getBlock().getNumber() == loadedBlocks + 5) {
                     semaphore3.countDown();
-                    ethereumA.getBlockMiner().stopMining();
+                    one2oneeumA.getBlockMiner().stopMining();
                 }
             }
         });
-        ethereumA.getBlockMiner().startMining();
+        one2oneeumA.getBlockMiner().startMining();
 
         semaphore3.await(MAX_SECONDS_WAIT, SECONDS);
         Assert.assertEquals(0, semaphore3.getCount());
 
-        Assert.assertEquals(loadedBlocks + 5, ethereumA.getBlockchain().getBestBlock().getNumber());
-        Assert.assertEquals(loadedBlocks + 5, ethereumB.getBlockchain().getBestBlock().getNumber());
-        assertFalse(ethereumA.getSyncStatus().getStage().equals(SyncStatus.SyncStage.Complete));
+        Assert.assertEquals(loadedBlocks + 5, one2oneeumA.getBlockchain().getBestBlock().getNumber());
+        Assert.assertEquals(loadedBlocks + 5, one2oneeumB.getBlockchain().getBestBlock().getNumber());
+        assertFalse(one2oneeumA.getSyncStatus().getStage().equals(SyncStatus.SyncStage.Complete));
         // Tx was not included, because miner is on long sync
         assertFalse(txSemaphore.getCount() == 0);
 
-        ethereumA.getBlockMiner().startMining();
+        one2oneeumA.getBlockMiner().startMining();
         try {
-            ethereumA.switchToShortSync().get(1, TimeUnit.SECONDS);
+            one2oneeumA.switchToShortSync().get(1, TimeUnit.SECONDS);
         } catch (ExecutionException | TimeoutException e) {
             e.printStackTrace();
         }
-        assertTrue(ethereumA.getSyncStatus().getStage().equals(SyncStatus.SyncStage.Complete));
+        assertTrue(one2oneeumA.getSyncStatus().getStage().equals(SyncStatus.SyncStage.Complete));
         Transaction tx2 = Transaction.create(
                 Hex.toHexString(ECKey.fromPrivate(sha3("cow".getBytes())).getAddress()),
-                EtherUtil.convert(1, EtherUtil.Unit.ETHER),
+                one2oneUtil.convert(1, one2oneUtil.Unit.one2one),
                 BigInteger.ZERO,
-                BigInteger.valueOf(ethereumA.getGasPrice()).add(BigInteger.TEN),
+                BigInteger.valueOf(one2oneeumA.getGasPrice()).add(BigInteger.TEN),
                 new BigInteger("3000000"),
                 null
         );
         tx2.sign(sender);
-        ethereumB.submitTransaction(tx2);
+        one2oneeumB.submitTransaction(tx2);
 
         final CountDownLatch semaphore4 = new CountDownLatch(2);
-        ethereumB.addListener(new EthereumListenerAdapter() {
+        one2oneeumB.addListener(new one2oneeumListenerAdapter() {
             @Override
             public void onBlock(BlockSummary blockSummary) {
                 if (blockSummary.getBlock().getNumber() == loadedBlocks + 9) {
                     semaphore4.countDown();
-                    ethereumA.getBlockMiner().stopMining();
+                    one2oneeumA.getBlockMiner().stopMining();
                 }
             }
         });
-        ethereumA.addListener(new EthereumListenerAdapter(){
+        one2oneeumA.addListener(new one2oneeumListenerAdapter(){
             @Override
             public void onBlock(BlockSummary blockSummary) {
                 if (blockSummary.getBlock().getNumber() == loadedBlocks + 9) {
@@ -310,29 +310,29 @@ public class SyncDoneTest {
 
         semaphore4.await(MAX_SECONDS_WAIT, SECONDS);
         Assert.assertEquals(0, semaphore4.getCount());
-        Assert.assertEquals(loadedBlocks + 9, ethereumA.getBlockchain().getBestBlock().getNumber());
-        Assert.assertEquals(loadedBlocks + 9, ethereumB.getBlockchain().getBestBlock().getNumber());
-        assertTrue(ethereumA.getSyncStatus().getStage().equals(SyncStatus.SyncStage.Complete));
-        assertTrue(ethereumB.getSyncStatus().getStage().equals(SyncStatus.SyncStage.Complete));
+        Assert.assertEquals(loadedBlocks + 9, one2oneeumA.getBlockchain().getBestBlock().getNumber());
+        Assert.assertEquals(loadedBlocks + 9, one2oneeumB.getBlockchain().getBestBlock().getNumber());
+        assertTrue(one2oneeumA.getSyncStatus().getStage().equals(SyncStatus.SyncStage.Complete));
+        assertTrue(one2oneeumB.getSyncStatus().getStage().equals(SyncStatus.SyncStage.Complete));
         // Tx is included!
         assertTrue(txSemaphore.getCount() == 0);
     }
 
     private void setupPeers() throws InterruptedException {
 
-        ethereumA = EthereumFactory.createEthereum(SysPropConfigA.props, SysPropConfigA.class);
-        ethereumB = EthereumFactory.createEthereum(SysPropConfigB.props, SysPropConfigB.class);
+        one2oneeumA = one2oneeumFactory.createone2oneeum(SysPropConfigA.props, SysPropConfigA.class);
+        one2oneeumB = one2oneeumFactory.createone2oneeum(SysPropConfigB.props, SysPropConfigB.class);
 
         final CountDownLatch semaphore = new CountDownLatch(1);
 
-        ethereumB.addListener(new EthereumListenerAdapter() {
+        one2oneeumB.addListener(new one2oneeumListenerAdapter() {
             @Override
             public void onPeerAddedToSyncPool(Channel peer) {
                 semaphore.countDown();
             }
         });
 
-        ethereumB.connect(nodeA);
+        one2oneeumB.connect(nodeA);
 
         semaphore.await(10, SECONDS);
         if(semaphore.getCount() > 0) {

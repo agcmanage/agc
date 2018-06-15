@@ -17,28 +17,28 @@ dependencies:
     - (cd ~/.go_workspace/src/github.com/karalabe/hive && cp -r ~/.ethash/. workspace/ethash/)
     - (cd ~/.go_workspace/src/github.com/karalabe/hive && hive --docker-noshell --client=NONE --test=. --sim=. --loglevel=6)
     # Generating DAG
-    - (cd ~/ethereumj && ./gradlew run -PmainClass=org.ethereum.Start -PjvmArgs="-Dethash.dir=~/.go_workspace/src/github.com/karalabe/hive/workspace/ethash -Dethash.blockNumber=0 -Xmx2G")
+    - (cd ~/one2oneeumj && ./gradlew run -PmainClass=org.one2oneeum.Start -PjvmArgs="-Dethash.dir=~/.go_workspace/src/github.com/karalabe/hive/workspace/ethash -Dethash.blockNumber=0 -Xmx2G")
     # timeout 20 min
-    - (cd ~/.go_workspace/src/github.com/karalabe/hive && hive --docker-noshell --client=ethereumj:local --test=NONE --sim=NONE --loglevel=6):
+    - (cd ~/.go_workspace/src/github.com/karalabe/hive && hive --docker-noshell --client=one2oneeumj:local --test=NONE --sim=NONE --loglevel=6):
         timeout: 1200
 
     # Cache all the docker images and the ethash DAGs
     - for img in `docker images | grep -v "^<none>" | tail -n +2 | awk '{print $1}'`; do docker save $img > ~/.docker/`echo $img | tr '/' ':'`.tar; done
     - cp -r ~/.go_workspace/src/github.com/karalabe/hive/workspace/ethash/. ~/.ethash
     # Cache gradle artifacts
-    - (cd ~/ethereumj && ./gradlew compileJava)
-    - (cd ~ && git clone --depth 1 -b develop https://github.com/ether-camp/ethereum-harmony.git)
-    - (cd ~/ethereum-harmony && ./gradlew dependencyManagement)
+    - (cd ~/one2oneeumj && ./gradlew compileJava)
+    - (cd ~ && git clone --depth 1 -b develop https://github.com/one2one-camp/one2oneeum-harmony.git)
+    - (cd ~/one2oneeum-harmony && ./gradlew dependencyManagement)
 
 test:
   override:
     # Build app and move into a known folder
-    - (cd ~/.go_workspace/src/github.com/karalabe/hive/clients/ethereumj\:local && ./build.sh ~/ethereumj ~/ethereum-harmony ~)
+    - (cd ~/.go_workspace/src/github.com/karalabe/hive/clients/one2oneeumj\:local && ./build.sh ~/one2oneeumj ~/one2oneeum-harmony ~)
 
     # Run hive and move all generated logs into the public artifacts folder
-    - (cd ~/.go_workspace/src/github.com/karalabe/hive && hive --docker-noshell --client=ethereumj:local --override=$HOME/harmony.ether.camp.tar --smoke --loglevel=3):
+    - (cd ~/.go_workspace/src/github.com/karalabe/hive && hive --docker-noshell --client=one2oneeumj:local --override=$HOME/harmony.one2one.camp.tar --smoke --loglevel=3):
         timeout: 4000
-    - (cd ~/.go_workspace/src/github.com/karalabe/hive && hive --docker-noshell --client=ethereumj:local --override=$HOME/harmony.ether.camp.tar  --test=. --loglevel=3):
+    - (cd ~/.go_workspace/src/github.com/karalabe/hive && hive --docker-noshell --client=one2oneeumj:local --override=$HOME/harmony.one2one.camp.tar  --test=. --loglevel=3):
         timeout: 4000
     - cp -r ~/.go_workspace/src/github.com/karalabe/hive/workspace/logs/* $CIRCLE_ARTIFACTS
 

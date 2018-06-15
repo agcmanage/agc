@@ -1,36 +1,36 @@
 /*
- * Copyright (c) [2016] [ <ether.camp> ]
- * This file is part of the ethereumJ library.
+ * Copyright (c) [2016] [ <one2one.camp> ]
+ * This file is part of the one2oneeumJ library.
  *
- * The ethereumJ library is free software: you can redistribute it and/or modify
+ * The one2oneeumJ library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The ethereumJ library is distributed in the hope that it will be useful,
+ * The one2oneeumJ library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
+ * along with the one2oneeumJ library. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ethereum.samples;
+package org.one2oneeum.samples;
 
 import com.typesafe.config.ConfigFactory;
-import org.ethereum.config.SystemProperties;
-import org.ethereum.crypto.ECKey;
-import org.ethereum.crypto.HashUtil;
-import org.ethereum.facade.Ethereum;
-import org.ethereum.facade.EthereumFactory;
+import org.one2oneeum.config.SystemProperties;
+import org.one2oneeum.crypto.ECKey;
+import org.one2oneeum.crypto.HashUtil;
+import org.one2oneeum.facade.one2oneeum;
+import org.one2oneeum.facade.one2oneeumFactory;
 import org.springframework.context.annotation.Bean;
 
 /**
  * This class just extends the BasicSample with the config which connect the peer to the Morden network
  * This class can be used as a base for free transactions testing
  * Everyone may use that 'cow' sender (which is effectively address aacc23ff079d96a5502b31fefcda87a6b3fbdcfb)
- * If you need more coins on this account just go to https://morden.ether.camp/
- * and push 'Get Free Ether' button.
+ * If you need more coins on this account just go to https://morden.one2one.camp/
+ * and push 'Get Free one2one' button.
  *
  * Created by Anton Nashatyrev on 10.02.2016.
  */
@@ -69,7 +69,7 @@ public class RopstenSample extends BasicSample {
     }
 
     public static void main(String[] args) throws Exception {
-        sLogger.info("Starting EthereumJ!");
+        sLogger.info("Starting one2oneeumJ!");
 
         class SampleConfig extends RopstenSampleConfig {
             @Bean
@@ -78,6 +78,6 @@ public class RopstenSample extends BasicSample {
             }
         }
 
-        Ethereum ethereum = EthereumFactory.createEthereum(SampleConfig.class);
+        one2oneeum one2oneeum = one2oneeumFactory.createone2oneeum(SampleConfig.class);
     }
 }

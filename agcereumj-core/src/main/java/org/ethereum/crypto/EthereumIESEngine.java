@@ -1,21 +1,21 @@
 /*
- * Copyright (c) [2016] [ <ether.camp> ]
- * This file is part of the ethereumJ library.
+ * Copyright (c) [2016] [ <one2one.camp> ]
+ * This file is part of the one2oneeumJ library.
  *
- * The ethereumJ library is free software: you can redistribute it and/or modify
+ * The one2oneeumJ library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The ethereumJ library is distributed in the hope that it will be useful,
+ * The one2oneeumJ library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
+ * along with the one2oneeumJ library. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ethereum.crypto;
+package org.one2oneeum.crypto;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -32,11 +32,11 @@ import org.spongycastle.util.Pack;
  * Support class for constructing integrated encryption cipher
  * for doing basic message exchanges on top of key agreement ciphers.
  * Follows the description given in IEEE Std 1363a with a couple of changes
- * specific to Ethereum:
+ * specific to one2oneeum:
  * - Hash the MAC key before use
  * - Include the encryption IV in the MAC computation
  */
-public class EthereumIESEngine
+public class one2oneeumIESEngine
 {
     private final Digest hash;
     BasicAgreement agree;
@@ -64,7 +64,7 @@ public class EthereumIESEngine
      * @param hash   hash ing function
      * @param cipher the actual cipher
      */
-    public EthereumIESEngine(
+    public one2oneeumIESEngine(
             BasicAgreement agree,
             DerivationFunction kdf,
             Mac mac, Digest hash, BufferedBlockCipher cipher)
@@ -85,7 +85,7 @@ public class EthereumIESEngine
     /**
      * Initialise the encryptor.
      *
-     * @param forEncryption whether or not this is encryption/decryption.
+     * @param forEncryption whone2one or not this is encryption/decryption.
      * @param privParam     our private key parameters
      * @param pubParam      the recipient's/sender's public key parameters
      * @param params        encoding and derivation parameters, may be wrapped to include an IV for an underlying block cipher.

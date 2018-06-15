@@ -1,29 +1,29 @@
 /*
- * Copyright (c) [2016] [ <ether.camp> ]
- * This file is part of the ethereumJ library.
+ * Copyright (c) [2016] [ <one2one.camp> ]
+ * This file is part of the one2oneeumJ library.
  *
- * The ethereumJ library is free software: you can redistribute it and/or modify
+ * The one2oneeumJ library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The ethereumJ library is distributed in the hope that it will be useful,
+ * The one2oneeumJ library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
+ * along with the one2oneeumJ library. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ethereum.samples;
+package org.one2oneeum.samples;
 
-import org.ethereum.core.*;
-import org.ethereum.crypto.ECKey;
-import org.ethereum.crypto.HashUtil;
-import org.ethereum.db.ByteArrayWrapper;
-import org.ethereum.facade.EthereumFactory;
-import org.ethereum.listener.EthereumListenerAdapter;
-import org.ethereum.util.ByteUtil;
+import org.one2oneeum.core.*;
+import org.one2oneeum.crypto.ECKey;
+import org.one2oneeum.crypto.HashUtil;
+import org.one2oneeum.db.ByteArrayWrapper;
+import org.one2oneeum.facade.one2oneeumFactory;
+import org.one2oneeum.listener.one2oneeumListenerAdapter;
+import org.one2oneeum.util.ByteUtil;
 import org.spongycastle.util.encoders.Hex;
 import org.springframework.context.annotation.Bean;
 
@@ -46,7 +46,7 @@ public class SendTransaction extends BasicSample {
 
     @Override
     public void onSyncDone() throws Exception {
-        ethereum.addListener(new EthereumListenerAdapter() {
+        one2oneeum.addListener(new one2oneeumListenerAdapter() {
             // when block arrives look for our included transactions
             @Override
             public void onBlock(Block block, List<TransactionReceipt> receipts) {
@@ -78,19 +78,19 @@ public class SendTransaction extends BasicSample {
 
         byte[] senderPrivateKey = HashUtil.sha3("cow".getBytes());
         byte[] fromAddress = ECKey.fromPrivate(senderPrivateKey).getAddress();
-        BigInteger nonce = ethereum.getRepository().getNonce(fromAddress);
+        BigInteger nonce = one2oneeum.getRepository().getNonce(fromAddress);
         Transaction tx = new Transaction(
                 ByteUtil.bigIntegerToBytes(nonce),
-                ByteUtil.longToBytesNoLeadZeroes(ethereum.getGasPrice()),
+                ByteUtil.longToBytesNoLeadZeroes(one2oneeum.getGasPrice()),
                 ByteUtil.longToBytesNoLeadZeroes(200000),
                 receiveAddress,
-                ByteUtil.bigIntegerToBytes(BigInteger.valueOf(1)),  // 1_000_000_000 gwei, 1_000_000_000_000L szabo, 1_000_000_000_000_000L finney, 1_000_000_000_000_000_000L ether
+                ByteUtil.bigIntegerToBytes(BigInteger.valueOf(1)),  // 1_000_000_000 gwei, 1_000_000_000_000L szabo, 1_000_000_000_000_000L finney, 1_000_000_000_000_000_000L one2one
                 data,
-                ethereum.getChainIdForNextBlock());
+                one2oneeum.getChainIdForNextBlock());
 
         tx.sign(ECKey.fromPrivate(senderPrivateKey));
         logger.info("<=== Sending transaction: " + tx);
-        ethereum.submitTransaction(tx);
+        one2oneeum.submitTransaction(tx);
 
         return waitForTx(tx.getHash());
     }
@@ -99,14 +99,14 @@ public class SendTransaction extends BasicSample {
     private TransactionReceipt waitForTx(byte[] txHash) throws InterruptedException {
         ByteArrayWrapper txHashW = new ByteArrayWrapper(txHash);
         txWaiters.put(txHashW, null);
-        long startBlock = ethereum.getBlockchain().getBestBlock().getNumber();
+        long startBlock = one2oneeum.getBlockchain().getBestBlock().getNumber();
 
         while(true) {
             TransactionReceipt receipt = txWaiters.get(txHashW);
             if (receipt != null) {
                 return receipt;
             } else {
-                long curBlock = ethereum.getBlockchain().getBestBlock().getNumber();
+                long curBlock = one2oneeum.getBlockchain().getBestBlock().getNumber();
                 if (curBlock > startBlock + 16) {
                     throw new RuntimeException("The transaction was not included during last 16 blocks: " + txHashW.toString().substring(0,8));
                 } else {
@@ -123,7 +123,7 @@ public class SendTransaction extends BasicSample {
 
 
     public static void main(String[] args) throws Exception {
-        sLogger.info("Starting EthereumJ!");
+        sLogger.info("Starting one2oneeumJ!");
 
         class Config {
             @Bean
@@ -134,7 +134,7 @@ public class SendTransaction extends BasicSample {
 
         // Based on Config class the BasicSample would be created by Spring
         // and its springInit() method would be called as an entry point
-        EthereumFactory.createEthereum(Config.class);
+        one2oneeumFactory.createone2oneeum(Config.class);
 
     }
 

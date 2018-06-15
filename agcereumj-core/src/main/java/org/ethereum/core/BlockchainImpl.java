@@ -1,40 +1,40 @@
 /*
- * Copyright (c) [2016] [ <ether.camp> ]
- * This file is part of the ethereumJ library.
+ * Copyright (c) [2016] [ <one2one.camp> ]
+ * This file is part of the one2oneeumJ library.
  *
- * The ethereumJ library is free software: you can redistribute it and/or modify
+ * The one2oneeumJ library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The ethereumJ library is distributed in the hope that it will be useful,
+ * The one2oneeumJ library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
+ * along with the one2oneeumJ library. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ethereum.core;
+package org.one2oneeum.core;
 
 import org.apache.commons.lang3.tuple.Pair;
-import org.ethereum.config.BlockchainConfig;
-import org.ethereum.config.CommonConfig;
-import org.ethereum.config.SystemProperties;
-import org.ethereum.crypto.HashUtil;
-import org.ethereum.datasource.inmem.HashMapDB;
-import org.ethereum.db.*;
-import org.ethereum.trie.Trie;
-import org.ethereum.trie.TrieImpl;
-import org.ethereum.listener.EthereumListener;
-import org.ethereum.listener.EthereumListenerAdapter;
-import org.ethereum.manager.AdminInfo;
-import org.ethereum.sync.SyncManager;
-import org.ethereum.util.*;
-import org.ethereum.validator.DependentBlockHeaderRule;
-import org.ethereum.validator.ParentBlockHeaderValidator;
-import org.ethereum.vm.program.invoke.ProgramInvokeFactory;
-import org.ethereum.vm.program.invoke.ProgramInvokeFactoryImpl;
+import org.one2oneeum.config.BlockchainConfig;
+import org.one2oneeum.config.CommonConfig;
+import org.one2oneeum.config.SystemProperties;
+import org.one2oneeum.crypto.HashUtil;
+import org.one2oneeum.datasource.inmem.HashMapDB;
+import org.one2oneeum.db.*;
+import org.one2oneeum.trie.Trie;
+import org.one2oneeum.trie.TrieImpl;
+import org.one2oneeum.listener.one2oneeumListener;
+import org.one2oneeum.listener.one2oneeumListenerAdapter;
+import org.one2oneeum.manager.AdminInfo;
+import org.one2oneeum.sync.SyncManager;
+import org.one2oneeum.util.*;
+import org.one2oneeum.validator.DependentBlockHeaderRule;
+import org.one2oneeum.validator.ParentBlockHeaderValidator;
+import org.one2oneeum.vm.program.invoke.ProgramInvokeFactory;
+import org.one2oneeum.vm.program.invoke.ProgramInvokeFactoryImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.spongycastle.util.encoders.Hex;
@@ -64,25 +64,25 @@ import static java.lang.Runtime.getRuntime;
 import static java.math.BigInteger.ONE;
 import static java.math.BigInteger.ZERO;
 import static java.util.Collections.emptyList;
-import static org.ethereum.core.Denomination.SZABO;
-import static org.ethereum.core.ImportResult.*;
-import static org.ethereum.crypto.HashUtil.sha3;
-import static org.ethereum.util.ByteUtil.toHexString;
+import static org.one2oneeum.core.Denomination.SZABO;
+import static org.one2oneeum.core.ImportResult.*;
+import static org.one2oneeum.crypto.HashUtil.sha3;
+import static org.one2oneeum.util.ByteUtil.toHexString;
 
 /**
- * The Ethereum blockchain is in many ways similar to the Bitcoin blockchain,
+ * The one2oneeum blockchain is in many ways similar to the Bitcoin blockchain,
  * although it does have some differences.
  * <p>
- * The main difference between Ethereum and Bitcoin with regard to the blockchain architecture
- * is that, unlike Bitcoin, Ethereum blocks contain a copy of both the transaction list
+ * The main difference between one2oneeum and Bitcoin with regard to the blockchain architecture
+ * is that, unlike Bitcoin, one2oneeum blocks contain a copy of both the transaction list
  * and the most recent state. Aside from that, two other values, the block number and
  * the difficulty, are also stored in the block.
  * </p>
- * The block validation algorithm in Ethereum is as follows:
+ * The block validation algorithm in one2oneeum is as follows:
  * <ol>
  * <li>Check if the previous block referenced exists and is valid.</li>
  * <li>Check that the timestamp of the block is greater than that of the referenced previous block and less than 15 minutes into the future</li>
- * <li>Check that the block number, difficulty, transaction root, uncle root and gas limit (various low-level Ethereum-specific concepts) are valid.</li>
+ * <li>Check that the block number, difficulty, transaction root, uncle root and gas limit (various low-level one2oneeum-specific concepts) are valid.</li>
  * <li>Check that the proof of work on the block is valid.</li>
  * <li>Let S[0] be the STATE_ROOT of the previous block.</li>
  * <li>Let TX be the block's transaction list, with n transactions.
@@ -92,14 +92,14 @@ import static org.ethereum.util.ByteUtil.toHexString;
  * <li>Let S_FINAL be S[n], but adding the block reward paid to the miner.</li>
  * <li>Check if S_FINAL is the same as the STATE_ROOT. If it is, the block is valid; otherwise, it is not valid.</li>
  * </ol>
- * See <a href="https://github.com/ethereum/wiki/wiki/White-Paper#blockchain-and-mining">Ethereum Whitepaper</a>
+ * See <a href="https://github.com/one2oneeum/wiki/wiki/White-Paper#blockchain-and-mining">one2oneeum Whitepaper</a>
  *
  * @author Roman Mandeleil
  * @author Nick Savers
  * @since 20.05.2014
  */
 @Component
-public class BlockchainImpl implements Blockchain, org.ethereum.facade.Blockchain {
+public class BlockchainImpl implements Blockchain, org.one2oneeum.facade.Blockchain {
 
 
     private static final Logger logger = LoggerFactory.getLogger("blockchain");
@@ -126,7 +126,7 @@ public class BlockchainImpl implements Blockchain, org.ethereum.facade.Blockchai
     private BigInteger totalDifficulty = ZERO;
 
     @Autowired
-    private EthereumListener listener;
+    private one2oneeumListener listener;
 
     @Autowired
     ProgramInvokeFactory programInvokeFactory;
@@ -191,7 +191,7 @@ public class BlockchainImpl implements Blockchain, org.ethereum.facade.Blockchai
         this.blockStore = blockStore;
         this.repository = repository;
         this.adminInfo = new AdminInfo();
-        this.listener = new EthereumListenerAdapter();
+        this.listener = new one2oneeumListenerAdapter();
         this.parentHeaderValidator = null;
         this.transactionStore = new TransactionStore(new HashMapDB());
         this.eventDispatchThread = EventDispatchThread.getDefault();
@@ -209,7 +209,7 @@ public class BlockchainImpl implements Blockchain, org.ethereum.facade.Blockchai
         return this;
     }
 
-    public BlockchainImpl withEthereumListener(EthereumListener listener) {
+    public BlockchainImpl withone2oneeumListener(one2oneeumListener listener) {
         this.listener = listener;
         return this;
     }

@@ -1,30 +1,30 @@
 /*
- * Copyright (c) [2016] [ <ether.camp> ]
- * This file is part of the ethereumJ library.
+ * Copyright (c) [2016] [ <one2one.camp> ]
+ * This file is part of the one2oneeumJ library.
  *
- * The ethereumJ library is free software: you can redistribute it and/or modify
+ * The one2oneeumJ library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The ethereumJ library is distributed in the hope that it will be useful,
+ * The one2oneeumJ library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
+ * along with the one2oneeumJ library. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ethereum.core;
+package org.one2oneeum.core;
 
-import org.ethereum.config.CommonConfig;
-import org.ethereum.datasource.inmem.HashMapDB;
-import org.ethereum.db.RepositoryRoot;
-import org.ethereum.db.ByteArrayWrapper;
-import org.ethereum.db.IndexedBlockStore;
-import org.ethereum.listener.EthereumListenerAdapter;
-import org.ethereum.validator.DependentBlockHeaderRuleAdapter;
-import org.ethereum.vm.program.invoke.ProgramInvokeFactoryImpl;
+import org.one2oneeum.config.CommonConfig;
+import org.one2oneeum.datasource.inmem.HashMapDB;
+import org.one2oneeum.db.RepositoryRoot;
+import org.one2oneeum.db.ByteArrayWrapper;
+import org.one2oneeum.db.IndexedBlockStore;
+import org.one2oneeum.listener.one2oneeumListenerAdapter;
+import org.one2oneeum.validator.DependentBlockHeaderRuleAdapter;
+import org.one2oneeum.vm.program.invoke.ProgramInvokeFactoryImpl;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -39,7 +39,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.List;
 
-import static org.ethereum.util.BIUtil.toBI;
+import static org.one2oneeum.util.BIUtil.toBI;
 import static org.junit.Assert.*;
 
 /**
@@ -132,7 +132,7 @@ public class PendingStateLongRunTest {
 
         blockchain.byTest = true;
 
-        PendingStateImpl pendingState = new PendingStateImpl(new EthereumListenerAdapter());
+        PendingStateImpl pendingState = new PendingStateImpl(new one2oneeumListenerAdapter());
 
         pendingState.setBlockchain(blockchain);
         blockchain.setPendingState(pendingState);

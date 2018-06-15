@@ -1,37 +1,37 @@
 /*
- * Copyright (c) [2016] [ <ether.camp> ]
- * This file is part of the ethereumJ library.
+ * Copyright (c) [2016] [ <one2one.camp> ]
+ * This file is part of the one2oneeumJ library.
  *
- * The ethereumJ library is free software: you can redistribute it and/or modify
+ * The one2oneeumJ library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The ethereumJ library is distributed in the hope that it will be useful,
+ * The one2oneeumJ library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
+ * along with the one2oneeumJ library. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ethereum.core;
+package org.one2oneeum.core;
 
-import org.ethereum.config.SystemProperties;
-import org.ethereum.config.blockchain.HomesteadConfig;
-import org.ethereum.config.net.MainNetConfig;
-import org.ethereum.core.genesis.GenesisLoader;
-import org.ethereum.crypto.ECKey;
-import org.ethereum.crypto.ECKey.MissingPrivateKeyException;
-import org.ethereum.crypto.HashUtil;
-import org.ethereum.db.BlockStoreDummy;
-import org.ethereum.jsontestsuite.suite.StateTestSuite;
-import org.ethereum.jsontestsuite.suite.runners.StateTestRunner;
-import org.ethereum.solidity.compiler.CompilationResult;
-import org.ethereum.solidity.compiler.SolidityCompiler;
-import org.ethereum.util.ByteUtil;
-import org.ethereum.vm.LogInfo;
-import org.ethereum.vm.program.ProgramResult;
+import org.one2oneeum.config.SystemProperties;
+import org.one2oneeum.config.blockchain.HomesteadConfig;
+import org.one2oneeum.config.net.MainNetConfig;
+import org.one2oneeum.core.genesis.GenesisLoader;
+import org.one2oneeum.crypto.ECKey;
+import org.one2oneeum.crypto.ECKey.MissingPrivateKeyException;
+import org.one2oneeum.crypto.HashUtil;
+import org.one2oneeum.db.BlockStoreDummy;
+import org.one2oneeum.jsontestsuite.suite.StateTestSuite;
+import org.one2oneeum.jsontestsuite.suite.runners.StateTestRunner;
+import org.one2oneeum.solidity.compiler.CompilationResult;
+import org.one2oneeum.solidity.compiler.SolidityCompiler;
+import org.one2oneeum.util.ByteUtil;
+import org.one2oneeum.vm.LogInfo;
+import org.one2oneeum.vm.program.ProgramResult;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -52,7 +52,7 @@ import java.util.List;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
-import static org.ethereum.solidity.SolidityType.*;
+import static org.one2oneeum.solidity.SolidityType.*;
 import static org.slf4j.LoggerFactory.getLogger;
 
 public class TransactionTest {
@@ -163,7 +163,7 @@ public class TransactionTest {
                 Hex.toHexString(key.getAddress()));
     }
 
-    // Testdata from: https://github.com/ethereum/tests/blob/master/txtest.json
+    // Testdata from: https://github.com/one2oneeum/tests/blob/master/txtest.json
     String RLP_ENCODED_RAW_TX = "e88085e8d4a510008227109413978aee95f38490e9769c39b2773ed763d9cd5f872386f26fc1000080";
     String RLP_ENCODED_UNSIGNED_TX = "eb8085e8d4a510008227109413978aee95f38490e9769c39b2773ed763d9cd5f872386f26fc1000080808080";
     String HASH_TX = "328ea6d24659dec48adea1aced9a136e5ebdf40258db30d1b1d97ed2b74be34e";
@@ -429,7 +429,7 @@ public class TransactionTest {
         List<String> res = new StateTestRunner(stateTestSuite.getTestCases().get("test1")) {
             @Override
             protected ProgramResult executeTransaction(Transaction tx) {
-                // first emulating the constant call (Ethereum.callConstantFunction)
+                // first emulating the constant call (one2oneeum.callConstantFunction)
                 // to ensure it doesn't affect the final state
 
                 {
@@ -466,7 +466,7 @@ public class TransactionTest {
     @Test
     public void homesteadContractCreationTest() throws Exception {
         // Checks Homestead updates (1) & (3) from
-        // https://github.com/ethereum/EIPs/blob/master/EIPS/eip-2.mediawiki
+        // https://github.com/one2oneeum/EIPs/blob/master/EIPS/eip-2.mediawiki
 
         /*
           trying to create a contract with the following Solidity code:

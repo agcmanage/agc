@@ -1,7 +1,7 @@
-package org.ethereum.db.prune;
+package org.one2oneeum.db.prune;
 
-import org.ethereum.core.Block;
-import org.ethereum.util.FastByteComparisons;
+import org.one2oneeum.core.Block;
+import org.one2oneeum.util.FastByteComparisons;
 
 import java.util.Arrays;
 

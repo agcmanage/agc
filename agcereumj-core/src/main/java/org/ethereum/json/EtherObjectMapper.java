@@ -1,21 +1,21 @@
 /*
- * Copyright (c) [2016] [ <ether.camp> ]
- * This file is part of the ethereumJ library.
+ * Copyright (c) [2016] [ <one2one.camp> ]
+ * This file is part of the one2oneeumJ library.
  *
- * The ethereumJ library is free software: you can redistribute it and/or modify
+ * The one2oneeumJ library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The ethereumJ library is distributed in the hope that it will be useful,
+ * The one2oneeumJ library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
+ * along with the one2oneeumJ library. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ethereum.json;
+package org.one2oneeum.json;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonGenerator;
@@ -29,11 +29,11 @@ import java.io.IOException;
 
 /**
  * An extended {@link com.fasterxml.jackson.databind.ObjectMapper ObjectMapper} class to
- * customize ethereum state dumps.
+ * customize one2oneeum state dumps.
  *
  * @author Alon Muroch
  */
-public class EtherObjectMapper extends ObjectMapper {
+public class one2oneObjectMapper extends ObjectMapper {
 
     @Override
     public String writeValueAsString(Object value)
@@ -42,8 +42,8 @@ public class EtherObjectMapper extends ObjectMapper {
         SegmentedStringWriter sw = new SegmentedStringWriter(_jsonFactory._getBufferRecycler());
         try {
             JsonGenerator ge = _jsonFactory.createGenerator(sw);
-            // set ethereum custom pretty printer
-            EtherPrettyPrinter pp = new EtherPrettyPrinter();
+            // set one2oneeum custom pretty printer
+            one2onePrettyPrinter pp = new one2onePrettyPrinter();
             ge.setPrettyPrinter(pp);
 
             _configAndWriteValue(ge, value);
@@ -57,13 +57,13 @@ public class EtherObjectMapper extends ObjectMapper {
 
     /**
      * An extended {@link com.fasterxml.jackson.core.util.DefaultPrettyPrinter} class to customize
-     * an ethereum {@link com.fasterxml.jackson.core.PrettyPrinter Pretty Printer} Generator
+     * an one2oneeum {@link com.fasterxml.jackson.core.PrettyPrinter Pretty Printer} Generator
      *
      * @author Alon Muroch
      */
-    public class EtherPrettyPrinter extends DefaultPrettyPrinter {
+    public class one2onePrettyPrinter extends DefaultPrettyPrinter {
 
-        public EtherPrettyPrinter() {
+        public one2onePrettyPrinter() {
             super();
         }
 
@@ -72,7 +72,7 @@ public class EtherObjectMapper extends ObjectMapper {
                 throws IOException, JsonGenerationException {
             /**
              * Custom object separator (Default is " : ") to make it easier to compare state dumps with other
-             * ethereum client implementations
+             * one2oneeum client implementations
              */
             jg.writeRaw(": ");
         }

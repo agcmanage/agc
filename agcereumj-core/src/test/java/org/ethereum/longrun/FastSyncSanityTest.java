@@ -1,30 +1,30 @@
 /*
- * Copyright (c) [2016] [ <ether.camp> ]
- * This file is part of the ethereumJ library.
+ * Copyright (c) [2016] [ <one2one.camp> ]
+ * This file is part of the one2oneeumJ library.
  *
- * The ethereumJ library is free software: you can redistribute it and/or modify
+ * The one2oneeumJ library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The ethereumJ library is distributed in the hope that it will be useful,
+ * The one2oneeumJ library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
+ * along with the one2oneeumJ library. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ethereum.longrun;
+package org.one2oneeum.longrun;
 
 import com.typesafe.config.ConfigFactory;
 import org.apache.commons.lang3.mutable.MutableObject;
-import org.ethereum.config.CommonConfig;
-import org.ethereum.config.SystemProperties;
-import org.ethereum.facade.Ethereum;
-import org.ethereum.facade.EthereumFactory;
-import org.ethereum.listener.EthereumListener;
-import org.ethereum.sync.SyncManager;
+import org.one2oneeum.config.CommonConfig;
+import org.one2oneeum.config.SystemProperties;
+import org.one2oneeum.facade.one2oneeum;
+import org.one2oneeum.facade.one2oneeumFactory;
+import org.one2oneeum.listener.one2oneeumListener;
+import org.one2oneeum.sync.SyncManager;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -59,9 +59,9 @@ import static java.lang.Thread.sleep;
 @Ignore
 public class FastSyncSanityTest {
 
-    private Ethereum regularNode;
+    private one2oneeum regularNode;
     private static AtomicBoolean firstRun = new AtomicBoolean(true);
-    private static EnumSet<EthereumListener.SyncState> statesCompleted = EnumSet.noneOf(EthereumListener.SyncState.class);
+    private static EnumSet<one2oneeumListener.SyncState> statesCompleted = EnumSet.noneOf(one2oneeumListener.SyncState.class);
     private static final Logger testLogger = LoggerFactory.getLogger("TestLogger");
     private static final MutableObject<String> configPath = new MutableObject<>("longrun/conf/ropsten-fast.conf");
     private static final MutableObject<Boolean> resetDBOnFirstRun = new MutableObject<>(null);
@@ -116,7 +116,7 @@ public class FastSyncSanityTest {
     }
 
     /**
-     * Just regular EthereumJ node
+     * Just regular one2oneeumJ node
      */
     static class RegularNode extends BasicNode {
 
@@ -130,26 +130,26 @@ public class FastSyncSanityTest {
         private void stopSync() {
             config.setSyncEnabled(false);
             config.setDiscoveryEnabled(false);
-            ethereum.getChannelManager().close();
+            one2oneeum.getChannelManager().close();
             syncPool.close();
             syncManager.close();
         }
 
         private void firstRunChecks() throws InterruptedException {
 
-            if (!statesCompleted.containsAll(EnumSet.of(EthereumListener.SyncState.UNSECURE,
-                    EthereumListener.SyncState.SECURE)))
+            if (!statesCompleted.containsAll(EnumSet.of(one2oneeumListener.SyncState.UNSECURE,
+                    one2oneeumListener.SyncState.SECURE)))
                 return;
 
             sleep(60000);
             stopSync();
 
             testLogger.info("Validating nodes: Start");
-            BlockchainValidation.checkNodes(ethereum, commonConfig, fatalErrors);
+            BlockchainValidation.checkNodes(one2oneeum, commonConfig, fatalErrors);
             testLogger.info("Validating nodes: End");
 
             testLogger.info("Validating block headers: Start");
-            BlockchainValidation.checkFastHeaders(ethereum, commonConfig, fatalErrors);
+            BlockchainValidation.checkFastHeaders(one2oneeum, commonConfig, fatalErrors);
             testLogger.info("Validating block headers: End");
 
             firstRun.set(false);
@@ -164,15 +164,15 @@ public class FastSyncSanityTest {
 
                 switch (syncState) {
                     case UNSECURE:
-                        if (!firstRun.get() || statesCompleted.contains(EthereumListener.SyncState.UNSECURE)) break;
+                        if (!firstRun.get() || statesCompleted.contains(one2oneeumListener.SyncState.UNSECURE)) break;
                         testLogger.info("[v] Unsecure sync completed");
-                        statesCompleted.add(EthereumListener.SyncState.UNSECURE);
+                        statesCompleted.add(one2oneeumListener.SyncState.UNSECURE);
                         firstRunChecks();
                         break;
                     case SECURE:
-                        if (!firstRun.get() || statesCompleted.contains(EthereumListener.SyncState.SECURE)) break;
+                        if (!firstRun.get() || statesCompleted.contains(one2oneeumListener.SyncState.SECURE)) break;
                         testLogger.info("[v] Secure sync completed");
-                        statesCompleted.add(EthereumListener.SyncState.SECURE);
+                        statesCompleted.add(one2oneeumListener.SyncState.SECURE);
                         firstRunChecks();
                         break;
                     case COMPLETE:
@@ -186,7 +186,7 @@ public class FastSyncSanityTest {
         @Override
         public void onSyncDone() throws Exception {
             // Full sanity check
-            fullSanityCheck(ethereum, commonConfig);
+            fullSanityCheck(one2oneeum, commonConfig);
         }
     }
 
@@ -205,8 +205,8 @@ public class FastSyncSanityTest {
         return fatalErrors.get() == 0;
     }
 
-    private static void fullSanityCheck(Ethereum ethereum, CommonConfig commonConfig) {
-        BlockchainValidation.fullCheck(ethereum, commonConfig, fatalErrors);
+    private static void fullSanityCheck(one2oneeum one2oneeum, CommonConfig commonConfig) {
+        BlockchainValidation.fullCheck(one2oneeum, commonConfig, fatalErrors);
         logStats();
         allChecksAreOver.set(true);
         statTimer.shutdownNow();
@@ -215,7 +215,7 @@ public class FastSyncSanityTest {
     @Test
     public void testTripleCheck() throws Exception {
 
-        runEthereum();
+        runone2oneeum();
 
         new Thread(() -> {
             try {
@@ -227,7 +227,7 @@ public class FastSyncSanityTest {
                 testLogger.info("First run stopped");
                 sleep(10_000);
                 testLogger.info("Starting second run");
-                runEthereum();
+                runone2oneeum();
                 while(!allChecksAreOver.get()) {
                     sleep(1000);
                 }
@@ -247,8 +247,8 @@ public class FastSyncSanityTest {
         }
     }
 
-    public void runEthereum() throws Exception {
-        testLogger.info("Starting EthereumJ regular instance!");
-        this.regularNode = EthereumFactory.createEthereum(RegularConfig.class);
+    public void runone2oneeum() throws Exception {
+        testLogger.info("Starting one2oneeumJ regular instance!");
+        this.regularNode = one2oneeumFactory.createone2oneeum(RegularConfig.class);
     }
 }

@@ -1,48 +1,48 @@
 /*
- * Copyright (c) [2016] [ <ether.camp> ]
- * This file is part of the ethereumJ library.
+ * Copyright (c) [2016] [ <one2one.camp> ]
+ * This file is part of the one2oneeumJ library.
  *
- * The ethereumJ library is free software: you can redistribute it and/or modify
+ * The one2oneeumJ library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The ethereumJ library is distributed in the hope that it will be useful,
+ * The one2oneeumJ library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
+ * along with the one2oneeumJ library. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ethereum.facade;
+package org.one2oneeum.facade;
 
 import org.apache.commons.lang3.ArrayUtils;
-import org.ethereum.config.BlockchainConfig;
-import org.ethereum.config.CommonConfig;
-import org.ethereum.config.SystemProperties;
-import org.ethereum.core.*;
-import org.ethereum.core.PendingState;
-import org.ethereum.core.Repository;
-import org.ethereum.crypto.ECKey;
-import org.ethereum.listener.CompositeEthereumListener;
-import org.ethereum.listener.EthereumListener;
-import org.ethereum.listener.EthereumListenerAdapter;
-import org.ethereum.listener.GasPriceTracker;
-import org.ethereum.manager.AdminInfo;
-import org.ethereum.manager.BlockLoader;
-import org.ethereum.manager.WorldManager;
-import org.ethereum.mine.BlockMiner;
-import org.ethereum.net.client.PeerClient;
-import org.ethereum.net.rlpx.Node;
-import org.ethereum.net.server.ChannelManager;
-import org.ethereum.net.shh.Whisper;
-import org.ethereum.net.submit.TransactionExecutor;
-import org.ethereum.net.submit.TransactionTask;
-import org.ethereum.sync.SyncManager;
-import org.ethereum.util.ByteUtil;
-import org.ethereum.vm.program.ProgramResult;
-import org.ethereum.vm.program.invoke.ProgramInvokeFactory;
+import org.one2oneeum.config.BlockchainConfig;
+import org.one2oneeum.config.CommonConfig;
+import org.one2oneeum.config.SystemProperties;
+import org.one2oneeum.core.*;
+import org.one2oneeum.core.PendingState;
+import org.one2oneeum.core.Repository;
+import org.one2oneeum.crypto.ECKey;
+import org.one2oneeum.listener.Compositeone2oneeumListener;
+import org.one2oneeum.listener.one2oneeumListener;
+import org.one2oneeum.listener.one2oneeumListenerAdapter;
+import org.one2oneeum.listener.GasPriceTracker;
+import org.one2oneeum.manager.AdminInfo;
+import org.one2oneeum.manager.BlockLoader;
+import org.one2oneeum.manager.WorldManager;
+import org.one2oneeum.mine.BlockMiner;
+import org.one2oneeum.net.client.PeerClient;
+import org.one2oneeum.net.rlpx.Node;
+import org.one2oneeum.net.server.ChannelManager;
+import org.one2oneeum.net.shh.Whisper;
+import org.one2oneeum.net.submit.TransactionExecutor;
+import org.one2oneeum.net.submit.TransactionTask;
+import org.one2oneeum.sync.SyncManager;
+import org.one2oneeum.util.ByteUtil;
+import org.one2oneeum.vm.program.ProgramResult;
+import org.one2oneeum.vm.program.invoke.ProgramInvokeFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.spongycastle.util.encoders.Hex;
@@ -60,14 +60,14 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
-import static org.ethereum.util.ByteUtil.toHexString;
+import static org.one2oneeum.util.ByteUtil.toHexString;
 
 /**
  * @author Roman Mandeleil
  * @since 27.07.2014
  */
 @Component
-public class EthereumImpl implements Ethereum, SmartLifecycle {
+public class one2oneeumImpl implements one2oneeum, SmartLifecycle {
 
     private static final Logger logger = LoggerFactory.getLogger("facade");
     private static final Logger gLogger = LoggerFactory.getLogger("general");
@@ -104,18 +104,18 @@ public class EthereumImpl implements Ethereum, SmartLifecycle {
 
     private SystemProperties config;
 
-    private CompositeEthereumListener compositeEthereumListener;
+    private Compositeone2oneeumListener compositeone2oneeumListener;
 
 
     private GasPriceTracker gasPriceTracker = new GasPriceTracker();
 
     @Autowired
-    public EthereumImpl(final SystemProperties config, final CompositeEthereumListener compositeEthereumListener) {
-        this.compositeEthereumListener = compositeEthereumListener;
+    public one2oneeumImpl(final SystemProperties config, final Compositeone2oneeumListener compositeone2oneeumListener) {
+        this.compositeone2oneeumListener = compositeone2oneeumListener;
         this.config = config;
         System.out.println();
-        this.compositeEthereumListener.addListener(gasPriceTracker);
-        gLogger.info("EthereumJ node started: enode://" + toHexString(config.nodeId()) + "@" + config.externalIp() + ":" + config.listenPort());
+        this.compositeone2oneeumListener.addListener(gasPriceTracker);
+        gLogger.info("one2oneeumJ node started: enode://" + toHexString(config.nodeId()) + "@" + config.externalIp() + ":" + config.listenPort());
     }
 
     @Override
@@ -145,8 +145,8 @@ public class EthereumImpl implements Ethereum, SmartLifecycle {
     }
 
     @Override
-    public org.ethereum.facade.Blockchain getBlockchain() {
-        return (org.ethereum.facade.Blockchain) worldManager.getBlockchain();
+    public org.one2oneeum.facade.Blockchain getBlockchain() {
+        return (org.one2oneeum.facade.Blockchain) worldManager.getBlockchain();
     }
 
     public ImportResult addNewMinedBlock(Block block) {
@@ -163,7 +163,7 @@ public class EthereumImpl implements Ethereum, SmartLifecycle {
     }
 
     @Override
-    public void addListener(EthereumListener listener) {
+    public void addListener(one2oneeumListener listener) {
         worldManager.addListener(listener);
     }
 
@@ -250,7 +250,7 @@ public class EthereumImpl implements Ethereum, SmartLifecycle {
             for (Transaction tx : block.getTransactionsList()) {
 
                 Repository txTrack = track.startTracking();
-                org.ethereum.core.TransactionExecutor executor = new org.ethereum.core.TransactionExecutor(
+                org.one2oneeum.core.TransactionExecutor executor = new org.one2oneeum.core.TransactionExecutor(
                         tx, block.getCoinbase(), txTrack, worldManager.getBlockStore(),
                         programInvokeFactory, block, worldManager.getListener(), 0)
                         .withCommonConfig(commonConfig);
@@ -275,16 +275,16 @@ public class EthereumImpl implements Ethereum, SmartLifecycle {
         return new BlockSummary(block, new HashMap<byte[], BigInteger>(), receipts, summaries);
     }
 
-    private org.ethereum.core.TransactionExecutor callConstantImpl(Transaction tx, Block block) {
+    private org.one2oneeum.core.TransactionExecutor callConstantImpl(Transaction tx, Block block) {
 
         Repository repository = ((Repository) worldManager.getRepository())
                 .getSnapshotTo(block.getStateRoot())
                 .startTracking();
 
         try {
-            org.ethereum.core.TransactionExecutor executor = new org.ethereum.core.TransactionExecutor
+            org.one2oneeum.core.TransactionExecutor executor = new org.one2oneeum.core.TransactionExecutor
                     (tx, block.getCoinbase(), repository, worldManager.getBlockStore(),
-                            programInvokeFactory, block, new EthereumListenerAdapter(), 0)
+                            programInvokeFactory, block, new one2oneeumListenerAdapter(), 0)
                     .withCommonConfig(commonConfig)
                     .setLocalCall(true);
 
@@ -317,25 +317,25 @@ public class EthereumImpl implements Ethereum, SmartLifecycle {
     }
 
     @Override
-    public org.ethereum.facade.Repository getRepository() {
+    public org.one2oneeum.facade.Repository getRepository() {
         return worldManager.getRepository();
     }
 
     @Override
-    public org.ethereum.facade.Repository getLastRepositorySnapshot() {
+    public org.one2oneeum.facade.Repository getLastRepositorySnapshot() {
         return getSnapshotTo(getBlockchain().getBestBlock().getStateRoot());
     }
 
     @Override
-    public org.ethereum.facade.Repository getPendingState() {
+    public org.one2oneeum.facade.Repository getPendingState() {
         return worldManager.getPendingState().getRepository();
     }
 
     @Override
-    public org.ethereum.facade.Repository getSnapshotTo(byte[] root) {
+    public org.one2oneeum.facade.Repository getSnapshotTo(byte[] root) {
 
         Repository repository = (Repository) worldManager.getRepository();
-        org.ethereum.facade.Repository snapshot = repository.getSnapshotTo(root);
+        org.one2oneeum.facade.Repository snapshot = repository.getSnapshotTo(root);
 
         return snapshot;
     }
@@ -415,7 +415,7 @@ public class EthereumImpl implements Ethereum, SmartLifecycle {
      */
     @Override
     public void stop(Runnable callback) {
-        logger.info("Shutting down Ethereum instance...");
+        logger.info("Shutting down one2oneeum instance...");
         worldManager.close();
         callback.run();
     }

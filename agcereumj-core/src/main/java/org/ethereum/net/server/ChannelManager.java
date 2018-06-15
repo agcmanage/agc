@@ -1,35 +1,35 @@
 /*
- * Copyright (c) [2016] [ <ether.camp> ]
- * This file is part of the ethereumJ library.
+ * Copyright (c) [2016] [ <one2one.camp> ]
+ * This file is part of the one2oneeumJ library.
  *
- * The ethereumJ library is free software: you can redistribute it and/or modify
+ * The one2oneeumJ library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The ethereumJ library is distributed in the hope that it will be useful,
+ * The one2oneeumJ library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
+ * along with the one2oneeumJ library. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ethereum.net.server;
+package org.one2oneeum.net.server;
 
 import org.apache.commons.collections4.map.LRUMap;
-import org.ethereum.config.NodeFilter;
-import org.ethereum.config.SystemProperties;
-import org.ethereum.core.Block;
-import org.ethereum.core.BlockWrapper;
-import org.ethereum.core.PendingState;
-import org.ethereum.core.Transaction;
-import org.ethereum.db.ByteArrayWrapper;
-import org.ethereum.facade.Ethereum;
-import org.ethereum.net.message.ReasonCode;
-import org.ethereum.net.rlpx.Node;
-import org.ethereum.sync.SyncManager;
-import org.ethereum.sync.SyncPool;
+import org.one2oneeum.config.NodeFilter;
+import org.one2oneeum.config.SystemProperties;
+import org.one2oneeum.core.Block;
+import org.one2oneeum.core.BlockWrapper;
+import org.one2oneeum.core.PendingState;
+import org.one2oneeum.core.Transaction;
+import org.one2oneeum.db.ByteArrayWrapper;
+import org.one2oneeum.facade.one2oneeum;
+import org.one2oneeum.net.message.ReasonCode;
+import org.one2oneeum.net.rlpx.Node;
+import org.one2oneeum.sync.SyncManager;
+import org.one2oneeum.sync.SyncPool;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,8 +39,8 @@ import java.net.InetAddress;
 import java.util.*;
 import java.util.concurrent.*;
 
-import static org.ethereum.net.message.ReasonCode.DUPLICATE_PEER;
-import static org.ethereum.net.message.ReasonCode.TOO_MANY_PEERS;
+import static org.one2oneeum.net.message.ReasonCode.DUPLICATE_PEER;
+import static org.one2oneeum.net.message.ReasonCode.TOO_MANY_PEERS;
 
 /**
  * @author Roman Mandeleil
@@ -85,7 +85,7 @@ public class ChannelManager {
     SyncPool syncPool;
 
     @Autowired
-    private Ethereum ethereum;
+    private one2oneeum one2oneeum;
 
     @Autowired
     private PendingState pendingState;
@@ -139,7 +139,7 @@ public class ChannelManager {
             return;
         }
 
-        ethereum.connect(node);
+        one2oneeum.connect(node);
     }
 
     public Set<String> nodesInUse() {
@@ -201,7 +201,7 @@ public class ChannelManager {
     }
 
     /**
-     * Whether peer with the same ip is in newPeers, waiting for processing
+     * Whone2one peer with the same ip is in newPeers, waiting for processing
      * @param peerAddr      Peer address
      * @return true if we already have connection from this address, otherwise false
      */
@@ -362,7 +362,7 @@ public class ChannelManager {
     }
 
     /**
-     * Checks whether newPeers is not full
+     * Checks whone2one newPeers is not full
      * newPeers are used to fill up active peers
      * @return True if there are free slots for new peers
      */

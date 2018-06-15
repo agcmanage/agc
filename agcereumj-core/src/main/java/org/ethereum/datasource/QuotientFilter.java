@@ -1,19 +1,19 @@
 /*
- * Copyright (c) [2016] [ <ether.camp> ]
- * This file is part of the ethereumJ library.
+ * Copyright (c) [2016] [ <one2one.camp> ]
+ * This file is part of the one2oneeumJ library.
  *
- * The ethereumJ library is free software: you can redistribute it and/or modify
+ * The one2oneeumJ library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The ethereumJ library is distributed in the hope that it will be useful,
+ * The one2oneeumJ library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
+ * along with the one2oneeumJ library. If not, see <http://www.gnu.org/licenses/>.
  */
 /*
  *      Copyright (C) 2016 DataStax Inc.
@@ -54,16 +54,16 @@
         INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
         FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
         AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+        LIABILITY, WHone2one IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
         FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
         DEALINGS IN THE SOFTWARE.
 */
-package org.ethereum.datasource;
+package org.one2oneeum.datasource;
 
 import com.google.common.base.Preconditions;
 import com.google.common.math.LongMath;
 import com.google.common.primitives.Ints;
-import org.ethereum.util.ByteUtil;
+import org.one2oneeum.util.ByteUtil;
 
 import java.util.Arrays;
 import java.util.Iterator;
@@ -72,8 +72,8 @@ import java.util.NoSuchElementException;
 import static java.lang.System.arraycopy;
 import static java.lang.System.in;
 import static java.util.Arrays.copyOfRange;
-import static org.ethereum.util.ByteUtil.byteArrayToLong;
-import static org.ethereum.util.ByteUtil.longToBytes;
+import static org.one2oneeum.util.ByteUtil.byteArrayToLong;
+import static org.one2oneeum.util.ByteUtil.longToBytes;
 
 //import net.jpountz.xxhash.XXHashFactory;
 

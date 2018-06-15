@@ -1,35 +1,35 @@
 /*
- * Copyright (c) [2016] [ <ether.camp> ]
- * This file is part of the ethereumJ library.
+ * Copyright (c) [2016] [ <one2one.camp> ]
+ * This file is part of the one2oneeumJ library.
  *
- * The ethereumJ library is free software: you can redistribute it and/or modify
+ * The one2oneeumJ library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The ethereumJ library is distributed in the hope that it will be useful,
+ * The one2oneeumJ library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
+ * along with the one2oneeumJ library. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ethereum.longrun;
+package org.one2oneeum.longrun;
 
-import org.ethereum.config.CommonConfig;
-import org.ethereum.config.SystemProperties;
-import org.ethereum.core.Block;
-import org.ethereum.core.TransactionReceipt;
-import org.ethereum.db.DbFlushManager;
-import org.ethereum.facade.Ethereum;
-import org.ethereum.facade.EthereumFactory;
-import org.ethereum.listener.EthereumListener;
-import org.ethereum.listener.EthereumListenerAdapter;
-import org.ethereum.net.eth.message.StatusMessage;
-import org.ethereum.net.rlpx.Node;
-import org.ethereum.net.server.Channel;
-import org.ethereum.sync.SyncPool;
+import org.one2oneeum.config.CommonConfig;
+import org.one2oneeum.config.SystemProperties;
+import org.one2oneeum.core.Block;
+import org.one2oneeum.core.TransactionReceipt;
+import org.one2oneeum.db.DbFlushManager;
+import org.one2oneeum.facade.one2oneeum;
+import org.one2oneeum.facade.one2oneeumFactory;
+import org.one2oneeum.listener.one2oneeumListener;
+import org.one2oneeum.listener.one2oneeumListenerAdapter;
+import org.one2oneeum.net.eth.message.StatusMessage;
+import org.one2oneeum.net.rlpx.Node;
+import org.one2oneeum.net.server.Channel;
+import org.one2oneeum.sync.SyncPool;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +44,7 @@ import java.util.Vector;
 import static java.lang.Thread.sleep;
 
 /**
- * BasicNode of ethereum instance
+ * BasicNode of one2oneeum instance
  */
 class BasicNode implements Runnable {
     static final Logger sLogger = LoggerFactory.getLogger("sample");
@@ -53,7 +53,7 @@ class BasicNode implements Runnable {
     public Logger logger;
 
     @Autowired
-    protected Ethereum ethereum;
+    protected one2oneeum one2oneeum;
 
     @Autowired
     protected SystemProperties config;
@@ -77,11 +77,11 @@ class BasicNode implements Runnable {
     }
 
     public static void main(String[] args) throws Exception {
-        sLogger.info("Starting EthereumJ!");
+        sLogger.info("Starting one2oneeumJ!");
 
         // Based on Config class the BasicNode would be created by Spring
         // and its springInit() method would be called as an entry point
-        EthereumFactory.createEthereum(Config.class);
+        one2oneeumFactory.createone2oneeum(Config.class);
     }
 
     public BasicNode() {
@@ -89,7 +89,7 @@ class BasicNode implements Runnable {
     }
 
     /**
-     * logger name can be passed if more than one EthereumJ instance is created
+     * logger name can be passed if more than one one2oneeumJ instance is created
      * in a single JVM to distinguish logging output from different instances
      */
     public BasicNode(String loggerName) {
@@ -97,15 +97,15 @@ class BasicNode implements Runnable {
     }
 
     /**
-     * The method is called after all EthereumJ instances are created
+     * The method is called after all one2oneeumJ instances are created
      */
     @PostConstruct
     private void springInit() {
         logger = LoggerFactory.getLogger(loggerName);
-        // adding the main EthereumJ callback to be notified on different kind of events
-        ethereum.addListener(listener);
+        // adding the main one2oneeumJ callback to be notified on different kind of events
+        one2oneeum.addListener(listener);
 
-        logger.info("Sample component created. Listening for ethereum events...");
+        logger.info("Sample component created. Listening for one2oneeum events...");
 
         // starting lifecycle tracking method run()
         new Thread(this, "SampleWorkThread").start();
@@ -114,7 +114,7 @@ class BasicNode implements Runnable {
     /**
      * The method tracks step-by-step the instance lifecycle from node discovery till sync completion.
      * At the end the method onSyncDone() is called which might be overridden by a sample subclass
-     * to start making other things with the Ethereum network
+     * to start making other things with the one2oneeum network
      */
     public void run() {
         try {
@@ -155,7 +155,7 @@ class BasicNode implements Runnable {
         logger.info("Monitoring new blocks in real-time...");
     }
 
-    public void onSyncDoneImpl(EthereumListener.SyncState state) {
+    public void onSyncDoneImpl(one2oneeumListener.SyncState state) {
         logger.info("onSyncDone: " + state);
     }
 
@@ -164,13 +164,13 @@ class BasicNode implements Runnable {
 
     protected Block bestBlock = null;
 
-    EthereumListener.SyncState syncState = null;
+    one2oneeumListener.SyncState syncState = null;
     boolean syncComplete = false;
 
     /**
-     * The main EthereumJ callback.
+     * The main one2oneeumJ callback.
      */
-    EthereumListener listener = new EthereumListenerAdapter() {
+    one2oneeumListener listener = new one2oneeumListenerAdapter() {
         @Override
         public void onSyncDone(SyncState state) {
             syncState = state;

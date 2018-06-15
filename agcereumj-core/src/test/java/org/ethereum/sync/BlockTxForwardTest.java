@@ -1,47 +1,47 @@
 /*
- * Copyright (c) [2016] [ <ether.camp> ]
- * This file is part of the ethereumJ library.
+ * Copyright (c) [2016] [ <one2one.camp> ]
+ * This file is part of the one2oneeumJ library.
  *
- * The ethereumJ library is free software: you can redistribute it and/or modify
+ * The one2oneeumJ library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The ethereumJ library is distributed in the hope that it will be useful,
+ * The one2oneeumJ library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
+ * along with the one2oneeumJ library. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ethereum.sync;
+package org.one2oneeum.sync;
 
 import ch.qos.logback.classic.Level;
 import com.typesafe.config.ConfigFactory;
-import org.ethereum.config.SystemProperties;
-import org.ethereum.core.Block;
-import org.ethereum.core.BlockIdentifier;
-import org.ethereum.core.BlockSummary;
-import org.ethereum.core.Transaction;
-import org.ethereum.core.TransactionReceipt;
-import org.ethereum.crypto.ECKey;
-import org.ethereum.facade.Ethereum;
-import org.ethereum.facade.EthereumFactory;
-import org.ethereum.listener.EthereumListener;
-import org.ethereum.listener.EthereumListenerAdapter;
-import org.ethereum.mine.Ethash;
-import org.ethereum.mine.MinerListener;
-import org.ethereum.net.eth.message.EthMessage;
-import org.ethereum.net.eth.message.EthMessageCodes;
-import org.ethereum.net.eth.message.NewBlockHashesMessage;
-import org.ethereum.net.eth.message.NewBlockMessage;
-import org.ethereum.net.eth.message.StatusMessage;
-import org.ethereum.net.eth.message.TransactionsMessage;
-import org.ethereum.net.message.Message;
-import org.ethereum.net.rlpx.Node;
-import org.ethereum.net.server.Channel;
-import org.ethereum.util.ByteUtil;
+import org.one2oneeum.config.SystemProperties;
+import org.one2oneeum.core.Block;
+import org.one2oneeum.core.BlockIdentifier;
+import org.one2oneeum.core.BlockSummary;
+import org.one2oneeum.core.Transaction;
+import org.one2oneeum.core.TransactionReceipt;
+import org.one2oneeum.crypto.ECKey;
+import org.one2oneeum.facade.one2oneeum;
+import org.one2oneeum.facade.one2oneeumFactory;
+import org.one2oneeum.listener.one2oneeumListener;
+import org.one2oneeum.listener.one2oneeumListenerAdapter;
+import org.one2oneeum.mine.Ethash;
+import org.one2oneeum.mine.MinerListener;
+import org.one2oneeum.net.eth.message.EthMessage;
+import org.one2oneeum.net.eth.message.EthMessageCodes;
+import org.one2oneeum.net.eth.message.NewBlockHashesMessage;
+import org.one2oneeum.net.eth.message.NewBlockMessage;
+import org.one2oneeum.net.eth.message.StatusMessage;
+import org.one2oneeum.net.eth.message.TransactionsMessage;
+import org.one2oneeum.net.message.Message;
+import org.one2oneeum.net.rlpx.Node;
+import org.one2oneeum.net.server.Channel;
+import org.one2oneeum.util.ByteUtil;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -87,7 +87,7 @@ public class BlockTxForwardTest {
         public Logger logger;
 
         @Autowired
-        protected Ethereum ethereum;
+        protected one2oneeum one2oneeum;
 
         @Autowired
         protected SystemProperties config;
@@ -102,11 +102,11 @@ public class BlockTxForwardTest {
         }
 
         public static void main(String[] args) throws Exception {
-            sLogger.info("Starting EthereumJ!");
+            sLogger.info("Starting one2oneeumJ!");
 
             // Based on Config class the BasicSample would be created by Spring
             // and its springInit() method would be called as an entry point
-            EthereumFactory.createEthereum(Config.class);
+            one2oneeumFactory.createone2oneeum(Config.class);
         }
 
         public BasicSample() {
@@ -114,7 +114,7 @@ public class BlockTxForwardTest {
         }
 
         /**
-         * logger name can be passed if more than one EthereumJ instance is created
+         * logger name can be passed if more than one one2oneeumJ instance is created
          * in a single JVM to distinguish logging output from different instances
          */
         public BasicSample(String loggerName) {
@@ -122,15 +122,15 @@ public class BlockTxForwardTest {
         }
 
         /**
-         * The method is called after all EthereumJ instances are created
+         * The method is called after all one2oneeumJ instances are created
          */
         @PostConstruct
         private void springInit() {
             logger = LoggerFactory.getLogger(loggerName);
-            // adding the main EthereumJ callback to be notified on different kind of events
-            ethereum.addListener(listener);
+            // adding the main one2oneeumJ callback to be notified on different kind of events
+            one2oneeum.addListener(listener);
 
-            logger.info("Sample component created. Listening for ethereum events...");
+            logger.info("Sample component created. Listening for one2oneeum events...");
 
             // starting lifecycle tracking method run()
             new Thread(this, "SampleWorkThread").start();
@@ -139,7 +139,7 @@ public class BlockTxForwardTest {
         /**
          * The method tracks step-by-step the instance lifecycle from node discovery till sync completion.
          * At the end the method onSyncDone() is called which might be overridden by a sample subclass
-         * to start making other things with the Ethereum network
+         * to start making other things with the one2oneeum network
          */
         public void run() {
             try {
@@ -191,9 +191,9 @@ public class BlockTxForwardTest {
         boolean syncComplete = false;
 
         /**
-         * The main EthereumJ callback.
+         * The main one2oneeumJ callback.
          */
-        EthereumListener listener = new EthereumListenerAdapter() {
+        one2oneeumListener listener = new one2oneeumListenerAdapter() {
             @Override
             public void onSyncDone(SyncState state) {
                 synced = true;
@@ -280,12 +280,12 @@ public class BlockTxForwardTest {
                 logger.info("Generating Full Dataset (may take up to 10 min if not cached)...");
                 // calling this just for indication of the dataset generation
                 // basically this is not required
-                Ethash ethash = Ethash.getForBlock(config, ethereum.getBlockchain().getBestBlock().getNumber());
+                Ethash ethash = Ethash.getForBlock(config, one2oneeum.getBlockchain().getBestBlock().getNumber());
                 ethash.getFullDataset();
                 logger.info("Full dataset generated (loaded).");
             }
-            ethereum.getBlockMiner().addListener(this);
-            ethereum.getBlockMiner().startMining();
+            one2oneeum.getBlockMiner().addListener(this);
+            one2oneeum.getBlockMiner().startMining();
         }
 
         @Override
@@ -439,7 +439,7 @@ public class BlockTxForwardTest {
             ECKey senderKey = ECKey.fromPrivate(Hex.decode("6ef8da380c27cea8fdf7448340ea99e8e2268fc2950d79ed47cbf6f85dc977ec"));
             byte[] receiverAddr = Hex.decode("5db10750e8caff27f906b41c71b3471057dd2004");
 
-            for (int i = ethereum.getRepository().getNonce(senderKey.getAddress()).intValue(), j = 0; j < 20000; i++, j++) {
+            for (int i = one2oneeum.getRepository().getNonce(senderKey.getAddress()).intValue(), j = 0; j < 20000; i++, j++) {
                 {
                     if (stopTxGeneration.get()) break;
                     Transaction tx = new Transaction(ByteUtil.intToBytesNoLeadZeroes(i),
@@ -447,7 +447,7 @@ public class BlockTxForwardTest {
                             receiverAddr, new byte[]{77}, new byte[0]);
                     tx.sign(senderKey);
                     logger.info("<== Submitting tx: " + tx);
-                    ethereum.submitTransaction(tx);
+                    one2oneeum.submitTransaction(tx);
                 }
                 Thread.sleep(7000);
             }
@@ -485,7 +485,7 @@ public class BlockTxForwardTest {
     }
 
     /**
-     *  Creating 3 EthereumJ instances with different config classes
+     *  Creating 3 one2oneeumJ instances with different config classes
      *  1st - Miner node, no sync
      *  2nd - Regular node, synced with both Miner and Generator
      *  3rd - Generator node, sync is on, but can see only 2nd node
@@ -506,10 +506,10 @@ public class BlockTxForwardTest {
             }
         }, 0, 15, TimeUnit.SECONDS);
 
-        testLogger.info("Starting EthereumJ miner instance!");
-        Ethereum miner = EthereumFactory.createEthereum(MinerConfig.class);
+        testLogger.info("Starting one2oneeumJ miner instance!");
+        one2oneeum miner = one2oneeumFactory.createone2oneeum(MinerConfig.class);
 
-        miner.addListener(new EthereumListenerAdapter() {
+        miner.addListener(new one2oneeumListenerAdapter() {
             @Override
             public void onBlock(BlockSummary blockSummary) {
                 if (blockSummary.getBlock().getNumber() != 0L) {
@@ -544,12 +544,12 @@ public class BlockTxForwardTest {
             }
         });
 
-        testLogger.info("Starting EthereumJ regular instance!");
-        EthereumFactory.createEthereum(RegularConfig.class);
+        testLogger.info("Starting one2oneeumJ regular instance!");
+        one2oneeumFactory.createone2oneeum(RegularConfig.class);
 
-        testLogger.info("Starting EthereumJ txSender instance!");
-        Ethereum txGenerator = EthereumFactory.createEthereum(GeneratorConfig.class);
-        txGenerator.addListener(new EthereumListenerAdapter() {
+        testLogger.info("Starting one2oneeumJ txSender instance!");
+        one2oneeum txGenerator = one2oneeumFactory.createone2oneeum(GeneratorConfig.class);
+        txGenerator.addListener(new one2oneeumListenerAdapter() {
             @Override
             public void onRecvMessage(Channel channel, Message message) {
                 super.onRecvMessage(channel, message);

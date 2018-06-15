@@ -1,39 +1,39 @@
 /*
- * Copyright (c) [2016] [ <ether.camp> ]
- * This file is part of the ethereumJ library.
+ * Copyright (c) [2016] [ <one2one.camp> ]
+ * This file is part of the one2oneeumJ library.
  *
- * The ethereumJ library is free software: you can redistribute it and/or modify
+ * The one2oneeumJ library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The ethereumJ library is distributed in the hope that it will be useful,
+ * The one2oneeumJ library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
+ * along with the one2oneeumJ library. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ethereum.core;
+package org.one2oneeum.core;
 
-import org.ethereum.config.CommonConfig;
-import org.ethereum.config.SystemProperties;
-import org.ethereum.core.genesis.GenesisLoader;
-import org.ethereum.crypto.ECKey;
-import org.ethereum.crypto.HashUtil;
-import org.ethereum.datasource.inmem.HashMapDB;
-import org.ethereum.datasource.NoDeleteSource;
-import org.ethereum.db.IndexedBlockStore;
-import org.ethereum.db.RepositoryRoot;
-import org.ethereum.listener.EthereumListenerAdapter;
-import org.ethereum.mine.Ethash;
-import org.ethereum.util.ByteUtil;
-import org.ethereum.util.blockchain.SolidityContract;
-import org.ethereum.util.blockchain.StandaloneBlockchain;
-import org.ethereum.validator.DependentBlockHeaderRuleAdapter;
-import org.ethereum.vm.LogInfo;
-import org.ethereum.vm.program.invoke.ProgramInvokeFactoryImpl;
+import org.one2oneeum.config.CommonConfig;
+import org.one2oneeum.config.SystemProperties;
+import org.one2oneeum.core.genesis.GenesisLoader;
+import org.one2oneeum.crypto.ECKey;
+import org.one2oneeum.crypto.HashUtil;
+import org.one2oneeum.datasource.inmem.HashMapDB;
+import org.one2oneeum.datasource.NoDeleteSource;
+import org.one2oneeum.db.IndexedBlockStore;
+import org.one2oneeum.db.RepositoryRoot;
+import org.one2oneeum.listener.one2oneeumListenerAdapter;
+import org.one2oneeum.mine.Ethash;
+import org.one2oneeum.util.ByteUtil;
+import org.one2oneeum.util.blockchain.SolidityContract;
+import org.one2oneeum.util.blockchain.StandaloneBlockchain;
+import org.one2oneeum.validator.DependentBlockHeaderRuleAdapter;
+import org.one2oneeum.vm.LogInfo;
+import org.one2oneeum.vm.program.invoke.ProgramInvokeFactoryImpl;
 import org.junit.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -79,7 +79,7 @@ public class ImportLightTest {
         logger.info("#######################################");
         BlockchainImpl blockchain = createBlockchain(GenesisLoader.loadGenesis(
                 getClass().getResourceAsStream("/genesis/frontier.json")));
-        Scanner scanner = new Scanner(new FileInputStream("D:\\ws\\ethereumj\\work\\blocks-rec.dmp"));
+        Scanner scanner = new Scanner(new FileInputStream("D:\\ws\\one2oneeumj\\work\\blocks-rec.dmp"));
         while (scanner.hasNext()) {
             String blockHex = scanner.next();
             Block block = new Block(Hex.decode(blockHex));
@@ -110,23 +110,23 @@ public class ImportLightTest {
         ECKey addr1 = ECKey.fromPrivate(HashUtil.sha3("1".getBytes()));
         BigInteger bal2 = sb.getBlockchain().getRepository().getBalance(sb.getSender().getAddress());
 
-        sb.sendEther(addr1.getAddress(), BigInteger.valueOf(100));
+        sb.sendone2one(addr1.getAddress(), BigInteger.valueOf(100));
         Block b1 = sb.createBlock();
-        sb.sendEther(addr1.getAddress(), BigInteger.valueOf(100));
+        sb.sendone2one(addr1.getAddress(), BigInteger.valueOf(100));
         Block b2 = sb.createBlock();
-        sb.sendEther(addr1.getAddress(), BigInteger.valueOf(100));
+        sb.sendone2one(addr1.getAddress(), BigInteger.valueOf(100));
         Block b3 = sb.createBlock();
 
         BigInteger bal1 = sb.getBlockchain().getRepository().getBalance(addr1.getAddress());
         Assert.assertEquals(BigInteger.valueOf(300), bal1);
 
-        sb.sendEther(addr1.getAddress(), BigInteger.valueOf(200));
+        sb.sendone2one(addr1.getAddress(), BigInteger.valueOf(200));
         Block b1_ = sb.createForkBlock(b0);
-        sb.sendEther(addr1.getAddress(), BigInteger.valueOf(200));
+        sb.sendone2one(addr1.getAddress(), BigInteger.valueOf(200));
         Block b2_ = sb.createForkBlock(b1_);
-        sb.sendEther(addr1.getAddress(), BigInteger.valueOf(200));
+        sb.sendone2one(addr1.getAddress(), BigInteger.valueOf(200));
         Block b3_ = sb.createForkBlock(b2_);
-        sb.sendEther(addr1.getAddress(), BigInteger.valueOf(200));
+        sb.sendone2one(addr1.getAddress(), BigInteger.valueOf(200));
         Block b4_ = sb.createForkBlock(b3_);
 
         BigInteger bal1_ = sb.getBlockchain().getRepository().getBalance(addr1.getAddress());
@@ -440,7 +440,7 @@ public class ImportLightTest {
                 "}";
         StandaloneBlockchain bc = new StandaloneBlockchain().withAutoblock(true);
         SolidityContract a = bc.submitNewContract(contract, "A");
-        bc.sendEther(a.getAddress(), BigInteger.valueOf(10_000));
+        bc.sendone2one(a.getAddress(), BigInteger.valueOf(10_000));
         a.callFunction(10, "create");
         byte[] childAddress = (byte[]) a.callConstFunction("child")[0];
         SolidityContract b = bc.createExistingContractFromSrc(contract, "B", childAddress);
@@ -538,7 +538,7 @@ public class ImportLightTest {
         // check the caller spend value for tx
         StandaloneBlockchain bc = new StandaloneBlockchain().withGasPrice(1);
         BigInteger balance1 = bc.getBlockchain().getRepository().getBalance(bc.getSender().getAddress());
-        bc.sendEther(new byte[20], BigInteger.ZERO);
+        bc.sendone2one(new byte[20], BigInteger.ZERO);
         bc.createBlock();
         BigInteger balance2 = bc.getBlockchain().getRepository().getBalance(bc.getSender().getAddress());
         long spent = balance1.subtract(balance2).longValue();
@@ -702,10 +702,10 @@ public class ImportLightTest {
 
             a.callFunction("set1", cnt % 32, cnt);
             a.callFunction("set2", cnt % 32, cnt);
-            bc.sendEther(new byte[32], BigInteger.ONE);
+            bc.sendone2one(new byte[32], BigInteger.ONE);
             a.callFunction("set1", (cnt + 1) % 32, cnt + 1);
             a.callFunction("set2", (cnt + 1) % 32, cnt + 1);
-            bc.sendEther(new byte[32], BigInteger.ONE);
+            bc.sendone2one(new byte[32], BigInteger.ONE);
 
             Block prev = b;
             if (cnt % 5 == 0) {
@@ -771,7 +771,7 @@ public class ImportLightTest {
         SolidityContract a = bc.submitNewContract(contractA, "A");
         bc.createBlock();
         final BigInteger[] refund = new BigInteger[1];
-        bc.addEthereumListener(new EthereumListenerAdapter() {
+        bc.addone2oneeumListener(new one2oneeumListenerAdapter() {
             @Override
             public void onTransactionExecuted(TransactionExecutionSummary summary) {
                 refund[0] = summary.getGasRefund();
@@ -804,7 +804,7 @@ public class ImportLightTest {
         SolidityContract a = bc.submitNewContract(contractA, "A");
         bc.createBlock();
         final List<LogInfo> logs = new ArrayList<>();
-        bc.addEthereumListener(new EthereumListenerAdapter() {
+        bc.addone2oneeumListener(new one2oneeumListenerAdapter() {
             @Override
             public void onTransactionExecuted(TransactionExecutionSummary summary) {
                 logs.addAll(summary.getLogs());
@@ -893,7 +893,7 @@ public class ImportLightTest {
         RepositoryRoot repository = new RepositoryRoot(new NoDeleteSource<>(new HashMapDB<byte[]>()));
 
         ProgramInvokeFactoryImpl programInvokeFactory = new ProgramInvokeFactoryImpl();
-        EthereumListenerAdapter listener = new EthereumListenerAdapter();
+        one2oneeumListenerAdapter listener = new one2oneeumListenerAdapter();
 
         BlockchainImpl blockchain = new BlockchainImpl(blockStore, repository)
                 .withParentBlockHeaderValidator(new CommonConfig().parentHeaderValidator());

@@ -1,51 +1,51 @@
 /*
- * Copyright (c) [2016] [ <ether.camp> ]
- * This file is part of the ethereumJ library.
+ * Copyright (c) [2016] [ <one2one.camp> ]
+ * This file is part of the one2oneeumJ library.
  *
- * The ethereumJ library is free software: you can redistribute it and/or modify
+ * The one2oneeumJ library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The ethereumJ library is distributed in the hope that it will be useful,
+ * The one2oneeumJ library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
+ * along with the one2oneeumJ library. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ethereum.samples;
+package org.one2oneeum.samples;
 
-import org.ethereum.core.Block;
-import org.ethereum.core.Transaction;
-import org.ethereum.core.TransactionReceipt;
-import org.ethereum.facade.Ethereum;
-import org.ethereum.facade.EthereumFactory;
-import org.ethereum.listener.EthereumListenerAdapter;
+import org.one2oneeum.core.Block;
+import org.one2oneeum.core.Transaction;
+import org.one2oneeum.core.TransactionReceipt;
+import org.one2oneeum.facade.one2oneeum;
+import org.one2oneeum.facade.one2oneeumFactory;
+import org.one2oneeum.listener.one2oneeumListenerAdapter;
 import org.spongycastle.util.encoders.Hex;
 
 import java.util.Collections;
 import java.util.List;
 
-import static org.ethereum.crypto.HashUtil.sha3;
-import static org.ethereum.util.ByteUtil.longToBytesNoLeadZeroes;
-import static org.ethereum.util.ByteUtil.toHexString;
+import static org.one2oneeum.crypto.HashUtil.sha3;
+import static org.one2oneeum.util.ByteUtil.longToBytesNoLeadZeroes;
+import static org.one2oneeum.util.ByteUtil.toHexString;
 
-public class TransactionBomb extends EthereumListenerAdapter {
+public class TransactionBomb extends one2oneeumListenerAdapter {
 
 
-    Ethereum ethereum = null;
+    one2oneeum one2oneeum = null;
     boolean startedTxBomb = false;
 
-    public TransactionBomb(Ethereum ethereum) {
-        this.ethereum = ethereum;
+    public TransactionBomb(one2oneeum one2oneeum) {
+        this.one2oneeum = one2oneeum;
     }
 
     public static void main(String[] args) {
 
-        Ethereum ethereum = EthereumFactory.createEthereum();
-        ethereum.addListener(new TransactionBomb(ethereum));
+        one2oneeum one2oneeum = one2oneeumFactory.createone2oneeum();
+        one2oneeum.addListener(new TransactionBomb(one2oneeum));
     }
 
 
@@ -64,7 +64,7 @@ public class TransactionBomb extends EthereumListenerAdapter {
 
         if (startedTxBomb){
             byte[] sender = Hex.decode("cd2a3d9f938e13cd947ec05abc7fe734df8dd826");
-            long nonce = ethereum.getRepository().getNonce(sender).longValue();;
+            long nonce = one2oneeum.getRepository().getNonce(sender).longValue();;
 
             for (int i=0; i < 20; ++i){
                 sendTx(nonce);
@@ -88,12 +88,12 @@ public class TransactionBomb extends EthereumListenerAdapter {
                 toAddress,
                 value,
                 null,
-                ethereum.getChainIdForNextBlock());
+                one2oneeum.getChainIdForNextBlock());
 
         byte[] privKey = sha3("cow".getBytes());
         tx.sign(privKey);
 
-        ethereum.getChannelManager().sendTransaction(Collections.singletonList(tx), null);
+        one2oneeum.getChannelManager().sendTransaction(Collections.singletonList(tx), null);
         System.err.println("Sending tx: " + toHexString(tx.getHash()));
     }
 

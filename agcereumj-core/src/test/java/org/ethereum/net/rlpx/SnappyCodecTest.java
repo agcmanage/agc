@@ -1,27 +1,27 @@
 /*
- * Copyright (c) [2017] [ <ether.camp> ]
- * This file is part of the ethereumJ library.
+ * Copyright (c) [2017] [ <one2one.camp> ]
+ * This file is part of the one2oneeumJ library.
  *
- * The ethereumJ library is free software: you can redistribute it and/or modify
+ * The one2oneeumJ library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The ethereumJ library is distributed in the hope that it will be useful,
+ * The one2oneeumJ library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
+ * along with the one2oneeumJ library. If not, see <http://www.gnu.org/licenses/>.
  *
  *
  */
 
-package org.ethereum.net.rlpx;
+package org.one2oneeum.net.rlpx;
 
-import org.ethereum.net.rlpx.discover.NodeStatistics;
-import org.ethereum.net.server.Channel;
+import org.one2oneeum.net.rlpx.discover.NodeStatistics;
+import org.one2oneeum.net.server.Channel;
 import org.junit.Test;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
@@ -32,7 +32,7 @@ import org.springframework.util.FileCopyUtils;
 import java.util.List;
 
 import static com.google.common.collect.Lists.newArrayList;
-import static org.ethereum.net.message.ReasonCode.BAD_PROTOCOL;
+import static org.one2oneeum.net.message.ReasonCode.BAD_PROTOCOL;
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doAnswer;

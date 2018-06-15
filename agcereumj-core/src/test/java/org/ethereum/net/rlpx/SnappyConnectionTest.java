@@ -1,29 +1,29 @@
 /*
- * Copyright (c) [2016] [ <ether.camp> ]
- * This file is part of the ethereumJ library.
+ * Copyright (c) [2016] [ <one2one.camp> ]
+ * This file is part of the one2oneeumJ library.
  *
- * The ethereumJ library is free software: you can redistribute it and/or modify
+ * The one2oneeumJ library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The ethereumJ library is distributed in the hope that it will be useful,
+ * The one2oneeumJ library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
+ * along with the one2oneeumJ library. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ethereum.net.rlpx;
+package org.one2oneeum.net.rlpx;
 
-import org.ethereum.config.NoAutoscan;
-import org.ethereum.config.SystemProperties;
-import org.ethereum.facade.Ethereum;
-import org.ethereum.facade.EthereumFactory;
-import org.ethereum.listener.EthereumListenerAdapter;
-import org.ethereum.net.eth.message.StatusMessage;
-import org.ethereum.net.server.Channel;
+import org.one2oneeum.config.NoAutoscan;
+import org.one2oneeum.config.SystemProperties;
+import org.one2oneeum.facade.one2oneeum;
+import org.one2oneeum.facade.one2oneeumFactory;
+import org.one2oneeum.listener.one2oneeumListenerAdapter;
+import org.one2oneeum.net.eth.message.StatusMessage;
+import org.one2oneeum.net.server.Channel;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.context.annotation.Bean;
@@ -94,19 +94,19 @@ public class SnappyConnectionTest {
                 "database.dir", "test_db-2",
                 "peer.p2p.version", String.valueOf(vOutbound));
 
-        Ethereum ethereum1 = EthereumFactory.createEthereum(SysPropConfig1.class);
-        Ethereum ethereum2 = EthereumFactory.createEthereum(SysPropConfig2.class);
+        one2oneeum one2oneeum1 = one2oneeumFactory.createone2oneeum(SysPropConfig1.class);
+        one2oneeum one2oneeum2 = one2oneeumFactory.createone2oneeum(SysPropConfig2.class);
 
         final CountDownLatch semaphore = new CountDownLatch(2);
 
-        ethereum1.addListener(new EthereumListenerAdapter() {
+        one2oneeum1.addListener(new one2oneeumListenerAdapter() {
             @Override
             public void onEthStatusUpdated(Channel channel, StatusMessage statusMessage) {
                 System.out.println("1: -> " + statusMessage);
                 semaphore.countDown();
             }
         });
-        ethereum2.addListener(new EthereumListenerAdapter() {
+        one2oneeum2.addListener(new one2oneeumListenerAdapter() {
             @Override
             public void onEthStatusUpdated(Channel channel, StatusMessage statusMessage) {
                 System.out.println("2: -> " + statusMessage);
@@ -114,13 +114,13 @@ public class SnappyConnectionTest {
             }
         });
 
-        ethereum2.connect(new Node("enode://a560c55a0a5b5d137c638eb6973812f431974e4398c6644fa0c19181954fab530bb2a1e2c4eec7cc855f6bab9193ea41d6cf0bf2b8b41ed6b8b9e09c072a1e5a" +
+        one2oneeum2.connect(new Node("enode://a560c55a0a5b5d137c638eb6973812f431974e4398c6644fa0c19181954fab530bb2a1e2c4eec7cc855f6bab9193ea41d6cf0bf2b8b41ed6b8b9e09c072a1e5a" +
                 "@localhost:30334"));
 
         semaphore.await(60, TimeUnit.SECONDS);
 
-        ethereum1.close();
-        ethereum2.close();
+        one2oneeum1.close();
+        one2oneeum2.close();
 
         if(semaphore.getCount() > 0) {
             throw new RuntimeException("One or both StatusMessage was not received: " + semaphore.getCount());

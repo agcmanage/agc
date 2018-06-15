@@ -1,42 +1,42 @@
 /*
- * Copyright (c) [2016] [ <ether.camp> ]
- * This file is part of the ethereumJ library.
+ * Copyright (c) [2016] [ <one2one.camp> ]
+ * This file is part of the one2oneeumJ library.
  *
- * The ethereumJ library is free software: you can redistribute it and/or modify
+ * The one2oneeumJ library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The ethereumJ library is distributed in the hope that it will be useful,
+ * The one2oneeumJ library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
+ * along with the one2oneeumJ library. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ethereum.net.eth.handler;
+package org.one2oneeum.net.eth.handler;
 
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.SettableFuture;
 import io.netty.channel.ChannelHandlerContext;
 import org.apache.commons.lang3.tuple.Pair;
-import org.ethereum.config.SystemProperties;
-import org.ethereum.core.*;
-import org.ethereum.db.BlockStore;
-import org.ethereum.listener.CompositeEthereumListener;
-import org.ethereum.net.eth.EthVersion;
-import org.ethereum.net.eth.message.*;
-import org.ethereum.net.message.ReasonCode;
-import org.ethereum.net.rlpx.discover.NodeManager;
-import org.ethereum.net.submit.TransactionExecutor;
-import org.ethereum.net.submit.TransactionTask;
-import org.ethereum.sync.SyncManager;
-import org.ethereum.sync.PeerState;
-import org.ethereum.sync.SyncStatistics;
-import org.ethereum.util.ByteUtil;
-import org.ethereum.validator.BlockHeaderRule;
-import org.ethereum.validator.BlockHeaderValidator;
+import org.one2oneeum.config.SystemProperties;
+import org.one2oneeum.core.*;
+import org.one2oneeum.db.BlockStore;
+import org.one2oneeum.listener.Compositeone2oneeumListener;
+import org.one2oneeum.net.eth.EthVersion;
+import org.one2oneeum.net.eth.message.*;
+import org.one2oneeum.net.message.ReasonCode;
+import org.one2oneeum.net.rlpx.discover.NodeManager;
+import org.one2oneeum.net.submit.TransactionExecutor;
+import org.one2oneeum.net.submit.TransactionTask;
+import org.one2oneeum.sync.SyncManager;
+import org.one2oneeum.sync.PeerState;
+import org.one2oneeum.sync.SyncStatistics;
+import org.one2oneeum.util.ByteUtil;
+import org.one2oneeum.validator.BlockHeaderRule;
+import org.one2oneeum.validator.BlockHeaderValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,13 +49,13 @@ import java.util.*;
 
 import static java.lang.Math.min;
 import static java.util.Collections.singletonList;
-import static org.ethereum.datasource.MemSizeEstimator.ByteArrayEstimator;
-import static org.ethereum.net.eth.EthVersion.V62;
-import static org.ethereum.net.message.ReasonCode.USELESS_PEER;
-import static org.ethereum.sync.PeerState.*;
-import static org.ethereum.sync.PeerState.BLOCK_RETRIEVING;
-import static org.ethereum.util.Utils.longToTimePeriod;
-import static org.ethereum.util.ByteUtil.toHexString;
+import static org.one2oneeum.datasource.MemSizeEstimator.ByteArrayEstimator;
+import static org.one2oneeum.net.eth.EthVersion.V62;
+import static org.one2oneeum.net.message.ReasonCode.USELESS_PEER;
+import static org.one2oneeum.sync.PeerState.*;
+import static org.one2oneeum.sync.PeerState.BLOCK_RETRIEVING;
+import static org.one2oneeum.util.Utils.longToTimePeriod;
+import static org.one2oneeum.util.ByteUtil.toHexString;
 
 /**
  * Eth 62
@@ -127,14 +127,14 @@ public class Eth62 extends EthHandler {
 
     @Autowired
     public Eth62(final SystemProperties config, final Blockchain blockchain,
-                 final BlockStore blockStore, final CompositeEthereumListener ethereumListener) {
-        this(version, config, blockchain, blockStore, ethereumListener);
+                 final BlockStore blockStore, final Compositeone2oneeumListener one2oneeumListener) {
+        this(version, config, blockchain, blockStore, one2oneeumListener);
     }
 
     Eth62(final EthVersion version, final SystemProperties config,
           final Blockchain blockchain, final BlockStore blockStore,
-          final CompositeEthereumListener ethereumListener) {
-        super(version, config, blockchain, blockStore, ethereumListener);
+          final Compositeone2oneeumListener one2oneeumListener) {
+        super(version, config, blockchain, blockStore, one2oneeumListener);
     }
 
     @Override
@@ -340,7 +340,7 @@ public class Eth62 extends EthHandler {
 
             // basic checks passed, update statistics
             channel.getNodeStatistics().ethHandshake(msg);
-            ethereumListener.onEthStatusUpdated(channel, msg);
+            one2oneeumListener.onEthStatusUpdated(channel, msg);
 
             if (peerDiscoveryMode) {
                 loggerNet.trace("Peer discovery mode: STATUS received, disconnecting...");

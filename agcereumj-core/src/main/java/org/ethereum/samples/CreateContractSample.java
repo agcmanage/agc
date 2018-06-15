@@ -1,34 +1,34 @@
 /*
- * Copyright (c) [2016] [ <ether.camp> ]
- * This file is part of the ethereumJ library.
+ * Copyright (c) [2016] [ <one2one.camp> ]
+ * This file is part of the one2oneeumJ library.
  *
- * The ethereumJ library is free software: you can redistribute it and/or modify
+ * The one2oneeumJ library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The ethereumJ library is distributed in the hope that it will be useful,
+ * The one2oneeumJ library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
+ * along with the one2oneeumJ library. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ethereum.samples;
+package org.one2oneeum.samples;
 
-import org.ethereum.core.Block;
-import org.ethereum.core.CallTransaction;
-import org.ethereum.core.Transaction;
-import org.ethereum.core.TransactionReceipt;
-import org.ethereum.crypto.ECKey;
-import org.ethereum.db.ByteArrayWrapper;
-import org.ethereum.facade.EthereumFactory;
-import org.ethereum.listener.EthereumListenerAdapter;
-import org.ethereum.solidity.compiler.CompilationResult;
-import org.ethereum.solidity.compiler.SolidityCompiler;
-import org.ethereum.util.ByteUtil;
-import org.ethereum.vm.program.ProgramResult;
+import org.one2oneeum.core.Block;
+import org.one2oneeum.core.CallTransaction;
+import org.one2oneeum.core.Transaction;
+import org.one2oneeum.core.TransactionReceipt;
+import org.one2oneeum.crypto.ECKey;
+import org.one2oneeum.db.ByteArrayWrapper;
+import org.one2oneeum.facade.one2oneeumFactory;
+import org.one2oneeum.listener.one2oneeumListenerAdapter;
+import org.one2oneeum.solidity.compiler.CompilationResult;
+import org.one2oneeum.solidity.compiler.SolidityCompiler;
+import org.one2oneeum.util.ByteUtil;
+import org.one2oneeum.vm.program.ProgramResult;
 import org.spongycastle.util.encoders.Hex;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -36,7 +36,7 @@ import org.springframework.context.annotation.Bean;
 import java.math.BigInteger;
 import java.util.*;
 
-import static org.ethereum.util.ByteUtil.toHexString;
+import static org.one2oneeum.util.ByteUtil.toHexString;
 
 /**
  * Created by Anton Nashatyrev on 03.03.2016.
@@ -62,7 +62,7 @@ public class CreateContractSample extends TestNetSample {
 
     @Override
     public void onSyncDone() throws Exception {
-        ethereum.addListener(new EthereumListenerAdapter() {
+        one2oneeum.addListener(new one2oneeumListenerAdapter() {
             // when block arrives look for our included transactions
             @Override
             public void onBlock(Block block, List<TransactionReceipt> receipts) {
@@ -107,25 +107,25 @@ public class CreateContractSample extends TestNetSample {
         }
         logger.info("Contract modified!");
 
-        ProgramResult r = ethereum.callConstantFunction(Hex.toHexString(contractAddress),
+        ProgramResult r = one2oneeum.callConstantFunction(Hex.toHexString(contractAddress),
                 contract.getByName("get"));
         Object[] ret = contract.getByName("get").decodeResult(r.getHReturn());
         logger.info("Current contract data member value: " + ret[0]);
     }
 
     protected TransactionReceipt sendTxAndWait(byte[] receiveAddress, byte[] data) throws InterruptedException {
-        BigInteger nonce = ethereum.getRepository().getNonce(senderAddress);
+        BigInteger nonce = one2oneeum.getRepository().getNonce(senderAddress);
         Transaction tx = new Transaction(
                 ByteUtil.bigIntegerToBytes(nonce),
-                ByteUtil.longToBytesNoLeadZeroes(ethereum.getGasPrice()),
+                ByteUtil.longToBytesNoLeadZeroes(one2oneeum.getGasPrice()),
                 ByteUtil.longToBytesNoLeadZeroes(3_000_000),
                 receiveAddress,
                 ByteUtil.longToBytesNoLeadZeroes(0),
                 data,
-                ethereum.getChainIdForNextBlock());
+                one2oneeum.getChainIdForNextBlock());
         tx.sign(ECKey.fromPrivate(senderPrivateKey));
         logger.info("<=== Sending transaction: " + tx);
-        ethereum.submitTransaction(tx);
+        one2oneeum.submitTransaction(tx);
 
         return waitForTx(tx.getHash());
     }
@@ -145,13 +145,13 @@ public class CreateContractSample extends TestNetSample {
     protected TransactionReceipt waitForTx(byte[] txHash) throws InterruptedException {
         ByteArrayWrapper txHashW = new ByteArrayWrapper(txHash);
         txWaiters.put(txHashW, null);
-        long startBlock = ethereum.getBlockchain().getBestBlock().getNumber();
+        long startBlock = one2oneeum.getBlockchain().getBestBlock().getNumber();
         while(true) {
             TransactionReceipt receipt = txWaiters.get(txHashW);
             if (receipt != null) {
                 return receipt;
             } else {
-                long curBlock = ethereum.getBlockchain().getBestBlock().getNumber();
+                long curBlock = one2oneeum.getBlockchain().getBestBlock().getNumber();
                 if (curBlock > startBlock + 16) {
                     throw new RuntimeException("The transaction was not included during last 16 blocks: " + txHashW.toString().substring(0,8));
                 } else {
@@ -166,7 +166,7 @@ public class CreateContractSample extends TestNetSample {
     }
 
     public static void main(String[] args) throws Exception {
-        sLogger.info("Starting EthereumJ!");
+        sLogger.info("Starting one2oneeumJ!");
 
         class Config extends TestNetConfig{
             @Override
@@ -178,6 +178,6 @@ public class CreateContractSample extends TestNetSample {
 
         // Based on Config class the BasicSample would be created by Spring
         // and its springInit() method would be called as an entry point
-        EthereumFactory.createEthereum(Config.class);
+        one2oneeumFactory.createone2oneeum(Config.class);
     }
 }

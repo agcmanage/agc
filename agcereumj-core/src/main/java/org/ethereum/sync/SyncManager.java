@@ -1,32 +1,32 @@
 /*
- * Copyright (c) [2016] [ <ether.camp> ]
- * This file is part of the ethereumJ library.
+ * Copyright (c) [2016] [ <one2one.camp> ]
+ * This file is part of the one2oneeumJ library.
  *
- * The ethereumJ library is free software: you can redistribute it and/or modify
+ * The one2oneeumJ library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The ethereumJ library is distributed in the hope that it will be useful,
+ * The one2oneeumJ library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
+ * along with the one2oneeumJ library. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ethereum.sync;
+package org.one2oneeum.sync;
 
-import org.ethereum.config.SystemProperties;
-import org.ethereum.core.*;
-import org.ethereum.core.Blockchain;
-import org.ethereum.facade.SyncStatus;
-import org.ethereum.listener.CompositeEthereumListener;
-import org.ethereum.listener.EthereumListener;
-import org.ethereum.net.server.Channel;
-import org.ethereum.net.server.ChannelManager;
-import org.ethereum.util.ExecutorPipeline;
-import org.ethereum.validator.BlockHeaderValidator;
+import org.one2oneeum.config.SystemProperties;
+import org.one2oneeum.core.*;
+import org.one2oneeum.core.Blockchain;
+import org.one2oneeum.facade.SyncStatus;
+import org.one2oneeum.listener.Compositeone2oneeumListener;
+import org.one2oneeum.listener.one2oneeumListener;
+import org.one2oneeum.net.server.Channel;
+import org.one2oneeum.net.server.ChannelManager;
+import org.one2oneeum.util.ExecutorPipeline;
+import org.one2oneeum.validator.BlockHeaderValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,9 +46,9 @@ import java.util.function.Consumer;
 
 import static java.lang.Math.max;
 import static java.util.Collections.singletonList;
-import static org.ethereum.core.ImportResult.*;
-import static org.ethereum.util.Utils.longToTimePeriod;
-import static org.ethereum.util.ByteUtil.toHexString;
+import static org.one2oneeum.core.ImportResult.*;
+import static org.one2oneeum.util.Utils.longToTimePeriod;
+import static org.one2oneeum.util.ByteUtil.toHexString;
 
 /**
  * @author Mikhail Kalinin
@@ -86,7 +86,7 @@ public class SyncManager extends BlockDownloader {
     private Blockchain blockchain;
 
     @Autowired
-    private CompositeEthereumListener compositeEthereumListener;
+    private Compositeone2oneeumListener compositeone2oneeumListener;
 
     @Autowired
     private FastSyncManager fastSyncManager;
@@ -106,7 +106,7 @@ public class SyncManager extends BlockDownloader {
     private boolean syncDone = false;
     private AtomicLong importIdleTime = new AtomicLong();
     private long importStart;
-    private EthereumListener.SyncState syncDoneType = EthereumListener.SyncState.COMPLETE;
+    private one2oneeumListener.SyncState syncDoneType = one2oneeumListener.SyncState.COMPLETE;
     private ScheduledExecutorService logExecutor = Executors.newSingleThreadScheduledExecutor();
     private LocalDateTime initRegularTime;
 
@@ -152,12 +152,12 @@ public class SyncManager extends BlockDownloader {
             if (config.isFastSyncEnabled()) {
                 fastSyncManager.init();
             } else {
-                initRegularSync(EthereumListener.SyncState.COMPLETE);
+                initRegularSync(one2oneeumListener.SyncState.COMPLETE);
             }
         }
     }
 
-    void initRegularSync(EthereumListener.SyncState syncDoneType) {
+    void initRegularSync(one2oneeumListener.SyncState syncDoneType) {
         logger.info("Initializing SyncManager regular sync.");
         this.syncDoneType = syncDoneType;
 
@@ -335,7 +335,7 @@ public class SyncManager extends BlockDownloader {
         if (syncDone) return;
         syncDone = true;
         channelManager.onSyncDone(true);
-        compositeEthereumListener.onSyncDone(syncDoneType);
+        compositeone2oneeumListener.onSyncDone(syncDoneType);
     }
 
     public CompletableFuture<Void> switchToShortSync() {

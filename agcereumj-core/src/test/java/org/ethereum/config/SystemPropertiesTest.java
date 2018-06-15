@@ -1,32 +1,32 @@
 /*
- * Copyright (c) [2016] [ <ether.camp> ]
- * This file is part of the ethereumJ library.
+ * Copyright (c) [2016] [ <one2one.camp> ]
+ * This file is part of the one2oneeumJ library.
  *
- * The ethereumJ library is free software: you can redistribute it and/or modify
+ * The one2oneeumJ library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The ethereumJ library is distributed in the hope that it will be useful,
+ * The one2oneeumJ library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
+ * along with the one2oneeumJ library. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ethereum.config;
+package org.one2oneeum.config;
 
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
-import org.ethereum.config.blockchain.OlympicConfig;
-import org.ethereum.config.net.*;
-import org.ethereum.core.AccountState;
-import org.ethereum.core.Genesis;
-import org.ethereum.db.ByteArrayWrapper;
-import org.ethereum.net.rlpx.Node;
+import org.one2oneeum.config.blockchain.OlympicConfig;
+import org.one2oneeum.config.net.*;
+import org.one2oneeum.core.AccountState;
+import org.one2oneeum.core.Genesis;
+import org.one2oneeum.db.ByteArrayWrapper;
+import org.one2oneeum.net.rlpx.Node;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -188,7 +188,7 @@ public class SystemPropertiesTest {
     public void testRequireEitherNameOrClassConfiguration() {
         try {
             SystemProperties props = new SystemProperties();
-            props.overrideParams("blockchain.config.name", "test", "blockchain.config.class", "org.ethereum.config.net.TestNetConfig");
+            props.overrideParams("blockchain.config.name", "test", "blockchain.config.class", "org.one2oneeum.config.net.TestNetConfig");
             props.getBlockchainConfig();
             fail("Should've thrown exception because not 'Only one of two options should be defined'");
         } catch (RuntimeException e) {
@@ -199,7 +199,7 @@ public class SystemPropertiesTest {
     @Test
     public void testRequireTypeBlockchainNetConfigOnManualClass() {
         SystemProperties props = new SystemProperties();
-        props.overrideParams("blockchain.config.name", null, "blockchain.config.class", "org.ethereum.config.net.TestNetConfig");
+        props.overrideParams("blockchain.config.name", null, "blockchain.config.class", "org.one2oneeum.config.net.TestNetConfig");
         assertTrue(props.getBlockchainConfig().getClass().isAssignableFrom(TestNetConfig.class));
     }
 
@@ -207,11 +207,11 @@ public class SystemPropertiesTest {
     public void testNonExistentBlockchainNetConfigClass() {
         SystemProperties props = new SystemProperties();
         try {
-            props.overrideParams("blockchain.config.name", null, "blockchain.config.class", "org.ethereum.config.net.NotExistsConfig");
+            props.overrideParams("blockchain.config.name", null, "blockchain.config.class", "org.one2oneeum.config.net.NotExistsConfig");
             props.getBlockchainConfig();
             fail("Should throw exception for invalid class");
         } catch (RuntimeException expected) {
-            assertEquals("The class specified via blockchain.config.class 'org.ethereum.config.net.NotExistsConfig' not found", expected.getMessage());
+            assertEquals("The class specified via blockchain.config.class 'org.one2oneeum.config.net.NotExistsConfig' not found", expected.getMessage());
         }
     }
 
@@ -219,11 +219,11 @@ public class SystemPropertiesTest {
     public void testNotInstanceOfBlockchainForkConfig() {
         SystemProperties props = new SystemProperties(ConfigFactory.empty(), getClass().getClassLoader());
         try {
-            props.overrideParams("blockchain.config.name", null, "blockchain.config.class", "org.ethereum.config.NodeFilter");
+            props.overrideParams("blockchain.config.name", null, "blockchain.config.class", "org.one2oneeum.config.NodeFilter");
             props.getBlockchainConfig();
             fail("Should throw exception for invalid class");
         } catch (RuntimeException expected) {
-            assertEquals("The class specified via blockchain.config.class 'org.ethereum.config.NodeFilter' is not instance of org.ethereum.config.BlockchainForkConfig", expected.getMessage());
+            assertEquals("The class specified via blockchain.config.class 'org.one2oneeum.config.NodeFilter' is not instance of org.one2oneeum.config.BlockchainForkConfig", expected.getMessage());
         }
     }
 

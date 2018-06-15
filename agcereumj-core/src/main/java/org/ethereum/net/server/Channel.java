@@ -1,55 +1,55 @@
 /*
- * Copyright (c) [2016] [ <ether.camp> ]
- * This file is part of the ethereumJ library.
+ * Copyright (c) [2016] [ <one2one.camp> ]
+ * This file is part of the one2oneeumJ library.
  *
- * The ethereumJ library is free software: you can redistribute it and/or modify
+ * The one2oneeumJ library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The ethereumJ library is distributed in the hope that it will be useful,
+ * The one2oneeumJ library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
+ * along with the one2oneeumJ library. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ethereum.net.server;
+package org.one2oneeum.net.server;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelPipeline;
 import io.netty.handler.timeout.ReadTimeoutHandler;
-import org.ethereum.config.SystemProperties;
-import org.ethereum.core.Block;
-import org.ethereum.core.BlockHeaderWrapper;
-import org.ethereum.core.Transaction;
-import org.ethereum.db.ByteArrayWrapper;
-import org.ethereum.net.MessageQueue;
-import org.ethereum.net.client.Capability;
-import org.ethereum.net.eth.handler.Eth;
-import org.ethereum.net.eth.handler.EthAdapter;
-import org.ethereum.net.eth.handler.EthHandler;
-import org.ethereum.net.eth.handler.EthHandlerFactory;
-import org.ethereum.net.eth.EthVersion;
-import org.ethereum.net.eth.message.Eth62MessageFactory;
-import org.ethereum.net.eth.message.Eth63MessageFactory;
-import org.ethereum.net.message.ReasonCode;
-import org.ethereum.net.rlpx.*;
-import org.ethereum.sync.SyncStatistics;
-import org.ethereum.net.message.MessageFactory;
-import org.ethereum.net.message.StaticMessages;
-import org.ethereum.net.p2p.HelloMessage;
-import org.ethereum.net.p2p.P2pHandler;
-import org.ethereum.net.p2p.P2pMessageFactory;
-import org.ethereum.net.rlpx.discover.NodeManager;
-import org.ethereum.net.rlpx.discover.NodeStatistics;
-import org.ethereum.net.shh.ShhHandler;
-import org.ethereum.net.shh.ShhMessageFactory;
-import org.ethereum.net.swarm.bzz.BzzHandler;
-import org.ethereum.net.swarm.bzz.BzzMessageFactory;
-import org.ethereum.util.CollectionUtils;
+import org.one2oneeum.config.SystemProperties;
+import org.one2oneeum.core.Block;
+import org.one2oneeum.core.BlockHeaderWrapper;
+import org.one2oneeum.core.Transaction;
+import org.one2oneeum.db.ByteArrayWrapper;
+import org.one2oneeum.net.MessageQueue;
+import org.one2oneeum.net.client.Capability;
+import org.one2oneeum.net.eth.handler.Eth;
+import org.one2oneeum.net.eth.handler.EthAdapter;
+import org.one2oneeum.net.eth.handler.EthHandler;
+import org.one2oneeum.net.eth.handler.EthHandlerFactory;
+import org.one2oneeum.net.eth.EthVersion;
+import org.one2oneeum.net.eth.message.Eth62MessageFactory;
+import org.one2oneeum.net.eth.message.Eth63MessageFactory;
+import org.one2oneeum.net.message.ReasonCode;
+import org.one2oneeum.net.rlpx.*;
+import org.one2oneeum.sync.SyncStatistics;
+import org.one2oneeum.net.message.MessageFactory;
+import org.one2oneeum.net.message.StaticMessages;
+import org.one2oneeum.net.p2p.HelloMessage;
+import org.one2oneeum.net.p2p.P2pHandler;
+import org.one2oneeum.net.p2p.P2pMessageFactory;
+import org.one2oneeum.net.rlpx.discover.NodeManager;
+import org.one2oneeum.net.rlpx.discover.NodeStatistics;
+import org.one2oneeum.net.shh.ShhHandler;
+import org.one2oneeum.net.shh.ShhMessageFactory;
+import org.one2oneeum.net.swarm.bzz.BzzHandler;
+import org.one2oneeum.net.swarm.bzz.BzzMessageFactory;
+import org.one2oneeum.util.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -303,7 +303,7 @@ public class Channel {
     }
 
     /**
-     * Indicates whether this connection was initiated by our peer
+     * Indicates whone2one this connection was initiated by our peer
      */
     public boolean isActive() {
         return isActive;

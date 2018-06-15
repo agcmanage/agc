@@ -1,33 +1,33 @@
 /*
- * Copyright (c) [2016] [ <ether.camp> ]
- * This file is part of the ethereumJ library.
+ * Copyright (c) [2016] [ <one2one.camp> ]
+ * This file is part of the one2oneeumJ library.
  *
- * The ethereumJ library is free software: you can redistribute it and/or modify
+ * The one2oneeumJ library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The ethereumJ library is distributed in the hope that it will be useful,
+ * The one2oneeumJ library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
+ * along with the one2oneeumJ library. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ethereum.core;
+package org.one2oneeum.core;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.commons.lang3.tuple.Triple;
-import org.ethereum.config.SystemProperties;
-import org.ethereum.config.blockchain.FrontierConfig;
-import org.ethereum.config.net.MainNetConfig;
-import org.ethereum.crypto.ECKey;
-import org.ethereum.db.ByteArrayWrapper;
-import org.ethereum.listener.EthereumListener;
-import org.ethereum.listener.EthereumListenerAdapter;
-import org.ethereum.util.blockchain.SolidityContract;
-import org.ethereum.util.blockchain.StandaloneBlockchain;
+import org.one2oneeum.config.SystemProperties;
+import org.one2oneeum.config.blockchain.FrontierConfig;
+import org.one2oneeum.config.net.MainNetConfig;
+import org.one2oneeum.crypto.ECKey;
+import org.one2oneeum.db.ByteArrayWrapper;
+import org.one2oneeum.listener.one2oneeumListener;
+import org.one2oneeum.listener.one2oneeumListenerAdapter;
+import org.one2oneeum.util.blockchain.SolidityContract;
+import org.one2oneeum.util.blockchain.StandaloneBlockchain;
 import org.junit.*;
 
 import java.math.BigInteger;
@@ -41,9 +41,9 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
-import static org.ethereum.listener.EthereumListener.PendingTransactionState.*;
-import static org.ethereum.util.blockchain.EtherUtil.Unit.ETHER;
-import static org.ethereum.util.blockchain.EtherUtil.convert;
+import static org.one2oneeum.listener.one2oneeumListener.PendingTransactionState.*;
+import static org.one2oneeum.util.blockchain.one2oneUtil.Unit.one2one;
+import static org.one2oneeum.util.blockchain.one2oneUtil.convert;
 
 /**
  * @author Mikhail Kalinin
@@ -61,7 +61,7 @@ public class PendingStateTest {
         SystemProperties.resetToDefault();
     }
 
-    static class PendingListener extends EthereumListenerAdapter {
+    static class PendingListener extends one2oneeumListenerAdapter {
         public BlockingQueue<Pair<Block, List<TransactionReceipt>>> onBlock = new LinkedBlockingQueue<>();
         public BlockingQueue<Object> onPendingStateChanged = new LinkedBlockingQueue<>();
 //        public BlockingQueue<Triple<TransactionReceipt, PendingTransactionState, Block>> onPendingTransactionUpdate = new LinkedBlockingQueue<>();
@@ -109,14 +109,14 @@ public class PendingStateTest {
     public void testSimple() throws InterruptedException {
         StandaloneBlockchain bc = new StandaloneBlockchain();
         PendingListener l = new PendingListener();
-        bc.addEthereumListener(l);
-        Triple<TransactionReceipt, EthereumListener.PendingTransactionState, Block> txUpd;
+        bc.addone2oneeumListener(l);
+        Triple<TransactionReceipt, one2oneeumListener.PendingTransactionState, Block> txUpd;
         PendingStateImpl pendingState = (PendingStateImpl) bc.getBlockchain().getPendingState();
 
         ECKey alice = new ECKey();
 
-        bc.sendEther(new byte[20], BigInteger.valueOf(100000));
-        bc.sendEther(new byte[20], BigInteger.valueOf(100000));
+        bc.sendone2one(new byte[20], BigInteger.valueOf(100000));
+        bc.sendone2one(new byte[20], BigInteger.valueOf(100000));
 
         bc.createBlock();
         l.onBlock.poll(5, SECONDS);
@@ -181,16 +181,16 @@ public class PendingStateTest {
     public void testRebranch1() throws InterruptedException {
         StandaloneBlockchain bc = new StandaloneBlockchain();
         PendingListener l = new PendingListener();
-        bc.addEthereumListener(l);
-        Triple<TransactionReceipt, EthereumListener.PendingTransactionState, Block> txUpd = null;
+        bc.addone2oneeumListener(l);
+        Triple<TransactionReceipt, one2oneeumListener.PendingTransactionState, Block> txUpd = null;
         PendingStateImpl pendingState = (PendingStateImpl) bc.getBlockchain().getPendingState();
 
         ECKey alice = new ECKey();
         ECKey bob = new ECKey();
         ECKey charlie = new ECKey();
 
-        bc.sendEther(bob.getAddress(), convert(100, ETHER));
-        bc.sendEther(charlie.getAddress(), convert(100, ETHER));
+        bc.sendone2one(bob.getAddress(), convert(100, one2one));
+        bc.sendone2one(charlie.getAddress(), convert(100, one2one));
 
         Block b1 = bc.createBlock();
 
@@ -246,16 +246,16 @@ public class PendingStateTest {
     public void testRebranch2() throws InterruptedException {
         StandaloneBlockchain bc = new StandaloneBlockchain();
         PendingListener l = new PendingListener();
-        bc.addEthereumListener(l);
-        Triple<TransactionReceipt, EthereumListener.PendingTransactionState, Block> txUpd = null;
+        bc.addone2oneeumListener(l);
+        Triple<TransactionReceipt, one2oneeumListener.PendingTransactionState, Block> txUpd = null;
         PendingStateImpl pendingState = (PendingStateImpl) bc.getBlockchain().getPendingState();
 
         ECKey alice = new ECKey();
         ECKey bob = new ECKey();
         ECKey charlie = new ECKey();
 
-        bc.sendEther(bob.getAddress(), convert(100, ETHER));
-        bc.sendEther(charlie.getAddress(), convert(100, ETHER));
+        bc.sendone2one(bob.getAddress(), convert(100, one2one));
+        bc.sendone2one(charlie.getAddress(), convert(100, one2one));
 
         Block b1 = bc.createBlock();
 
@@ -270,7 +270,7 @@ public class PendingStateTest {
                 compareTo(BigInteger.valueOf(2000000)) == 0);
 
         bc.submitTransaction(tx1);
-        bc.sendEther(alice.getAddress(), BigInteger.valueOf(1000000));
+        bc.sendone2one(alice.getAddress(), BigInteger.valueOf(1000000));
         Block b2 = bc.createBlock();
         Transaction tx3 = b2.getTransactionsList().get(1);
 
@@ -281,7 +281,7 @@ public class PendingStateTest {
         Assert.assertTrue(pendingState.getRepository().getBalance(alice.getAddress()).
                 compareTo(BigInteger.valueOf(3000000)) == 0);
 
-        bc.sendEther(alice.getAddress(), BigInteger.valueOf(1000000));
+        bc.sendone2one(alice.getAddress(), BigInteger.valueOf(1000000));
         bc.submitTransaction(tx2);
         Block b3 = bc.createBlock();
         Transaction tx4 = b3.getTransactionsList().get(0);
@@ -332,16 +332,16 @@ public class PendingStateTest {
     public void testRebranch3() throws InterruptedException {
         StandaloneBlockchain bc = new StandaloneBlockchain();
         PendingListener l = new PendingListener();
-        bc.addEthereumListener(l);
-        Triple<TransactionReceipt, EthereumListener.PendingTransactionState, Block> txUpd = null;
+        bc.addone2oneeumListener(l);
+        Triple<TransactionReceipt, one2oneeumListener.PendingTransactionState, Block> txUpd = null;
         PendingStateImpl pendingState = (PendingStateImpl) bc.getBlockchain().getPendingState();
 
         ECKey alice = new ECKey();
         ECKey bob = new ECKey();
         ECKey charlie = new ECKey();
 
-        bc.sendEther(bob.getAddress(), convert(100, ETHER));
-        bc.sendEther(charlie.getAddress(), convert(100, ETHER));
+        bc.sendone2one(bob.getAddress(), convert(100, one2one));
+        bc.sendone2one(charlie.getAddress(), convert(100, one2one));
 
         Block b1 = bc.createBlock();
 
@@ -381,15 +381,15 @@ public class PendingStateTest {
     public void testOldBlockIncluded() throws InterruptedException {
         StandaloneBlockchain bc = new StandaloneBlockchain();
         PendingListener l = new PendingListener();
-        bc.addEthereumListener(l);
-        Triple<TransactionReceipt, EthereumListener.PendingTransactionState, Block> txUpd = null;
+        bc.addone2oneeumListener(l);
+        Triple<TransactionReceipt, one2oneeumListener.PendingTransactionState, Block> txUpd = null;
         PendingStateImpl pendingState = (PendingStateImpl) bc.getBlockchain().getPendingState();
 
         ECKey alice = new ECKey();
         ECKey bob = new ECKey();
         ECKey charlie = new ECKey();
 
-        bc.sendEther(bob.getAddress(), convert(100, ETHER));
+        bc.sendone2one(bob.getAddress(), convert(100, one2one));
 
         Block b1 = bc.createBlock();
 
@@ -416,14 +416,14 @@ public class PendingStateTest {
     public void testBlockOnlyIncluded() throws InterruptedException {
         StandaloneBlockchain bc = new StandaloneBlockchain();
         PendingListener l = new PendingListener();
-        bc.addEthereumListener(l);
-        Triple<TransactionReceipt, EthereumListener.PendingTransactionState, Block> txUpd = null;
+        bc.addone2oneeumListener(l);
+        Triple<TransactionReceipt, one2oneeumListener.PendingTransactionState, Block> txUpd = null;
         PendingStateImpl pendingState = (PendingStateImpl) bc.getBlockchain().getPendingState();
 
         ECKey alice = new ECKey();
         ECKey bob = new ECKey();
 
-        bc.sendEther(bob.getAddress(), convert(100, ETHER));
+        bc.sendone2one(bob.getAddress(), convert(100, one2one));
 
         Block b1 = bc.createBlock();
 
@@ -442,14 +442,14 @@ public class PendingStateTest {
     public void testTrackTx1() throws InterruptedException {
         StandaloneBlockchain bc = new StandaloneBlockchain();
         PendingListener l = new PendingListener();
-        bc.addEthereumListener(l);
-        Triple<TransactionReceipt, EthereumListener.PendingTransactionState, Block> txUpd = null;
+        bc.addone2oneeumListener(l);
+        Triple<TransactionReceipt, one2oneeumListener.PendingTransactionState, Block> txUpd = null;
         PendingStateImpl pendingState = (PendingStateImpl) bc.getBlockchain().getPendingState();
 
         ECKey alice = new ECKey();
         ECKey bob = new ECKey();
 
-        bc.sendEther(bob.getAddress(), convert(100, ETHER));
+        bc.sendone2one(bob.getAddress(), convert(100, one2one));
 
         Block b1 = bc.createBlock();
         Block b2 = bc.createBlock();
@@ -485,15 +485,15 @@ public class PendingStateTest {
                 "  }" +
                 "}");
 
-        bc.sendEther(bob.getAddress(), convert(100, ETHER));
+        bc.sendone2one(bob.getAddress(), convert(100, one2one));
 
         Block b1 = bc.createBlock();
         Block b2 = bc.createBlock();
         Block b3 = bc.createBlock();
 
         PendingListener l = new PendingListener();
-        bc.addEthereumListener(l);
-        Triple<TransactionReceipt, EthereumListener.PendingTransactionState, Block> txUpd;
+        bc.addone2oneeumListener(l);
+        Triple<TransactionReceipt, one2oneeumListener.PendingTransactionState, Block> txUpd;
 
         contract.callFunction("getPrevBlockHash");
         bc.generatePendingTransactions();
@@ -506,14 +506,14 @@ public class PendingStateTest {
     public void testTrackTx2() throws InterruptedException {
         StandaloneBlockchain bc = new StandaloneBlockchain();
         PendingListener l = new PendingListener();
-        bc.addEthereumListener(l);
-        Triple<TransactionReceipt, EthereumListener.PendingTransactionState, Block> txUpd = null;
+        bc.addone2oneeumListener(l);
+        Triple<TransactionReceipt, one2oneeumListener.PendingTransactionState, Block> txUpd = null;
         PendingStateImpl pendingState = (PendingStateImpl) bc.getBlockchain().getPendingState();
 
         ECKey alice = new ECKey();
         ECKey bob = new ECKey();
 
-        bc.sendEther(bob.getAddress(), convert(100, ETHER));
+        bc.sendone2one(bob.getAddress(), convert(100, one2one));
         Block b1 = bc.createBlock();
 
         Transaction tx1 = bc.createTransaction(bob, 0, alice.getAddress(), BigInteger.valueOf(1000000), new byte[0]);
@@ -536,16 +536,16 @@ public class PendingStateTest {
     public void testRejected1() throws InterruptedException {
         StandaloneBlockchain bc = new StandaloneBlockchain();
         PendingListener l = new PendingListener();
-        bc.addEthereumListener(l);
-        Triple<TransactionReceipt, EthereumListener.PendingTransactionState, Block> txUpd = null;
+        bc.addone2oneeumListener(l);
+        Triple<TransactionReceipt, one2oneeumListener.PendingTransactionState, Block> txUpd = null;
         PendingStateImpl pendingState = (PendingStateImpl) bc.getBlockchain().getPendingState();
 
         ECKey alice = new ECKey();
         ECKey bob = new ECKey();
         ECKey charlie = new ECKey();
 
-        bc.sendEther(bob.getAddress(), convert(100, ETHER));
-        bc.sendEther(charlie.getAddress(), convert(100, ETHER));
+        bc.sendone2one(bob.getAddress(), convert(100, one2one));
+        bc.sendone2one(charlie.getAddress(), convert(100, one2one));
 
         Block b1 = bc.createBlock();
 
@@ -566,8 +566,8 @@ public class PendingStateTest {
 
         for (int i = 0; i < 16; i++) {
             bc.createBlock();
-            EthereumListener.PendingTransactionState state = l.pollTxUpdateState(tx1);
-            if (state == EthereumListener.PendingTransactionState.DROPPED) {
+            one2oneeumListener.PendingTransactionState state = l.pollTxUpdateState(tx1);
+            if (state == one2oneeumListener.PendingTransactionState.DROPPED) {
                 break;
             }
             if (i == 15) {
@@ -582,16 +582,16 @@ public class PendingStateTest {
         // the transaction becomes the main chain
         StandaloneBlockchain bc = new StandaloneBlockchain();
         PendingListener l = new PendingListener();
-        bc.addEthereumListener(l);
-        Triple<TransactionReceipt, EthereumListener.PendingTransactionState, Block> txUpd = null;
+        bc.addone2oneeumListener(l);
+        Triple<TransactionReceipt, one2oneeumListener.PendingTransactionState, Block> txUpd = null;
         PendingStateImpl pendingState = (PendingStateImpl) bc.getBlockchain().getPendingState();
 
         ECKey alice = new ECKey();
         ECKey bob = new ECKey();
         ECKey charlie = new ECKey();
 
-        bc.sendEther(bob.getAddress(), convert(100, ETHER));
-        bc.sendEther(charlie.getAddress(), convert(100, ETHER));
+        bc.sendone2one(bob.getAddress(), convert(100, one2one));
+        bc.sendone2one(charlie.getAddress(), convert(100, one2one));
 
         Block b1 = bc.createBlock();
 
@@ -632,7 +632,7 @@ public class PendingStateTest {
                 txHandle.countDown();
             }
         };
-        bc.addEthereumListener(l);
+        bc.addone2oneeumListener(l);
         PendingStateImpl pendingState = (PendingStateImpl) bc.getBlockchain().getPendingState();
 
         ECKey alice = new ECKey();

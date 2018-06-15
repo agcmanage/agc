@@ -1,42 +1,42 @@
 /*
- * Copyright (c) [2016] [ <ether.camp> ]
- * This file is part of the ethereumJ library.
+ * Copyright (c) [2016] [ <one2one.camp> ]
+ * This file is part of the one2oneeumJ library.
  *
- * The ethereumJ library is free software: you can redistribute it and/or modify
+ * The one2oneeumJ library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The ethereumJ library is distributed in the hope that it will be useful,
+ * The one2oneeumJ library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
+ * along with the one2oneeumJ library. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ethereum.longrun;
+package org.one2oneeum.longrun;
 
 import com.typesafe.config.ConfigFactory;
 import org.apache.commons.lang3.mutable.MutableObject;
-import org.ethereum.config.CommonConfig;
-import org.ethereum.config.SystemProperties;
-import org.ethereum.core.AccountState;
-import org.ethereum.core.Block;
-import org.ethereum.core.BlockSummary;
-import org.ethereum.core.Repository;
-import org.ethereum.core.Transaction;
-import org.ethereum.core.TransactionExecutor;
-import org.ethereum.core.TransactionReceipt;
-import org.ethereum.db.ContractDetails;
-import org.ethereum.db.RepositoryImpl;
-import org.ethereum.facade.Ethereum;
-import org.ethereum.facade.EthereumFactory;
-import org.ethereum.listener.EthereumListener;
-import org.ethereum.listener.EthereumListenerAdapter;
-import org.ethereum.sync.SyncManager;
-import org.ethereum.util.FastByteComparisons;
-import org.ethereum.vm.program.invoke.ProgramInvokeFactory;
+import org.one2oneeum.config.CommonConfig;
+import org.one2oneeum.config.SystemProperties;
+import org.one2oneeum.core.AccountState;
+import org.one2oneeum.core.Block;
+import org.one2oneeum.core.BlockSummary;
+import org.one2oneeum.core.Repository;
+import org.one2oneeum.core.Transaction;
+import org.one2oneeum.core.TransactionExecutor;
+import org.one2oneeum.core.TransactionReceipt;
+import org.one2oneeum.db.ContractDetails;
+import org.one2oneeum.db.RepositoryImpl;
+import org.one2oneeum.facade.one2oneeum;
+import org.one2oneeum.facade.one2oneeumFactory;
+import org.one2oneeum.listener.one2oneeumListener;
+import org.one2oneeum.listener.one2oneeumListenerAdapter;
+import org.one2oneeum.sync.SyncManager;
+import org.one2oneeum.util.FastByteComparisons;
+import org.one2oneeum.vm.program.invoke.ProgramInvokeFactory;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -59,11 +59,11 @@ import static java.lang.Thread.sleep;
 
 /**
  * Regular sync with load
- * Loads ethereumJ during sync with various onBlock/repo track/callback usages
+ * Loads one2oneeumJ during sync with various onBlock/repo track/callback usages
  *
  * Runs sync with defined config for 1-30 minutes
  * - checks State Trie is not broken
- * - checks whether all blocks are in blockstore, validates parent connection and bodies
+ * - checks whone2one all blocks are in blockstore, validates parent connection and bodies
  * - checks and validate transaction receipts
  * Stopped, than restarts in 1 minute, syncs and pass all checks again.
  * Repeats forever or until first error occurs
@@ -76,7 +76,7 @@ import static java.lang.Thread.sleep;
 @Ignore
 public class SyncWithLoadTest {
 
-    private Ethereum regularNode;
+    private one2oneeum regularNode;
 
     private final static CountDownLatch errorLatch = new CountDownLatch(1);
     private static AtomicBoolean isRunning = new AtomicBoolean(true);
@@ -151,7 +151,7 @@ public class SyncWithLoadTest {
     }
 
     /**
-     * Just regular EthereumJ node
+     * Just regular one2oneeumJ node
      */
     static class RegularNode extends BasicNode {
 
@@ -162,9 +162,9 @@ public class SyncWithLoadTest {
         SyncManager syncManager;
 
         /**
-         * The main EthereumJ callback.
+         * The main one2oneeumJ callback.
          */
-        EthereumListener blockListener = new EthereumListenerAdapter() {
+        one2oneeumListener blockListener = new one2oneeumListenerAdapter() {
             @Override
             public void onBlock(BlockSummary blockSummary) {
                 lastImport.set(System.currentTimeMillis());
@@ -176,23 +176,23 @@ public class SyncWithLoadTest {
                     // Getting contract details
                     byte[] contractAddress = receipt.getTransaction().getContractAddress();
                     if (contractAddress != null) {
-                        ContractDetails details = ((Repository) ethereum.getRepository()).getContractDetails(contractAddress);
+                        ContractDetails details = ((Repository) one2oneeum.getRepository()).getContractDetails(contractAddress);
                         assert FastByteComparisons.equal(details.getAddress(), contractAddress);
                     }
 
                     // Getting AccountState for sender in the past
                     Random rnd = new Random();
-                    Block bestBlock = ethereum.getBlockchain().getBestBlock();
-                    Block randomBlock = ethereum.getBlockchain().getBlockByNumber(rnd.nextInt((int) bestBlock.getNumber()));
+                    Block bestBlock = one2oneeum.getBlockchain().getBestBlock();
+                    Block randomBlock = one2oneeum.getBlockchain().getBlockByNumber(rnd.nextInt((int) bestBlock.getNumber()));
                     byte[] sender = receipt.getTransaction().getSender();
-                    AccountState senderState = ((Repository) ethereum.getRepository()).getSnapshotTo(randomBlock.getStateRoot()).getAccountState(sender);
+                    AccountState senderState = ((Repository) one2oneeum.getRepository()).getSnapshotTo(randomBlock.getStateRoot()).getAccountState(sender);
                     if (senderState != null) senderState.getBalance();
 
                     // Getting receiver's nonce somewhere in the past
-                    Block anotherRandomBlock = ethereum.getBlockchain().getBlockByNumber(rnd.nextInt((int) bestBlock.getNumber()));
+                    Block anotherRandomBlock = one2oneeum.getBlockchain().getBlockByNumber(rnd.nextInt((int) bestBlock.getNumber()));
                     byte[] receiver = receipt.getTransaction().getReceiveAddress();
                     if (receiver != null) {
-                        ((Repository) ethereum.getRepository()).getSnapshotTo(anotherRandomBlock.getStateRoot()).getNonce(receiver);
+                        ((Repository) one2oneeum.getRepository()).getSnapshotTo(anotherRandomBlock.getStateRoot()).getNonce(receiver);
                     }
                 }
             }
@@ -200,16 +200,16 @@ public class SyncWithLoadTest {
             @Override
             public void onPendingTransactionsReceived(List<Transaction> transactions) {
                 Random rnd = new Random();
-                Block bestBlock = ethereum.getBlockchain().getBestBlock();
+                Block bestBlock = one2oneeum.getBlockchain().getBestBlock();
                 for (Transaction tx : transactions) {
-                    Block block = ethereum.getBlockchain().getBlockByNumber(rnd.nextInt((int) bestBlock.getNumber()));
-                    Repository repository = ((Repository) ethereum.getRepository())
+                    Block block = one2oneeum.getBlockchain().getBlockByNumber(rnd.nextInt((int) bestBlock.getNumber()));
+                    Repository repository = ((Repository) one2oneeum.getRepository())
                             .getSnapshotTo(block.getStateRoot())
                             .startTracking();
                     try {
                         TransactionExecutor executor = new TransactionExecutor
-                                (tx, block.getCoinbase(), repository, ethereum.getBlockchain().getBlockStore(),
-                                        programInvokeFactory, block, new EthereumListenerAdapter(), 0)
+                                (tx, block.getCoinbase(), repository, one2oneeum.getBlockchain().getBlockStore(),
+                                        programInvokeFactory, block, new one2oneeumListenerAdapter(), 0)
                                 .withCommonConfig(commonConfig)
                                 .setLocalCall(true);
 
@@ -233,7 +233,7 @@ public class SyncWithLoadTest {
         @Override
         public void run() {
             try {
-                ethereum.addListener(blockListener);
+                one2oneeum.addListener(blockListener);
 
                 // Run 1-30 minutes
                 Random generator = new Random();
@@ -252,7 +252,7 @@ public class SyncWithLoadTest {
                 testLogger.info("[v] Sync complete! The best block: " + bestBlock.getShortDescr());
             }
 
-            fullSanityCheck(ethereum, commonConfig);
+            fullSanityCheck(one2oneeum, commonConfig);
             isRunning.set(false);
         }
     }
@@ -270,9 +270,9 @@ public class SyncWithLoadTest {
         return fatalErrors.get() == 0;
     }
 
-    private static void fullSanityCheck(Ethereum ethereum, CommonConfig commonConfig) {
+    private static void fullSanityCheck(one2oneeum one2oneeum, CommonConfig commonConfig) {
 
-        BlockchainValidation.fullCheck(ethereum, commonConfig, fatalErrors);
+        BlockchainValidation.fullCheck(one2oneeum, commonConfig, fatalErrors);
         logStats();
 
         firstRun.set(false);
@@ -281,7 +281,7 @@ public class SyncWithLoadTest {
     @Test
     public void testDelayedCheck() throws Exception {
 
-        runEthereum();
+        runone2oneeum();
 
         new Thread(() -> {
             try {
@@ -298,7 +298,7 @@ public class SyncWithLoadTest {
                     testLogger.info("Run stopped");
                     sleep(10_000);
                     testLogger.info("Starting next run");
-                    runEthereum();
+                    runone2oneeum();
                     isRunning.set(true);
                 }
             } catch (Throwable e) {
@@ -310,8 +310,8 @@ public class SyncWithLoadTest {
         if (!logStats()) assert false;
     }
 
-    public void runEthereum() throws Exception {
-        testLogger.info("Starting EthereumJ regular instance!");
-        this.regularNode = EthereumFactory.createEthereum(RegularConfig.class);
+    public void runone2oneeum() throws Exception {
+        testLogger.info("Starting one2oneeumJ regular instance!");
+        this.regularNode = one2oneeumFactory.createone2oneeum(RegularConfig.class);
     }
 }

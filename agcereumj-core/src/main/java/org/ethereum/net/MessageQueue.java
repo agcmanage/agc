@@ -1,32 +1,32 @@
 /*
- * Copyright (c) [2016] [ <ether.camp> ]
- * This file is part of the ethereumJ library.
+ * Copyright (c) [2016] [ <one2one.camp> ]
+ * This file is part of the one2oneeumJ library.
  *
- * The ethereumJ library is free software: you can redistribute it and/or modify
+ * The one2oneeumJ library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The ethereumJ library is distributed in the hope that it will be useful,
+ * The one2oneeumJ library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
+ * along with the one2oneeumJ library. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ethereum.net;
+package org.one2oneeum.net;
 
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
-import org.ethereum.listener.EthereumListener;
-import org.ethereum.net.eth.message.EthMessage;
-import org.ethereum.net.message.Message;
-import org.ethereum.net.message.ReasonCode;
-import org.ethereum.net.p2p.DisconnectMessage;
-import org.ethereum.net.p2p.PingMessage;
-import org.ethereum.net.p2p.PongMessage;
-import org.ethereum.net.server.Channel;
+import org.one2oneeum.listener.one2oneeumListener;
+import org.one2oneeum.net.eth.message.EthMessage;
+import org.one2oneeum.net.message.Message;
+import org.one2oneeum.net.message.ReasonCode;
+import org.one2oneeum.net.p2p.DisconnectMessage;
+import org.one2oneeum.net.p2p.PingMessage;
+import org.one2oneeum.net.p2p.PongMessage;
+import org.one2oneeum.net.server.Channel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +37,7 @@ import java.util.Queue;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static org.ethereum.net.message.StaticMessages.DISCONNECT_MESSAGE;
+import static org.one2oneeum.net.message.StaticMessages.DISCONNECT_MESSAGE;
 
 /**
  * This class contains the logic for sending messages in a queue
@@ -73,7 +73,7 @@ public class MessageQueue {
     private ChannelHandlerContext ctx = null;
 
     @Autowired
-    EthereumListener ethereumListener;
+    one2oneeumListener one2oneeumListener;
     boolean hasPing = false;
     private ScheduledFuture<?> timerTask;
     private Channel channel;
@@ -123,7 +123,7 @@ public class MessageQueue {
 
     public void receivedMessage(Message msg) throws InterruptedException {
 
-        ethereumListener.trace("[Recv: " + msg + "]");
+        one2oneeumListener.trace("[Recv: " + msg + "]");
 
         if (requestQueue.peek() != null) {
             MessageRoundtrip messageRoundtrip = requestQueue.peek();
@@ -162,7 +162,7 @@ public class MessageQueue {
 
             Message msg = messageRoundtrip.getMsg();
 
-            ethereumListener.onSendMessage(channel, msg);
+            one2oneeumListener.onSendMessage(channel, msg);
 
             ctx.writeAndFlush(msg).addListener(ChannelFutureListener.FIRE_EXCEPTION_ON_FAILURE);
 

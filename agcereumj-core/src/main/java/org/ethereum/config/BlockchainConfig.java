@@ -1,31 +1,31 @@
 /*
- * Copyright (c) [2016] [ <ether.camp> ]
- * This file is part of the ethereumJ library.
+ * Copyright (c) [2016] [ <one2one.camp> ]
+ * This file is part of the one2oneeumJ library.
  *
- * The ethereumJ library is free software: you can redistribute it and/or modify
+ * The one2oneeumJ library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * The ethereumJ library is distributed in the hope that it will be useful,
+ * The one2oneeumJ library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
+ * along with the one2oneeumJ library. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.ethereum.config;
+package org.one2oneeum.config;
 
 import org.apache.commons.lang3.tuple.Pair;
-import org.ethereum.core.*;
-import org.ethereum.db.BlockStore;
-import org.ethereum.mine.MinerIfc;
-import org.ethereum.validator.BlockHeaderValidator;
-import org.ethereum.vm.DataWord;
-import org.ethereum.vm.GasCost;
-import org.ethereum.vm.OpCode;
-import org.ethereum.vm.program.Program;
+import org.one2oneeum.core.*;
+import org.one2oneeum.db.BlockStore;
+import org.one2oneeum.mine.MinerIfc;
+import org.one2oneeum.validator.BlockHeaderValidator;
+import org.one2oneeum.vm.DataWord;
+import org.one2oneeum.vm.GasCost;
+import org.one2oneeum.vm.OpCode;
+import org.one2oneeum.vm.program.Program;
 
 import java.math.BigInteger;
 import java.util.List;
@@ -119,47 +119,47 @@ public interface BlockchainConfig {
     DataWord getCreateGas(DataWord availableGas);
 
     /**
-     * EIP161: https://github.com/ethereum/EIPs/issues/161
+     * EIP161: https://github.com/one2oneeum/EIPs/issues/161
      */
     boolean eip161();
 
     /**
-     * EIP155: https://github.com/ethereum/EIPs/issues/155
+     * EIP155: https://github.com/one2oneeum/EIPs/issues/155
      */
     Integer getChainId();
 
     /**
-     * EIP198: https://github.com/ethereum/EIPs/pull/198
+     * EIP198: https://github.com/one2oneeum/EIPs/pull/198
      */
     boolean eip198();
 
     /**
-     * EIP206: https://github.com/ethereum/EIPs/pull/206
+     * EIP206: https://github.com/one2oneeum/EIPs/pull/206
      */
     boolean eip206();
 
     /**
-     * EIP211: https://github.com/ethereum/EIPs/pull/211
+     * EIP211: https://github.com/one2oneeum/EIPs/pull/211
      */
     boolean eip211();
 
     /**
-     * EIP212: https://github.com/ethereum/EIPs/pull/212
+     * EIP212: https://github.com/one2oneeum/EIPs/pull/212
      */
     boolean eip212();
 
     /**
-     * EIP213: https://github.com/ethereum/EIPs/pull/213
+     * EIP213: https://github.com/one2oneeum/EIPs/pull/213
      */
     boolean eip213();
 
     /**
-     * EIP214: https://github.com/ethereum/EIPs/pull/214
+     * EIP214: https://github.com/one2oneeum/EIPs/pull/214
      */
     boolean eip214();
 
     /**
-     * EIP658: https://github.com/ethereum/EIPs/pull/658
+     * EIP658: https://github.com/one2oneeum/EIPs/pull/658
      * Replaces the intermediate state root field of the receipt with the status
      */
     boolean eip658();
